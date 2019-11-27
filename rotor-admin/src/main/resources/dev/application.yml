@@ -1,0 +1,51 @@
+server:
+  servlet:
+    context-path: /rotor-admin
+  port: 30033
+  undertow:
+    # IO线程数     它主要执行非阻塞的任务,它们会负责多个连接,默认设置每个CPU核心一个线程      它们会负责多个连接,默认设置每个CPU核心一个线程      不要设置过大,如果过大,启动项目会报错:打开文件数过多
+    io-threads: 4
+    # 阻塞任务线程池     当执行类似servlet请求阻塞IO操作,undertow会从这个线程池中取得线程      它的值设置取决于系统线程执行任务的阻塞系数,默认值是IO线程数*8
+    worker-threads: 50
+    # 缓存大小      以下的配置会影响buffer,这些buffer会用于服务器连接的IO操作,有点类似netty的池化内存管理     每块buffer的空间大小,越小的空间被利用越充分,不要设置太大,以免影响其他应用,合适即可
+    buffer-size: 512
+    # 每个区 Buffer 数量     每个区分配的buffer数量,所以pool的大小是buffer-size * buffers-per-region  (不建议使用 deprecated)
+    #buffers-per-region: 1024
+    # 是否分配的直接内存(NIO直接分配的堆外内存)
+    direct-buffers: true
+
+spring:
+  application:
+    name: rotor-admin
+  jackson:
+    timeZone: GMT+8
+    dateFormat: yyyy-MM-dd HH:mm:ss
+
+  #文件大小
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 8MB
+      max-request-size: 100MB
+
+  #redis 配置
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password:
+    jedis:
+      pool:
+        # 最大空闲
+        max-idle: 2
+        # 最小空闲
+        min-idle: 2
+        # 连接池最大连接数（使用负值表示没有限制）
+        max-active: 100
+        #连接池最大阻塞等待时间（默认-1ms 使用负值表示没有限制）
+        max-wait:
+
+
+
+
+
+

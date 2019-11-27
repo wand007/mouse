@@ -3,3 +3,6 @@
 
 项目参考：https://gitee.com/old-peanut/wechat_applet__open_source
 
+
+持续更新ing......
+
