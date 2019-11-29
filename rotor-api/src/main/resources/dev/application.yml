@@ -48,7 +48,7 @@ spring:
 
   # 数据库配置
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/db_storage?useSSL=false&serverTimezone=UTC
+    url: jdbc:mysql://127.0.0.1:3306/mouse?useSSL=false&serverTimezone=UTC
     username: root
     password: Admin1234
     driverClassName: com.mysql.jdbc.Driver
