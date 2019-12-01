@@ -8,12 +8,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.core.task.AsyncTaskExecutor;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 /**
  * @author ; lidongdong
  * @Description
  * @Date 2019-11-26
  */
+@EnableAsync
 @SpringBootApplication
 public class ApiApplication {
     public static void main(String[] args) {

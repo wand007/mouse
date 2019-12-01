@@ -10,8 +10,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>rotor-api-feign</artifactId>
-    <version>1.0-${package.environment}-SNAPSHOT</version>
     <packaging>jar</packaging>
+    <version>1.0-${package.environment}-SNAPSHOT</version>
 
     <dependencies>
         <dependency>
