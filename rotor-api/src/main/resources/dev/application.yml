@@ -84,6 +84,19 @@ spring:
           auto: update
         dialect: org.hibernate.dialect.MySQL5Dialect
 
+  ##Consul配置信息
+  cloud:
+    consul:
+      host: 127.0.0.1
+      port: 8500
+      discovery:
+        register: true
+        serviceName: ${spring.application.name}
+        healthCheckPath: ${server.servlet.context-path}/actuator/health
+        healthCheckInterval: 5s
+        tags: urlprefix-/${spring.application.name}
+        preferIpAddress: true
+        instanceId: ${spring.application.name}:${spring.cloud.client.ipAddress:${random.value}}
 
 feign:
   hystrix:
@@ -99,6 +112,8 @@ feign:
         readTimeout: 90000
         loggerLevel: full
 hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 90000
+
+
 
 
 

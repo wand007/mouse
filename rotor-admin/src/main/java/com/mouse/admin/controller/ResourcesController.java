@@ -1,9 +1,7 @@
-package com.mouse.web.controller;
+package com.mouse.admin.controller;
 
-import com.mouse.web.base.BaseController;
+import com.mouse.admin.base.BaseController;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Bean;
-import org.springframework.core.task.AsyncTaskExecutor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
