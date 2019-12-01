@@ -46,6 +46,20 @@ spring:
 
 
 
+feign:
+  hystrix:
+    #熔断启动
+    enabled: true
+  httpclient:
+    connection-timeout: 10000
+
+  client:
+    config:
+      default:
+        connectTimeout: 10000
+        readTimeout: 90000
+        loggerLevel: full
+hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 90000
 
 
 

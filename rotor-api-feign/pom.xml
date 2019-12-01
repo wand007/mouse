@@ -10,21 +10,21 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>rotor-api-feign</artifactId>
+    <version>1.0-${package.environment}-SNAPSHOT</version>
+    <packaging>jar</packaging>
 
     <dependencies>
+        <dependency>
+            <artifactId>rotor-core</artifactId>
+            <groupId>com.mouse</groupId>
+        </dependency>
+
         <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-openfeign -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
             <version>2.1.4.RELEASE</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>archaius-core</artifactId>
-                    <groupId>com.netflix.archaius</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
-
     </dependencies>
 
 

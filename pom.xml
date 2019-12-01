@@ -9,11 +9,12 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
+        <module>rotor-core</module>
         <module>rotor-api</module>
         <module>rotor-api-feign</module>
-        <module>rotor-web</module>
+        <module>rotor-mall</module>
         <module>rotor-admin</module>
-        <module>rotor-core</module>
+
     </modules>
 
 
@@ -32,6 +33,22 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <artifactId>rotor-core</artifactId>
+                <groupId>com.mouse</groupId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <artifactId>rotor-api-feign</artifactId>
+                <groupId>com.mouse</groupId>
+                <version>1.0-${package.environment}-SNAPSHOT</version>
+            </dependency>
+        </dependencies>
+
+    </dependencyManagement>
 
 
     <profiles>

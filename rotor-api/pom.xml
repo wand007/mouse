@@ -13,6 +13,14 @@
 
     <dependencies>
         <dependency>
+            <artifactId>rotor-api-feign</artifactId>
+            <groupId>com.mouse</groupId>
+        </dependency>
+        <dependency>
+            <artifactId>rotor-core</artifactId>
+            <groupId>com.mouse</groupId>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
             <exclusions>
@@ -57,12 +65,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <artifactId>objenesis</artifactId>
-                    <groupId>org.objenesis</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
         <dependency>
@@ -94,31 +96,9 @@
             <groupId>org.redisson</groupId>
             <artifactId>redisson</artifactId>
             <version>3.11.5</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>javassist</artifactId>
-                    <groupId>org.javassist</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
 
-        <dependency>
-            <artifactId>rotor-api-feign</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>archaius-core</artifactId>
-                    <groupId>com.netflix.archaius</groupId>
-                </exclusion>
-            </exclusions>
-            <groupId>com.mouse</groupId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <artifactId>rotor-core</artifactId>
-            <groupId>com.mouse</groupId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
     </dependencies>
 
 
