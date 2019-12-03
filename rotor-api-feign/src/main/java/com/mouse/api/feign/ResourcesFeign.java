@@ -15,8 +15,8 @@ import javax.validation.constraints.Min;
  * @Description 资源Api feign
  * @Date 2019-11-30
  */
-@FeignClient(name = "http://USER-SERVICE",
-        path = "cooperator",
+@FeignClient(name = "http://ROTOR-API",
+        path = "rotor-api/resources",
         fallbackFactory = HystrixResourcesFeign.class)
 public interface ResourcesFeign {
 

@@ -1,7 +1,7 @@
-package com.mouse.web;
+package com.mouse;
 
-import com.mouse.web.config.RedisTemplateConfig;
-import com.mouse.web.config.ThreadPoolConfig;
+import com.mouse.admin.config.RedisTemplateConfig;
+import com.mouse.admin.config.ThreadPoolConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -24,9 +24,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableDiscoveryClient
 @EnableFeignClients
 @SpringBootApplication
-public class MallApplication {
+public class AdminApplication {
     public static void main(String[] args) {
-        SpringApplication.run(MallApplication.class, args);
+        SpringApplication.run(AdminApplication.class, args);
     }
 
     /**
@@ -48,6 +48,6 @@ public class MallApplication {
     @Bean
     public AsyncTaskExecutor taskExecutor() {
         return new ThreadPoolConfig(50, 100, 1000, 10,
-                "rotor-mall-thread-pool").getThreadPool();
+                "rotor-admin-thread-pool").getThreadPool();
     }
 }

@@ -1,15 +1,17 @@
-package com.mouse.api;
+package com.mouse;
 
-import com.mouse.api.config.RedisTemplateConfig;
-import com.mouse.api.config.ThreadPoolConfig;
+import com.mouse.web.config.RedisTemplateConfig;
+import com.mouse.web.config.ThreadPoolConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.task.AsyncTaskExecutor;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * @author ; lidongdong
@@ -18,11 +20,13 @@ import org.springframework.scheduling.annotation.EnableAsync;
  */
 
 @EnableAsync
+@EnableScheduling
 @EnableDiscoveryClient
+@EnableFeignClients
 @SpringBootApplication
-public class ApiApplication {
+public class MallApplication {
     public static void main(String[] args) {
-        SpringApplication.run(ApiApplication.class, args);
+        SpringApplication.run(MallApplication.class, args);
     }
 
     /**
@@ -44,6 +48,6 @@ public class ApiApplication {
     @Bean
     public AsyncTaskExecutor taskExecutor() {
         return new ThreadPoolConfig(50, 100, 1000, 10,
-                "rotor-api-thread-pool").getThreadPool();
+                "rotor-mall-thread-pool").getThreadPool();
     }
 }

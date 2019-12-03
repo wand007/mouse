@@ -1,17 +1,15 @@
-package com.mouse.admin;
+package com.mouse;
 
-import com.mouse.admin.config.RedisTemplateConfig;
-import com.mouse.admin.config.ThreadPoolConfig;
+import com.mouse.api.config.RedisTemplateConfig;
+import com.mouse.api.config.ThreadPoolConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.task.AsyncTaskExecutor;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * @author ; lidongdong
@@ -20,13 +18,11 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  */
 
 @EnableAsync
-@EnableScheduling
 @EnableDiscoveryClient
-@EnableFeignClients
 @SpringBootApplication
-public class AdminApplication {
+public class ApiApplication {
     public static void main(String[] args) {
-        SpringApplication.run(AdminApplication.class, args);
+        SpringApplication.run(ApiApplication.class, args);
     }
 
     /**
@@ -48,6 +44,6 @@ public class AdminApplication {
     @Bean
     public AsyncTaskExecutor taskExecutor() {
         return new ThreadPoolConfig(50, 100, 1000, 10,
-                "rotor-admin-thread-pool").getThreadPool();
+                "rotor-api-thread-pool").getThreadPool();
     }
 }
