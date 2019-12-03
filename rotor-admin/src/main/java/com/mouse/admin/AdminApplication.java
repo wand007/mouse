@@ -11,13 +11,16 @@ import org.springframework.core.task.AsyncTaskExecutor;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * @author ; lidongdong
  * @Description
  * @Date 2019-11-26
  */
+
 @EnableAsync
+@EnableScheduling
 @EnableDiscoveryClient
 @EnableFeignClients
 @SpringBootApplication

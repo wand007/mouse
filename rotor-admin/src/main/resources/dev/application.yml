@@ -47,10 +47,17 @@ spring:
   ##Consul配置信息
   cloud:
     consul:
-      host: 127.0.0.1
+      enabled: true
+      # consul server的ip地址
+      host: localhost
       port: 8500
+      ribbon:
+        #是否启用ribbon进行客户端负载均衡
+        enabled: true
+      config:
+        enable: true
       discovery:
-        register: false
+        register: true
         serviceName: ${spring.application.name}
         healthCheckPath: ${server.servlet.context-path}/actuator/health
         healthCheckInterval: 5s

@@ -1,7 +1,7 @@
 package com.mouse.api;
 
-import com.mouse.api.config.ThreadPoolConfig;
 import com.mouse.api.config.RedisTemplateConfig;
+import com.mouse.api.config.ThreadPoolConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -16,6 +16,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
  * @Description
  * @Date 2019-11-26
  */
+
 @EnableAsync
 @EnableDiscoveryClient
 @SpringBootApplication

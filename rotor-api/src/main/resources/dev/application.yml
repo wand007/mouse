@@ -51,7 +51,7 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/mouse?useSSL=false&serverTimezone=UTC
     username: root
     password: Admin1234
-    driverClassName: com.mysql.jdbc.Driver
+    driverClassName: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
     # 初始化大小，最小，最大 获取连接等待超时的时间
     initialSize: 5
@@ -87,8 +87,15 @@ spring:
   ##Consul配置信息
   cloud:
     consul:
-      host: 127.0.0.1
+      enabled: true
+      # consul server的ip地址
+      host: localhost
       port: 8500
+      ribbon:
+        #是否启用ribbon进行客户端负载均衡
+        enabled: true
+      config:
+        enable: true
       discovery:
         register: true
         serviceName: ${spring.application.name}
