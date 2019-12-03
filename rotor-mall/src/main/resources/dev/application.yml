@@ -16,7 +16,7 @@ server:
 
 spring:
   application:
-    name: rotor-web
+    name: rotor-mall
   jackson:
     timeZone: GMT+8
     dateFormat: yyyy-MM-dd HH:mm:ss
