@@ -1,7 +1,7 @@
 # mouse
-这是一个仅供个人学习的电商项目（SpringCloud2+Consul+MySql+JPA+Redis+Golang+Gin+Gorm）  
+这是一个仅供个人学习的电商项目（SpringCloud2+Consul+MySql+JPA+Redis）  
 
-项目参考：https://gitee.com/old-peanut/wechat_applet__open_source  
+项目参考：https://github.com/macrozheng/mall-swarm
 
 
 

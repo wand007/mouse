@@ -19,7 +19,7 @@ import java.util.Set;
 
 /**
  * @author ; lidongdong
- * @Description 基础
+ * @Description 全局异常
  * @Date 2019-11-30
  */
 @Slf4j
