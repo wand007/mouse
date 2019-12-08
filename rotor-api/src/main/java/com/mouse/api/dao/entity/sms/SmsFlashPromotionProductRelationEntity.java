@@ -32,10 +32,10 @@ public class SmsFlashPromotionProductRelationEntity implements Serializable {
     @Column(name = "flash_promotion_price", columnDefinition = "decimal(10,2) default '0' COMMENT '限时购价格'", nullable = false)
     private BigDecimal flashPromotionPrice;
 
-    @Column(name = "enabled", columnDefinition = "int  DEFAULT '1' COMMENT '限时购总数量'", nullable = false)
+    @Column(name = "flash_promotion_count", columnDefinition = "int  DEFAULT '1' COMMENT '限时购总数量'", nullable = false)
     private Integer flashPromotionCount;
 
-    @Column(name = "enabled", columnDefinition = "int  DEFAULT '1' COMMENT '每人限购数量'", nullable = false)
+    @Column(name = "flash_promotion_limit", columnDefinition = "int  DEFAULT '1' COMMENT '每人限购数量'", nullable = false)
     private Integer flashPromotionLimit;
 
     @Column(name = "sort", columnDefinition = "tinyint unsigned DEFAULT '0' COMMENT '排序'", nullable = false)

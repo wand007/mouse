@@ -45,7 +45,7 @@ public class CmsSubjectEntity implements Serializable {
     @Column(name = "album_pics", columnDefinition = "varchar(1000) COMMENT '画册图片用逗号分割'", nullable = false)
     private String albumPics;
 
-    @Column(name = "description", columnDefinition = "varchar(1000) COMMENT '专题描述'", nullable = false)
+    @Column(name = "description", columnDefinition = "varchar(1000) COMMENT '专题描述'")
     private String description;
 
     @Column(name = "forward_count", columnDefinition = "int unsigned DEFAULT '0' COMMENT '转发数'", nullable = false)

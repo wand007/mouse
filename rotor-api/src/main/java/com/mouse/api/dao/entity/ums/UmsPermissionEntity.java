@@ -34,7 +34,7 @@ public class UmsPermissionEntity implements Serializable {
     @Column(name = "type", columnDefinition = "tinyint unsigned DEFAULT '0' COMMENT '权限类型：0->目录；1->菜单；2->按钮（接口绑定权限）'", nullable = false)
     private Integer type;
 
-    @Column(name = "icon", columnDefinition = "varchar(64) COMMENT '前端资源路径'", nullable = false)
+    @Column(name = "uri", columnDefinition = "varchar(64) COMMENT '前端资源路径'", nullable = false)
     private String uri;
 
     @Column(name = "status", columnDefinition = "tinyint unsigned DEFAULT '0' COMMENT '启用状态；0->禁用；1->启用'", nullable = false)

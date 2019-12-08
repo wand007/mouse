@@ -12,7 +12,7 @@ import java.io.Serializable;
  */
 @Data
 @Entity
-@Table(name = "cms_help_category")
+@Table(name = "cms_prefrence_area")
 public class CmsPrefrenceAreaEntity implements Serializable {
     private static final long serialVersionUID = 7153226910027479711L;
     @Id

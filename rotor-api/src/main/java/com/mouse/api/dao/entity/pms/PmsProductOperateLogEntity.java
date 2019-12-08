@@ -40,7 +40,8 @@ public class PmsProductOperateLogEntity implements Serializable {
 
     @Column(name = "use_point_limit_old", columnDefinition = "int unsigned COMMENT '限制使用的积分数（旧）'", nullable = false)
     private Integer usePointLimitOld;
-    @Column(name = "use_point_limit_old", columnDefinition = "int unsigned COMMENT '限制使用的积分数（新）'", nullable = false)
+
+    @Column(name = "use_point_limit_new", columnDefinition = "int unsigned COMMENT '限制使用的积分数（新）'", nullable = false)
     private Integer usePointLimitNew;
 
     @Column(name = "operate_man", columnDefinition = "varchar(64) COMMENT '操作人'", nullable = false)

@@ -34,11 +34,11 @@ public class PmsCommentEntity implements Serializable {
     @Column(name = "member_ip", columnDefinition = "varchar(500) COMMENT '评价的ip'", nullable = false)
     private String memberIp;
 
-    @Column(name = "pics", columnDefinition = "varchar(500) COMMENT '购买时的商品属性'", nullable = false)
+    @Column(name = "product_attribute", columnDefinition = "varchar(500) COMMENT '购买时的商品属性'", nullable = false)
     private String productAttribute;
 
-    @Column(name = "collect_couont", columnDefinition = "int unsigned COMMENT '收藏数量'", nullable = false)
-    private Integer collectCouont;
+    @Column(name = "collect_count", columnDefinition = "int unsigned COMMENT '收藏数量'", nullable = false)
+    private Integer collectCount;
 
     @Column(name = "read_count", columnDefinition = "int unsigned COMMENT '阅读数量'", nullable = false)
     private Integer readCount;

@@ -18,10 +18,10 @@ public class CmsSubjectCategoryEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "name", columnDefinition = "varchar(64) COMMENT '专题分类名称'", nullable = false)
+    @Column(name = "name", columnDefinition = "varchar(100) COMMENT '专题分类名称'", nullable = false)
     private String name;
 
-    @Column(name = "icon", columnDefinition = "varchar(64) COMMENT '分类图标'", nullable = false)
+    @Column(name = "icon", columnDefinition = "varchar(100) COMMENT '分类图标'", nullable = false)
     private String icon;
 
     @Column(name = "subject_count", columnDefinition = "int unsigned DEFAULT '0' COMMENT '专题数量'", nullable = false)

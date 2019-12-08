@@ -1,5 +1,7 @@
 package com.mouse.api.dao.repository.sms;
 
+import com.mouse.api.dao.entity.sms.SmsCouponProductCategoryRelationEntity;
+import com.mouse.api.dao.entity.sms.SmsCouponProductRelationEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
@@ -10,5 +12,5 @@ import org.springframework.stereotype.Repository;
  * @Date 2019-11-26
  */
 @Repository
-public interface SmsCouponProductCategoryRelationEntity extends JpaRepository<SmsCouponProductCategoryRelationEntity, Long>, JpaSpecificationExecutor<SmsCouponProductCategoryRelationEntity> {
+public interface SmsCouponProductCategoryRelationRepository extends JpaRepository<SmsCouponProductCategoryRelationEntity, Long>, JpaSpecificationExecutor<SmsCouponProductCategoryRelationEntity> {
 }

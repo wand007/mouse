@@ -57,7 +57,7 @@ public class OmsOrderReturnApplyEntity implements Serializable {
     @Column(name = "product_brand", columnDefinition = "varchar(64) COMMENT '商品品牌'", nullable = false)
     private String productBrand;
 
-    @Column(name = "product_attr", columnDefinition = "varchar(64) COMMENT '商品销售属性：颜色：红色；尺码：xl;'", nullable = false)
+    @Column(name = "product_attr", columnDefinition = "varchar(500) COMMENT '商品销售属性:[{'key':'颜色','value':'颜色'},{'key':'容量','value':'4G'}]'", nullable = false)
     private String productAttr;
 
     @Column(name = "product_count", columnDefinition = "int unsigned DEFAULT '0' COMMENT '退货数量'", nullable = false)
@@ -92,10 +92,9 @@ public class OmsOrderReturnApplyEntity implements Serializable {
 
     @Column(name = "receive_time", columnDefinition = "datetime COMMENT '收货时间'")
     private Date receiveTime;
+
     @Column(name = "handle_time", columnDefinition = "datetime COMMENT '处理时间'")
     private Date handleTime;
-    @Column(name = "receive_time", columnDefinition = "datetime COMMENT '申请时间'")
-    private Date createTime;
 
 
 }

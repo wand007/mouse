@@ -25,7 +25,7 @@ public class CmsMemberReportEntity implements Serializable {
     @Column(name = "report_member_name", columnDefinition = "varchar(64) COMMENT '举报人'", nullable = false)
     private String reportMemberName;
 
-    @Column(name = "report_member_name", columnDefinition = "varchar(64) COMMENT '举报内容'", nullable = false)
+    @Column(name = "report_object", columnDefinition = "varchar(64) COMMENT '举报内容'", nullable = false)
     private String reportObject;
 
     @Column(name = "report_status", columnDefinition = "tinyint unsigned DEFAULT '0' COMMENT '举报状态：0->未处理；1->已处理'", nullable = false)
