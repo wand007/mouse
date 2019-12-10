@@ -1,7 +1,7 @@
 # mouse
 这是一个仅供个人学习的电商项目（SpringCloud2+Consul+MySql+JPA+Redis）  
 
-项目参考：https://github.com/macrozheng/mall-swarm
+项目参考：https://gitee.com/linlinjava/litemall.git
 
 
 
