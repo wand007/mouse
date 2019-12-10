@@ -16,9 +16,11 @@
             <artifactId>rotor-api-feign</artifactId>
             <groupId>com.mouse</groupId>
         </dependency>
+
         <dependency>
-            <artifactId>rotor-core</artifactId>
+            <artifactId>rotor-dao</artifactId>
             <groupId>com.mouse</groupId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -84,26 +86,13 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
         </dependency>
-
         <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.18</version>
         </dependency>
-        <!--jpa、durid-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-            <version>2.0.2.RELEASE</version>
-        </dependency>
-        <!-- alibaba的druid数据库连接池 -->
-        <!--https://mvnrepository.com/artifact/com.alibaba/druid-spring-boot-starter-->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
-            <version>1.1.21</version>
-        </dependency>
+
         <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-redis -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
