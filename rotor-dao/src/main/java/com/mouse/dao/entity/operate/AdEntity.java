@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 @Table(name = "tbl_ad")
+@org.hibernate.annotations.Table(appliesTo = "tbl_ad", comment = "广告表")
 public class AdEntity implements Serializable {
     private static final long serialVersionUID = -5822032356734134747L;
     @Id
@@ -55,7 +56,7 @@ public class AdEntity implements Serializable {
     @Column(name = "update_time", columnDefinition = "datetime COMMENT '更新时间'", nullable = false)
     private LocalDateTime updateTime;
 
-    @Column(name = "deleted", columnDefinition = "tinyint unsigned DEFAULT '0' COMMENT '逻辑删除'", nullable = false)
+   @Column(name = "deleted", columnDefinition = "tinyint unsigned DEFAULT '0' COMMENT '逻辑删除 0 未删除，1 删除'", nullable = false)
     private Boolean deleted;
 
 }
