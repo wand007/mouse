@@ -14,7 +14,7 @@ import javax.validation.constraints.Min;
 
 /**
  * @author ; lidongdong
- * @Description 资源Api
+ * @Description 资源 Api
  * @Date 2019-11-30
  */
 @Slf4j
