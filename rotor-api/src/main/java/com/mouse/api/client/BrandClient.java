@@ -1,9 +1,8 @@
 package com.mouse.api.client;
 
-import com.mouse.api.GoodsComm;
 import com.mouse.api.base.BaseClient;
 import com.mouse.api.feign.BrandFeign;
-import com.mouse.api.service.*;
+import com.mouse.api.service.BrandService;
 import com.mouse.core.base.R;
 import com.mouse.dao.entity.resource.BrandEntity;
 import lombok.extern.slf4j.Slf4j;
@@ -32,23 +31,7 @@ import java.util.Optional;
 public class BrandClient extends BaseClient implements BrandFeign {
 
     @Autowired
-    GoodsComm goodsComm;
-
-    @Autowired
-    AdService adService;
-    @Autowired
-    TopicService topicService;
-    @Autowired
-    GoodsService goodsService;
-    @Autowired
     BrandService brandService;
-    @Autowired
-    CouponService couponService;
-    @Autowired
-    CategoryService categoryService;
-
-    @Autowired
-    GrouponService grouponService;
 
     @Override
     public R findPage(@Min(value = 0, message = "必须从0页开始")

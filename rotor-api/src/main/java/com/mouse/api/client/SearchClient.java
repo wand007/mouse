@@ -1,9 +1,9 @@
 package com.mouse.api.client;
 
-import com.mouse.api.GoodsComm;
 import com.mouse.api.base.BaseClient;
 import com.mouse.api.feign.SearchFeign;
-import com.mouse.api.service.*;
+import com.mouse.api.service.KeywordService;
+import com.mouse.api.service.SearchHistoryService;
 import com.mouse.core.base.R;
 import com.mouse.dao.entity.sys.KeywordEntity;
 import com.mouse.dao.entity.sys.SearchHistoryEntity;
@@ -30,21 +30,6 @@ import java.util.*;
 @RequestMapping("search")
 public class SearchClient extends BaseClient implements SearchFeign {
 
-    @Autowired
-    GoodsComm goodsComm;
-
-    @Autowired
-    AdService adService;
-    @Autowired
-    TopicService topicService;
-    @Autowired
-    GoodsService goodsService;
-    @Autowired
-    BrandService brandService;
-    @Autowired
-    CouponService couponService;
-    @Autowired
-    CategoryService categoryService;
 
     @Autowired
     KeywordService keywordsService;

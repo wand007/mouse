@@ -1,10 +1,9 @@
 package com.mouse.api.client;
 
-import com.mouse.api.GoodsComm;
 import com.mouse.api.base.BaseClient;
 import com.mouse.api.commons.enums.CategoryLevelEnum;
 import com.mouse.api.feign.CatalogFeign;
-import com.mouse.api.service.*;
+import com.mouse.api.service.CategoryService;
 import com.mouse.core.base.R;
 import com.mouse.dao.entity.resource.CategoryEntity;
 import lombok.extern.slf4j.Slf4j;
@@ -28,23 +27,7 @@ import java.util.*;
 public class CatalogClient extends BaseClient implements CatalogFeign {
 
     @Autowired
-    GoodsComm goodsComm;
-
-    @Autowired
-    AdService adService;
-    @Autowired
-    TopicService topicService;
-    @Autowired
-    GoodsService goodsService;
-    @Autowired
-    BrandService brandService;
-    @Autowired
-    CouponService couponService;
-    @Autowired
     CategoryService categoryService;
-
-    @Autowired
-    GrouponService grouponService;
 
 
     @Override
