@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author ; lidongdong
@@ -26,6 +27,10 @@ public class BrandServiceImpl implements BrandService {
     @Autowired
     BrandRepository brandRepository;
 
+    @Override
+    public Optional<BrandEntity> findById(Integer id) {
+        return brandRepository.findById(id);
+    }
 
     @Override
     public Page<BrandEntity> findPage(Integer pageNum, Integer pageSize) {

@@ -15,4 +15,6 @@ public interface BrandService {
     Page<BrandEntity> findPage(Integer pageNum, Integer pageSize);
 
     List<BrandEntity> findByGoodsId(Integer brandId);
+
+    Optional<BrandEntity> findById(Integer id);
 }
