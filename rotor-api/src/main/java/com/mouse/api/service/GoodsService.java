@@ -58,4 +58,9 @@ public interface GoodsService {
     List<GoodsEntity> findList(Integer brandId, String keyword, Boolean isHot, Boolean isNew);
 
     Optional<GoodsEntity> findById(Integer id);
+
+    Page<GoodsEntity> findByCategoryIdPage(Integer categoryId, Integer pageNum, Integer pageSize);
+
+    Integer countByIsOnSale();
+
 }

@@ -12,5 +12,12 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface GoodsRepository extends JpaRepository<GoodsEntity, Integer>, JpaSpecificationExecutor<GoodsEntity> {
-
+    /**
+     * 统计再售商品数量
+     *
+     * @param isOnSale
+     * @param deleted
+     * @return
+     */
+    Integer countByIsOnSaleAndDeleted(Boolean isOnSale, Boolean deleted);
 }

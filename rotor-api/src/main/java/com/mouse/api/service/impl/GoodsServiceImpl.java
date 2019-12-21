@@ -37,6 +37,11 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
+    public Integer countByIsOnSale() {
+        return goodsRepository.countByIsOnSaleAndDeleted(true,false);
+    }
+
+    @Override
     public Page<GoodsEntity> findByIsNewAndIsOnSaleAndPage(Integer pageNum, Integer pageSize) {
         Page<GoodsEntity> page = goodsRepository.findAll((Specification<GoodsEntity>) (root, criteriaQuery, criteriaBuilder) -> {
 
@@ -146,6 +151,21 @@ public class GoodsServiceImpl implements GoodsService {
 
             return predicate;
         }, new Sort(Sort.Direction.DESC, "id"));
+
+        return page;
+    }
+
+    @Override
+    public Page<GoodsEntity> findByCategoryIdPage(Integer categoryId, Integer pageNum, Integer pageSize) {
+        Page<GoodsEntity> page = goodsRepository.findAll((Specification<GoodsEntity>) (root, criteriaQuery, criteriaBuilder) -> {
+
+            Predicate predicate = criteriaBuilder.conjunction();
+            List<Expression<Boolean>> expressions = predicate.getExpressions();
+            expressions.add(criteriaBuilder.equal(root.<String>get("categoryId"), categoryId));
+            expressions.add(criteriaBuilder.equal(root.<Boolean>get("deleted"), false));
+
+            return predicate;
+        }, PageRequest.of(pageNum, pageSize, new Sort(Sort.Direction.DESC, "id")));
 
         return page;
     }

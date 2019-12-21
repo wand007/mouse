@@ -228,12 +228,21 @@ public class ResourcesClient extends BaseClient implements ResourcesFeign {
     }
 
     @Override
-    public R related(Integer integer) {
-        return null;
+    public R related(Integer id) {
+        //目前的商品推荐算法仅仅是推荐同类目的其他商品
+        Optional<GoodsEntity> goodsEntityOptional = goodsService.findById(id);
+        if (!goodsEntityOptional.isPresent()) {
+            return R.success();
+        }
+        // 查找六个相关商品
+        int related = 6;
+        Page<GoodsEntity> page = goodsService.findByCategoryIdPage(goodsEntityOptional.get().getCategoryId(), 0, related);
+        return R.success(page.getContent());
     }
 
     @Override
     public R count() {
-        return null;
+        Integer goodsCount = goodsService.countByIsOnSale();
+        return R.success(goodsCount);
     }
 }
