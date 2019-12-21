@@ -22,7 +22,7 @@ public interface CategoryRepository extends JpaRepository<CategoryEntity, Intege
      * @param deleted
      * @return
      */
-    Optional<List<CategoryEntity>> findByLevelAndDeleted(Integer level, Boolean deleted);
+    Optional<List<CategoryEntity>> findByLevelAndDeleted(String level, Boolean deleted);
 
 
     /**

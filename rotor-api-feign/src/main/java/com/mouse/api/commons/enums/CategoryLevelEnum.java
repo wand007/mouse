@@ -13,21 +13,22 @@ import lombok.ToString;
 @ToString
 public enum CategoryLevelEnum {
 
-    L1(1, "一级类目"),
+    L1("L1", "一级类目"),
+    L2("L2", "二级类目"),
     ;
 
-    private int code;
+    private String code;
     private String desc;
 
-    CategoryLevelEnum(int code, String desc) {
+    CategoryLevelEnum(String code, String desc) {
         this.code = code;
         this.desc = desc;
     }
 
-    public static CategoryLevelEnum parse(int code) {
+    public static CategoryLevelEnum parse(String code) {
         CategoryLevelEnum[] values = CategoryLevelEnum.values();
         for (CategoryLevelEnum value : values) {
-            if (code == value.getCode()) {
+            if (value.getCode().equals(code)) {
                 return value;
             }
         }
