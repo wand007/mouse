@@ -1,5 +1,6 @@
-package com.mouse.api.service;
+package com.mouse.api.service.impl;
 
+import com.mouse.api.service.ProductService;
 import com.mouse.dao.entity.resource.GoodsProductEntity;
 import com.mouse.dao.repository.resource.GoodsProductRepository;
 import lombok.extern.slf4j.Slf4j;

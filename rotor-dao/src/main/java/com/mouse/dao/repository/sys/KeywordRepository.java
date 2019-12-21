@@ -5,6 +5,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Optional;
+
 /**
  * @author ; lidongdong
  * @Description
@@ -13,4 +16,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface KeywordRepository extends JpaRepository<KeywordEntity, Integer>, JpaSpecificationExecutor<KeywordEntity> {
 
+    Optional<KeywordEntity> findByIsDefaultAndDeleted(Boolean isDefault, Boolean deleted);
+
+    Optional<List<KeywordEntity>> findByisHotAndDeleted(Boolean isHots, Boolean deleted);
 }

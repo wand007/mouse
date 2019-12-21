@@ -1,6 +1,10 @@
 package com.mouse.api.service;
 
 import com.mouse.api.commons.enums.RefererEnum;
+import com.mouse.dao.entity.sys.SearchHistoryEntity;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  * @author ; lidongdong
@@ -9,4 +13,8 @@ import com.mouse.api.commons.enums.RefererEnum;
  */
 public interface SearchHistoryService {
     void asyncSave(Integer userId, String keyword, RefererEnum refererEnum);
+
+    Optional<List<SearchHistoryEntity>> findByUid(Integer userId);
+
+    void deleteByUserId(Integer userId);
 }
