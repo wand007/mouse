@@ -13,4 +13,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CollectRepository extends JpaRepository<CollectEntity, Integer>, JpaSpecificationExecutor<CollectEntity> {
 
+    Integer countByUserIdAndValueIdAndDeleted(Integer userId, Integer goodsId, Boolean deleted);
 }

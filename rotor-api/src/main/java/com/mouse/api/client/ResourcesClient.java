@@ -4,12 +4,15 @@ import com.mouse.api.GoodsComm;
 import com.mouse.api.base.BaseClient;
 import com.mouse.api.commons.enums.RefererEnum;
 import com.mouse.api.feign.ResourcesFeign;
-import com.mouse.api.service.CategoryService;
-import com.mouse.api.service.GoodsService;
-import com.mouse.api.service.SearchHistoryService;
+import com.mouse.api.service.*;
+import com.mouse.api.system.SystemConfig;
+import com.mouse.core.base.BusinessException;
 import com.mouse.core.base.R;
-import com.mouse.dao.entity.resource.CategoryEntity;
-import com.mouse.dao.entity.resource.GoodsEntity;
+import com.mouse.dao.entity.operate.GrouponRulesEntity;
+import com.mouse.dao.entity.resource.*;
+import com.mouse.dao.entity.sys.IssueEntity;
+import com.mouse.dao.entity.user.CommentEntity;
+import com.mouse.dao.entity.user.UserEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +46,27 @@ public class ResourcesClient extends BaseClient implements ResourcesFeign {
     @Autowired
     CategoryService categoryService;
     @Autowired
+    ProductService productService;
+    @Autowired
+    GoodsAttributeService goodsAttributeService;
+    @Autowired
+    GoodsSpecificationService goodsSpecificationService;
+    @Autowired
     SearchHistoryService searchHistoryService;
+    @Autowired
+    GoodsIssueService goodsIssueService;
+    @Autowired
+    BrandService brandService;
+    @Autowired
+    CommentService commentService;
+    @Autowired
+    UserService userService;
+    @Autowired
+    RulesService rulesService;
+    @Autowired
+    CollectService collectService;
+    @Autowired
+    FootprintService footprintService;
 
     /**
      * 分页查询商品列表
@@ -107,8 +130,80 @@ public class ResourcesClient extends BaseClient implements ResourcesFeign {
     }
 
     @Override
-    public R detail(Integer integer, Integer integer1) {
-        return null;
+    public R detail(@RequestParam(name = "userId", required = false) Integer userId,
+                    @RequestParam(name = "id") Integer id) {
+        // 商品信息
+        GoodsEntity info = goodsService.findById(id).orElseThrow(() -> {
+            log.error("商品不存在id:{}", id);
+            return new BusinessException("商品不存在");
+        });
+
+        // 商品属性
+        List<GoodsAttributeEntity> goodsAttributeEntities = goodsAttributeService.findByGoodsId(id).orElseGet(() -> Arrays.asList());
+
+        // 商品规格 返回的是定制的GoodsSpecificationVo
+        List<GoodsSpecificationEntity> goodsSpecificationEntities = goodsSpecificationService.findByGoodsId(id).orElseGet(() -> Arrays.asList());
+
+        // 商品规格对应的数量和价格
+        List<GoodsProductEntity> goodsProductEntities = productService.findByGoodsId(id).orElseGet(() -> Arrays.asList());
+
+        // 商品问题，这里是一些通用问题
+        Page<IssueEntity> issueEntityPage = goodsIssueService.findByquestionPage("", 1, 4, "", "");
+
+        // 商品品牌商
+        List<BrandEntity> brandEntities = brandService.findByGoodsId(info.getBrandId());
+
+        // 评论
+        Page<CommentEntity> commentEntityPage = commentService.findByValueIdPage(id, 0, 2);
+        List<CommentEntity> content = commentEntityPage.getContent();
+        List<Map<String, Object>> commentsVo = new ArrayList<>(content.size());
+        for (CommentEntity comment : commentEntityPage) {
+            Map<String, Object> c = new HashMap<>();
+            c.put("id", comment.getId());
+            c.put("addTime", comment.getAddTime());
+            c.put("content", comment.getContent());
+            UserEntity user = userService.findById(comment.getUserId()).orElseGet(() -> new UserEntity());
+            c.put("nickname", user == null ? "" : user.getNickName());
+            c.put("avatar", user == null ? "" : user.getAvatar());
+            c.put("picList", comment.getPicUrls());
+            commentsVo.add(c);
+        }
+        Map<String, Object> commentList = new HashMap<>();
+        commentList.put("count", commentEntityPage.getTotalPages());
+        commentList.put("data", commentsVo);
+
+        //团购信息
+        List<GrouponRulesEntity> grouponRulesEntities = rulesService.findByGoodsId(id).orElseGet(() -> Arrays.asList());
+
+        // 用户收藏
+        int userHasCollect = 0;
+        if (userId != null) {
+            userHasCollect = collectService.countByUserIdAndValueId(userId, id);
+        }
+
+        // 记录用户的足迹 异步处理
+        if (userId != null) {
+            footprintService.asyncSave(userId, id);
+        }
+
+        Map<String, Object> data = new HashMap<>();
+
+        data.put("info", info);
+        data.put("userHasCollect", userHasCollect);
+        data.put("issue", issueEntityPage.getContent());
+        data.put("comment", commentList);
+        data.put("specificationList", goodsSpecificationEntities);
+        data.put("productList", goodsProductEntities);
+        data.put("attribute", goodsAttributeEntities);
+        data.put("brand", brandEntities);
+        data.put("groupon", goodsAttributeEntities);
+        //SystemConfig.isAutoCreateShareImage()
+        data.put("share", SystemConfig.isAutoCreateShareImage());
+
+
+        //商品分享图片地址
+        data.put("shareImage", info.getShareUrl());
+        return R.success(data);
     }
 
     @Override

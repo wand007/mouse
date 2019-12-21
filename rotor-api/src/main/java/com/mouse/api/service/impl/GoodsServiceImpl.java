@@ -30,6 +30,12 @@ public class GoodsServiceImpl implements GoodsService {
     @Autowired
     GoodsRepository goodsRepository;
 
+
+    @Override
+    public Optional<GoodsEntity> findById(Integer id) {
+        return goodsRepository.findById(id);
+    }
+
     @Override
     public Page<GoodsEntity> findByIsNewAndIsOnSaleAndPage(Integer pageNum, Integer pageSize) {
         Page<GoodsEntity> page = goodsRepository.findAll((Specification<GoodsEntity>) (root, criteriaQuery, criteriaBuilder) -> {
@@ -37,8 +43,8 @@ public class GoodsServiceImpl implements GoodsService {
             Predicate predicate = criteriaBuilder.conjunction();
             List<Expression<Boolean>> expressions = predicate.getExpressions();
             expressions.add(criteriaBuilder.equal(root.<Boolean>get("isOnSale"), true));
-            expressions.add(criteriaBuilder.equal(root.<Boolean>get("isNew"), true));
             expressions.add(criteriaBuilder.equal(root.<Boolean>get("deleted"), false));
+            expressions.add(criteriaBuilder.equal(root.<Boolean>get("isNew"), true));
 
             return predicate;
         }, PageRequest.of(pageNum, pageSize, new Sort(Sort.Direction.DESC, "id")));

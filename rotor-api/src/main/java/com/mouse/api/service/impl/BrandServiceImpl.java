@@ -1,7 +1,6 @@
 package com.mouse.api.service.impl;
 
 import com.mouse.api.service.BrandService;
-import com.mouse.dao.entity.operate.TopicEntity;
 import com.mouse.dao.entity.resource.BrandEntity;
 import com.mouse.dao.repository.resource.BrandRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -40,5 +39,20 @@ public class BrandServiceImpl implements BrandService {
         }, PageRequest.of(pageNum, pageSize, new Sort(Sort.Direction.DESC, "id")));
 
         return page;
+    }
+
+    @Override
+    public List<BrandEntity> findByGoodsId(Integer brandId) {
+        List<BrandEntity> brandEntities = brandRepository.findAll((Specification<BrandEntity>) (root, criteriaQuery, criteriaBuilder) -> {
+
+            Predicate predicate = criteriaBuilder.conjunction();
+            List<Expression<Boolean>> expressions = predicate.getExpressions();
+            expressions.add(criteriaBuilder.equal(root.<Integer>get("id"), brandId));
+            expressions.add(criteriaBuilder.equal(root.<Boolean>get("deleted"), false));
+
+            return predicate;
+        }, new Sort(Sort.Direction.DESC, "id"));
+
+        return brandEntities;
     }
 }

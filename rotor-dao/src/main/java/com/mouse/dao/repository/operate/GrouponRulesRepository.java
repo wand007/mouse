@@ -5,6 +5,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Optional;
+
 /**
  * @author ; lidongdong
  * @Description
@@ -14,4 +17,5 @@ import org.springframework.stereotype.Repository;
 public interface GrouponRulesRepository extends JpaRepository<GrouponRulesEntity, Integer>, JpaSpecificationExecutor<GrouponRulesEntity> {
 
 
+    Optional<List<GrouponRulesEntity>> findByGoodsIdAndDeleted(Integer goodsId, Boolean deleted);
 }

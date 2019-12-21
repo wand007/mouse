@@ -3,6 +3,9 @@ package com.mouse.api.service;
 import com.mouse.dao.entity.resource.BrandEntity;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
+import java.util.Optional;
+
 /**
  * @author ; lidongdong
  * @Description
@@ -11,4 +14,5 @@ import org.springframework.data.domain.Page;
 public interface BrandService {
     Page<BrandEntity> findPage(Integer pageNum, Integer pageSize);
 
+    List<BrandEntity> findByGoodsId(Integer brandId);
 }

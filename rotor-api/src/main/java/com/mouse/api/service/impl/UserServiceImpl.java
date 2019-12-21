@@ -1,0 +1,27 @@
+package com.mouse.api.service.impl;
+
+import com.mouse.api.service.UserService;
+import com.mouse.dao.entity.user.UserEntity;
+import com.mouse.dao.repository.user.UserRepository;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+
+/**
+ * @author ; lidongdong
+ * @Description
+ * @Date 2019-12-21
+ */
+@Slf4j
+@Service
+public class UserServiceImpl implements UserService {
+    @Autowired
+    UserRepository userRepository;
+
+    @Override
+    public Optional<UserEntity> findById(Integer userId) {
+        return userRepository.findById(userId);
+    }
+}
