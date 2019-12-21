@@ -42,4 +42,9 @@ public class CategoryServiceImpl implements CategoryService {
     public Optional<List<CategoryEntity>> findByPid(Integer pId) {
         return categoryRepository.findByPidAndDeleted(pId,false);
     }
+
+    @Override
+    public Optional<List<CategoryEntity>> findByLevelAndIdIn(String level,List<Integer> goodsCatIds) {
+        return categoryRepository.findByLevelAndIdIn(level,goodsCatIds);
+    }
 }

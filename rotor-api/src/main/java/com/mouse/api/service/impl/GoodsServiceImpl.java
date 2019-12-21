@@ -4,6 +4,7 @@ import com.mouse.api.service.GoodsService;
 import com.mouse.dao.entity.resource.GoodsEntity;
 import com.mouse.dao.repository.resource.GoodsRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,6 +17,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author ; lidongdong
@@ -79,6 +81,65 @@ public class GoodsServiceImpl implements GoodsService {
             }
             return predicate;
         }, PageRequest.of(pageNum, pageSize, new Sort(Sort.Direction.DESC, "id")));
+
+        return page;
+    }
+
+
+    @Override
+    public Page<GoodsEntity> findPage(Integer categoryId, Integer brandId, String keyword, Boolean isHot, Boolean isNew,
+                                      Integer pageNum, Integer pageSize, String sort, String order) {
+        Page<GoodsEntity> page = goodsRepository.findAll((Specification<GoodsEntity>) (root, criteriaQuery, criteriaBuilder) -> {
+
+            Predicate predicate = criteriaBuilder.conjunction();
+            List<Expression<Boolean>> expressions = predicate.getExpressions();
+            if (categoryId != null) {
+                expressions.add(criteriaBuilder.equal(root.<Integer>get("categoryId"), categoryId));
+            }
+            if (brandId != null) {
+                expressions.add(criteriaBuilder.equal(root.<Integer>get("brandId"), brandId));
+            }
+            if (isHot != null) {
+                expressions.add(criteriaBuilder.equal(root.<Boolean>get("isHot"), isHot));
+            }
+            if (isNew != null) {
+                expressions.add(criteriaBuilder.equal(root.<Boolean>get("isNew"), isNew));
+            }
+            if (StringUtils.isNotBlank(keyword)) {
+                expressions.add(criteriaBuilder.equal(root.<String>get("keyword"), keyword));
+            }
+            expressions.add(criteriaBuilder.equal(root.<Boolean>get("deleted"), false));
+
+            return predicate;
+        }, PageRequest.of(pageNum, pageSize, new Sort(Sort.Direction.DESC, "id")));
+
+        return page;
+    }
+
+
+    @Override
+    public List<GoodsEntity> findList(Integer brandId, String keyword, Boolean isHot, Boolean isNew) {
+        List<GoodsEntity> page = goodsRepository.findAll((Specification<GoodsEntity>) (root, criteriaQuery, criteriaBuilder) -> {
+
+            Predicate predicate = criteriaBuilder.conjunction();
+            List<Expression<Boolean>> expressions = predicate.getExpressions();
+            if (brandId != null) {
+                expressions.add(criteriaBuilder.equal(root.<Integer>get("brandId"), brandId));
+            }
+            if (isHot != null) {
+                expressions.add(criteriaBuilder.equal(root.<Boolean>get("isHot"), isHot));
+            }
+            if (isNew != null) {
+                expressions.add(criteriaBuilder.equal(root.<Boolean>get("isNew"), isNew));
+            }
+            if (StringUtils.isNotBlank(keyword)) {
+                expressions.add(criteriaBuilder.like(root.get("keywords"), "%" + keyword + "%"));
+                expressions.add(criteriaBuilder.like(root.get("name"), "%" + keyword + "%"));
+            }
+            expressions.add(criteriaBuilder.equal(root.<Boolean>get("deleted"), false));
+
+            return predicate;
+        }, new Sort(Sort.Direction.DESC, "id"));
 
         return page;
     }

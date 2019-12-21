@@ -40,8 +40,8 @@ public class CategoryEntity implements Serializable {
     @Column(name = "pic_url", columnDefinition = "varchar(255) COMMENT '类目图片'", nullable = false)
     private String picUrl;
 
-    @Column(name = "level", columnDefinition = "tinyint unsigned DEFAULT '0' COMMENT '类目等级'", nullable = false)
-    private Integer level;
+    @Column(name = "level", columnDefinition = "varchar(10) DEFAULT '0' COMMENT '类目等级'", nullable = false)
+    private String level;
 
     @Column(name = "sort_order", columnDefinition = "tinyint unsigned DEFAULT '50' COMMENT '排序'", nullable = false)
     private Integer sortOrder;

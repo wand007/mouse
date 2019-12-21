@@ -25,7 +25,7 @@ public class SearchHistoryEntity implements Serializable {
     @Column(name = "user_id", columnDefinition = "int unsigned DEFAULT '0' COMMENT '用户表的用户ID'", nullable = false)
     private Integer userId;
 
-    @Column(name = "keyword", columnDefinition = "varchar(32) COMMENT '关键字'", nullable = false)
+    @Column(name = "keyword", columnDefinition = "varchar(32) COMMENT '关键字'")
     private String keyword;
 
     @Column(name = "\"from\"", columnDefinition = "varchar(32) COMMENT '搜索来源，如pc、wx、app'", nullable = false)

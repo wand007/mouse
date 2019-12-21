@@ -23,4 +23,6 @@ public interface CategoryService {
     Optional<List<CategoryEntity>> findByLevelAndNameNotAnd(Integer pageNum, Integer pageSize);
 
     Optional<List<CategoryEntity>> findByPid(Integer pId);
+
+    Optional<List<CategoryEntity>> findByLevelAndIdIn(String level, List<Integer> goodsCatIds);
 }

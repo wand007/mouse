@@ -13,7 +13,7 @@ import lombok.ToString;
 @ToString
 public enum RefererEnum {
 
-
+    WX(1, "微信"),
     ;
 
     private int code;

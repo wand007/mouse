@@ -32,4 +32,6 @@ public interface CategoryRepository extends JpaRepository<CategoryEntity, Intege
      * @return
      */
     Optional<List<CategoryEntity>> findByPidAndDeleted(Integer pId, Boolean deleted);
+
+    Optional<List<CategoryEntity>> findByLevelAndIdIn(String level, List<Integer> ids);
 }
