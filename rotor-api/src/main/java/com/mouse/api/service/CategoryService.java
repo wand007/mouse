@@ -25,4 +25,6 @@ public interface CategoryService {
     Optional<List<CategoryEntity>> findByPid(Integer pId);
 
     Optional<List<CategoryEntity>> findByLevelAndIdIn(String level, List<Integer> goodsCatIds);
+
+    Optional<CategoryEntity> findById(Integer id);
 }

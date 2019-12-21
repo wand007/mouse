@@ -207,8 +207,24 @@ public class ResourcesClient extends BaseClient implements ResourcesFeign {
     }
 
     @Override
-    public R category(Integer integer) {
-        return null;
+    public R category(Integer id) {
+        CategoryEntity categoryEntity = categoryService.findById(id).orElseGet(() -> new CategoryEntity());
+        CategoryEntity parent = null;
+        List<CategoryEntity> children = null;
+
+        if (categoryEntity.getPid() == 0) {
+            parent = categoryEntity;
+            children = categoryService.findByPid(categoryEntity.getId()).orElseGet(() -> Arrays.asList());
+            categoryEntity = children.size() > 0 ? children.get(0) : categoryEntity;
+        } else {
+            parent = categoryService.findById(categoryEntity.getPid()).orElseGet(() -> new CategoryEntity());
+            children = categoryService.findByPid(categoryEntity.getPid()).orElseGet(() -> Arrays.asList());
+        }
+        Map<String, Object> data = new HashMap<>();
+        data.put("currentCategory", categoryEntity);
+        data.put("parentCategory", parent);
+        data.put("brotherCategory", children);
+        return R.success(data);
     }
 
     @Override

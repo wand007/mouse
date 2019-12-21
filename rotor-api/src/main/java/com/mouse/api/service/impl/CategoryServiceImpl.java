@@ -8,7 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * @author ; lidongdong
@@ -21,6 +22,11 @@ public class CategoryServiceImpl implements CategoryService {
     @Autowired
     CategoryRepository categoryRepository;
 
+    @Override
+    public Optional<CategoryEntity> findById(Integer id) {
+        return categoryRepository.findById(id);
+    }
+
     /**
      * 根据类目等级查询类目
      *
@@ -29,22 +35,22 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Override
     public Optional<List<CategoryEntity>> findByLevel(CategoryLevelEnum categoryLevelEnum) {
-        return categoryRepository.findByLevelAndDeleted(categoryLevelEnum.getCode(),false);
+        return categoryRepository.findByLevelAndDeleted(categoryLevelEnum.getCode(), false);
     }
 
     @Override
     public Optional<List<CategoryEntity>> findByLevelAndNameNotAnd(Integer pageNum, Integer pageSize) {
 
-        return categoryRepository.findByLevelAndDeleted(CategoryLevelEnum.L1.getCode(),false);
+        return categoryRepository.findByLevelAndDeleted(CategoryLevelEnum.L1.getCode(), false);
     }
 
     @Override
     public Optional<List<CategoryEntity>> findByPid(Integer pId) {
-        return categoryRepository.findByPidAndDeleted(pId,false);
+        return categoryRepository.findByPidAndDeleted(pId, false);
     }
 
     @Override
-    public Optional<List<CategoryEntity>> findByLevelAndIdIn(String level,List<Integer> goodsCatIds) {
-        return categoryRepository.findByLevelAndIdIn(level,goodsCatIds);
+    public Optional<List<CategoryEntity>> findByLevelAndIdIn(String level, List<Integer> goodsCatIds) {
+        return categoryRepository.findByLevelAndIdIn(level, goodsCatIds);
     }
 }
