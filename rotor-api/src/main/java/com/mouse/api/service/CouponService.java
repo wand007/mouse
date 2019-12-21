@@ -11,5 +11,5 @@ import org.springframework.data.domain.Page;
 public interface CouponService {
     Page<CouponEntity> findPage(Integer pageNum, Integer pageSize);
 
-    Page<CouponEntity> findByUserIdPage(String userId, Integer pageNum, Integer pageSize);
+    Page<CouponEntity> findByUserIdPage(Integer userId, Integer pageNum, Integer pageSize);
 }

@@ -24,15 +24,6 @@ public interface CategoryRepository extends JpaRepository<CategoryEntity, Intege
      */
     Optional<List<CategoryEntity>> findByLevelAndDeleted(Integer level, Boolean deleted);
 
-    /**
-     * 根据类目等级和类目名称查询类目
-     *
-     * @param level   类目等级
-     * @param deleted
-     * @param name
-     * @return
-     */
-    Optional<List<CategoryEntity>> findByLevelAndDeletedAndNameNotAnd(Integer level, Boolean deleted, String name);
 
     /**
      * 根据父类目ID查询商品类目
@@ -40,5 +31,5 @@ public interface CategoryRepository extends JpaRepository<CategoryEntity, Intege
      * @param pId 父类目ID
      * @return
      */
-    Optional<List<CategoryEntity>> findByPidAndDeleted(Integer pId);
+    Optional<List<CategoryEntity>> findByPidAndDeleted(Integer pId, Boolean deleted);
 }

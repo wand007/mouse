@@ -45,6 +45,7 @@ public class SystemConfigServiceImpl implements SystemConfigService {
         system.setKeyValue(value);
         system.setAddTime(LocalDateTime.now());
         system.setUpdateTime(LocalDateTime.now());
+        system.setDeleted(false);
         systemRepository.save(system);
     }
 }

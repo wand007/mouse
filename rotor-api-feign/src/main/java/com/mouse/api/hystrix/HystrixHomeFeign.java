@@ -20,7 +20,12 @@ public class HystrixHomeFeign implements FallbackFactory<HomeFeign> {
         log.error("错误信息：", throwable);
         return new HomeFeign() {
             @Override
-            public R index(String userId) {
+            public R index(Integer userId) {
+                return R.error();
+            }
+
+            @Override
+            public R about() {
                 return R.error();
             }
         };

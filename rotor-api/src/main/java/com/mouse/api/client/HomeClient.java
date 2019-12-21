@@ -19,6 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -66,9 +67,9 @@ public class HomeClient extends BaseClient implements HomeFeign {
      * @return
      */
     @Override
-    public R index(String userId) {
+    public R index(Integer userId) {
         Page<CouponEntity> couponEntityPage;
-        if (StringUtils.isBlank(userId)) {
+        if (userId == null) {
             couponEntityPage = couponService.findPage(0, 3);
         } else {
             couponEntityPage = couponService.findByUserIdPage(userId, 0, 3);
@@ -101,5 +102,21 @@ public class HomeClient extends BaseClient implements HomeFeign {
         entity.put("grouponList", grouponEntityPage.getContent());
         entity.put("floorGoodsList", floorGoodsList);
         return R.success(entity);
+    }
+
+    /**
+     * 商城介绍信息
+     * @return 商城介绍信息
+     */
+    @Override
+    public R about() {
+        Map<String, Object> about = new HashMap<>();
+        about.put("name", SystemConfig.getMallName());
+        about.put("address", SystemConfig.getMallAddress());
+        about.put("phone", SystemConfig.getMallPhone());
+        about.put("qq", SystemConfig.getMallQQ());
+        about.put("longitude", SystemConfig.getMallLongitude());
+        about.put("latitude", SystemConfig.getMallLatitude());
+        return R.success(about);
     }
 }

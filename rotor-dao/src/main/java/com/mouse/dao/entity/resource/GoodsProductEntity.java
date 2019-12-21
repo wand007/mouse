@@ -26,9 +26,8 @@ public class GoodsProductEntity implements Serializable {
     @Column(name = "goods_id", columnDefinition = "int unsigned DEFAULT '0' COMMENT '商品表的商品ID'", nullable = false)
     private Integer goodsId;
 
-    //    @ElementCollection
     @Column(name = "specifications", columnDefinition = "varchar(1023) DEFAULT '[]' COMMENT '商品规格值列表，采用JSON数组格式'", nullable = false)
-    private String[] specifications;
+    private String specifications;
 
     @Column(name = "price", columnDefinition = "decimal(10,2) default '0' COMMENT '商品货品价格'", nullable = false)
     private BigDecimal price;

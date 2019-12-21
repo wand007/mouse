@@ -42,7 +42,7 @@ public class TopicEntity implements Serializable {
     private Integer sortOrder;
 
     @Column(name = "goods", columnDefinition = "int unsigned DEFAULT '100' COMMENT '排序'", nullable = false)
-    private Integer[] goods;
+    private String goods;
 
 
     @Column(name = "content", columnDefinition = "text COMMENT '专题内容，富文本格式'", nullable = false)

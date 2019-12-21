@@ -26,6 +26,13 @@ public interface HomeFeign {
      */
     @ResponseBody
     @GetMapping(value = "index")
-    public R index(@RequestParam(value = "userId", required = false) String userId);
+    public R index(@RequestParam(value = "userId", required = false) Integer userId);
+
+    /**
+     * 商城介绍信息
+     * @return 商城介绍信息
+     */
+    @GetMapping("/about")
+    public R about();
 }
 

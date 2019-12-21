@@ -37,9 +37,8 @@ public class CommentEntity implements Serializable {
     @Column(name = "has_picture", columnDefinition = "tinyint unsigned DEFAULT '0' COMMENT '是否含有图片'", nullable = false)
     private Boolean hasPicture;
 
-    //    @ElementCollection
     @Column(name = "pic_urls", columnDefinition = "varchar(1023) COMMENT '图片地址列表，采用JSON数组格式'", nullable = false)
-    private String[] picUrls;
+    private String picUrls;
 
     @Column(name = "star", columnDefinition = "smallint unsigned DEFAULT '1' COMMENT '评分， 1-5'", nullable = false)
     private Short star;

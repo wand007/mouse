@@ -36,7 +36,7 @@ public class GoodsEntity implements Serializable {
     private Integer brandId;
 
     @Column(name = "gallery", columnDefinition = "varchar(255) COMMENT '商品宣传图片列表，采用JSON数组格式'", nullable = false)
-    private String[] gallery;
+    private String gallery;
 
     @Column(name = "keywords", columnDefinition = "varchar(255) COMMENT '商品关键字，采用逗号间隔'", nullable = false)
     private String keywords;

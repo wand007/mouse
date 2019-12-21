@@ -35,11 +35,11 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Optional<List<CategoryEntity>> findByLevelAndNameNotAnd(Integer pageNum, Integer pageSize) {
 
-        return categoryRepository.findByLevelAndDeletedAndNameNotAnd(CategoryLevelEnum.L1.getCode(),false,"推荐");
+        return categoryRepository.findByLevelAndDeleted(CategoryLevelEnum.L1.getCode(),false);
     }
 
     @Override
     public Optional<List<CategoryEntity>> findByPid(Integer pId) {
-        return categoryRepository.findByPidAndDeleted(pId);
+        return categoryRepository.findByPidAndDeleted(pId,false);
     }
 }

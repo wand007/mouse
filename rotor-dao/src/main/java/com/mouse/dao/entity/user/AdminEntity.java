@@ -48,10 +48,7 @@ public class AdminEntity implements Serializable {
    @Column(name = "deleted", columnDefinition = "tinyint unsigned DEFAULT '0' COMMENT '逻辑删除 0 未删除，1 删除'", nullable = false)
     private Boolean deleted;
 
-    //todo @ElementCollection这个注解需要测试
-
-    //    @ElementCollection
     @Column(name = "role_ids", columnDefinition = "varchar(127) DEFAULT '[]' COMMENT '角色列表'", nullable = false)
-    private Integer[] roleIds;
+    private String roleIds;
 
 }

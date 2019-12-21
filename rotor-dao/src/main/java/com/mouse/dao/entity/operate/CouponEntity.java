@@ -7,7 +7,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * @author ; lidongdong
@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "tbl_coupon")
 public class CouponEntity implements Serializable {
-    private static final long serialVersionUID = -8097610220041632426L;
+    private static final long serialVersionUID = 2198251200656824945L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -53,8 +53,8 @@ public class CouponEntity implements Serializable {
     @Column(name = "goods_type", columnDefinition = "smallint unsigned DEFAULT '0' COMMENT '商品限制类型，如果0则全商品，如果是1则是类目限制，如果是2则是商品限制'", nullable = false)
     private Short goodsType;
 
-    @Column(name = "goods_value", columnDefinition = "int unsigned DEFAULT '0' COMMENT '商品限制值，goods_type如果是0则空集合，如果是1则是类目集合，如果是2则是商品集合'", nullable = false)
-    private Integer[] goodsValue;
+    @Column(name = "goods_value", columnDefinition = "varchar(1023) DEFAULT '[]' COMMENT '商品限制值，goods_type如果是0则空集合，如果是1则是类目集合，如果是2则是商品集合'", nullable = false)
+    private String goodsValue;
 
     @Column(name = "\"code\"", columnDefinition = "varchar(64) COMMENT '优惠券兑换码'", nullable = false)
     private String code;
@@ -66,19 +66,19 @@ public class CouponEntity implements Serializable {
     private Short days;
 
     @Column(name = "start_time", columnDefinition = "datetime COMMENT '使用券开始时间'", nullable = false)
-    private LocalDateTime startTime;
+    private Date startTime;
 
     @Column(name = "end_time", columnDefinition = "datetime COMMENT '使用券截至时间'", nullable = false)
-    private LocalDateTime endTime;
+    private Date endTime;
 
     @CreationTimestamp
     @Column(name = "add_time", columnDefinition = "datetime  COMMENT '创建时间'", nullable = false)
-    private LocalDateTime addTime;
+    private Date addTime;
 
     @UpdateTimestamp
     @Column(name = "update_time", columnDefinition = "datetime COMMENT '更新时间'", nullable = false)
-    private LocalDateTime updateTime;
+    private Date updateTime;
 
-   @Column(name = "deleted", columnDefinition = "tinyint unsigned DEFAULT '0' COMMENT '逻辑删除 0 未删除，1 删除'", nullable = false)
+    @Column(name = "deleted", columnDefinition = "tinyint unsigned DEFAULT '0' COMMENT '逻辑删除 0 未删除，1 删除'", nullable = false)
     private Boolean deleted;
 }

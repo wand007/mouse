@@ -44,9 +44,8 @@ public class CartEntity implements Serializable {
     @Column(name = "number", columnDefinition = "smallint unsigned DEFAULT '0' COMMENT '商品货品的数量'", nullable = false)
     private Short number;
 
-    //    @ElementCollection
     @Column(name = "specifications", columnDefinition = "varchar(1023) DEFAULT '[]' COMMENT '商品规格值列表，采用JSON数组格式'", nullable = false)
-    private String[] specifications;
+    private String specifications;
 
     @Column(name = "checked", columnDefinition = "tinyint unsigned DEFAULT '0' COMMENT '购物车中商品是否选择状态'", nullable = false)
     private Boolean checked;

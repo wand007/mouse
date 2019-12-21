@@ -48,7 +48,7 @@ spring:
 
   # 数据库配置
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/mouse?useSSL=false&serverTimezone=UTC
+    url: jdbc:mysql://127.0.0.1:3306/mouse?useSSL=false&serverTimezone=UTC&zeroDateTimeBehavior=convertToNull
     username: root
     password: Admin1234
     driverClassName: com.mysql.cj.jdbc.Driver
@@ -82,7 +82,7 @@ spring:
       hibernate:
         hbm2ddl:
           auto: update
-        dialect: org.hibernate.dialect.MySQL5Dialect
+        dialect: org.hibernate.dialect.MySQL55Dialect
 
   ##Consul配置信息
   cloud:
