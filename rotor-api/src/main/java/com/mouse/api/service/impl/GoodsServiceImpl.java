@@ -42,6 +42,11 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
+    public Optional<GoodsEntity> findByIdAndIsOnSale(String goodsId) {
+        return goodsRepository.countByIdAndIsOnSaleAndDeleted(goodsId,true,false);
+    }
+
+    @Override
     public Page<GoodsEntity> findByIsNewAndIsOnSaleAndPage(Integer pageNum, Integer pageSize) {
         Page<GoodsEntity> page = goodsRepository.findAll((Specification<GoodsEntity>) (root, criteriaQuery, criteriaBuilder) -> {
 

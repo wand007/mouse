@@ -63,4 +63,5 @@ public interface GoodsService {
 
     Integer countByIsOnSale();
 
+    Optional<GoodsEntity> findByIdAndIsOnSale(String goodsId);
 }

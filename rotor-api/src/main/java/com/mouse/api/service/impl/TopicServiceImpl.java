@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author ; lidongdong
@@ -27,12 +28,21 @@ public class TopicServiceImpl implements TopicService {
     @Autowired
     TopicRepository topicRepository;
 
+
     @Override
-    public Page<TopicEntity> findPage(Integer pageNum, Integer pageSize) {
+    public Optional<TopicEntity> findById(Integer id) {
+        return topicRepository.findById(id);
+    }
+
+    @Override
+    public Page<TopicEntity> findPage(Integer id,Integer pageNum, Integer pageSize) {
         Page<TopicEntity> page = topicRepository.findAll((Specification<TopicEntity>) (root, criteriaQuery, criteriaBuilder) -> {
 
             Predicate predicate = criteriaBuilder.conjunction();
             List<Expression<Boolean>> expressions = predicate.getExpressions();
+            if(id != null){
+                expressions.add(criteriaBuilder.equal(root.<String>get("id"), id));
+            }
             expressions.add(criteriaBuilder.equal(root.<Boolean>get("deleted"), false));
 
             return predicate;

@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 /**
  * @author ; lidongdong
  * @Description
@@ -20,4 +22,6 @@ public interface GoodsRepository extends JpaRepository<GoodsEntity, Integer>, Jp
      * @return
      */
     Integer countByIsOnSaleAndDeleted(Boolean isOnSale, Boolean deleted);
+
+    Optional<GoodsEntity> countByIdAndIsOnSaleAndDeleted(String goodsId, Boolean isOnSale, Boolean deleted);
 }

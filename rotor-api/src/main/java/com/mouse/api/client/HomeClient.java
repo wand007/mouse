@@ -85,7 +85,7 @@ public class HomeClient extends BaseClient implements HomeFeign {
 
         Page<BrandEntity> brandEntityPage = brandService.findPage(0, SystemConfig.getBrandLimit());
 
-        Page<TopicEntity> topicEntityPage = topicService.findPage(0, SystemConfig.getTopicLimit());
+        Page<TopicEntity> topicEntityPage = topicService.findPage(null,0, SystemConfig.getTopicLimit());
 
         List<Map<String, Object>> floorGoodsList = goodsComm.getCategoryList();
         //团购专区

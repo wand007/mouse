@@ -41,7 +41,7 @@ public class TopicEntity implements Serializable {
     @Column(name = "sort_order", columnDefinition = "tinyint unsigned DEFAULT '100' COMMENT '排序'", nullable = false)
     private Integer sortOrder;
 
-    @Column(name = "goods", columnDefinition = "int unsigned DEFAULT '100' COMMENT '排序'", nullable = false)
+    @Column(name = "goods", columnDefinition = "varchar(1023) DEFAULT '100' COMMENT '专题相关商品，采用JSON数组格式'", nullable = false)
     private String goods;
 
 
