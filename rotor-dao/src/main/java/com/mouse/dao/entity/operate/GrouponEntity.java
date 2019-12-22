@@ -34,24 +34,27 @@ public class GrouponEntity implements Serializable {
     @Column(name = "user_id", columnDefinition = "int unsigned DEFAULT '0' COMMENT '用户ID'")
     private Integer userId;
 
-    @Column(name = "creator_user_id", columnDefinition = "int unsigned DEFAULT '0' COMMENT '创建者ID'")
-    private Integer creatorUserId;
-
-
     @Column(name = "share_url", columnDefinition = "varchar(500) COMMENT '团购分享图片地址'", nullable = false)
     private String shareUrl;
 
-    @Column(name = "payed", columnDefinition = "tinyint unsigned DEFAULT '0' COMMENT '是否已经支付'", nullable = false)
-    private Boolean payed;
+    @Column(name = "creator_user_id", columnDefinition = "int unsigned DEFAULT '0' COMMENT '创建者ID'")
+    private Integer creatorUserId;
+
+    @Column(name = "creator_user_time", columnDefinition = "datetime  COMMENT '开团时间'")
+    private LocalDateTime creatorUserTime;
+
+    @Column(name = "status", columnDefinition = "smallint unsigned DEFAULT '0' COMMENT '团购活动状态，开团未支付则0，开团中则1，开团失败则2'", nullable = false)
+    private Short status;
 
     @CreationTimestamp
     @Column(name = "add_time", columnDefinition = "datetime  COMMENT '创建时间'", nullable = false)
     private LocalDateTime addTime;
 
+
     @UpdateTimestamp
     @Column(name = "update_time", columnDefinition = "datetime COMMENT '更新时间'", nullable = false)
     private LocalDateTime updateTime;
 
-   @Column(name = "deleted", columnDefinition = "tinyint unsigned DEFAULT '0' COMMENT '逻辑删除 0 未删除，1 删除'", nullable = false)
+    @Column(name = "deleted", columnDefinition = "tinyint unsigned DEFAULT '0' COMMENT '逻辑删除 0 未删除，1 删除'", nullable = false)
     private Boolean deleted;
 }

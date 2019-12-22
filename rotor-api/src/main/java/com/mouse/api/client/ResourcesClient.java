@@ -1,6 +1,6 @@
 package com.mouse.api.client;
 
-import com.mouse.api.GoodsComm;
+import com.mouse.api.commons.GoodsComm;
 import com.mouse.api.base.BaseClient;
 import com.mouse.api.commons.enums.RefererEnum;
 import com.mouse.api.feign.ResourcesFeign;
@@ -62,7 +62,7 @@ public class ResourcesClient extends BaseClient implements ResourcesFeign {
     @Autowired
     UserService userService;
     @Autowired
-    RulesService rulesService;
+    GrouponRulesService rulesService;
     @Autowired
     CollectService collectService;
     @Autowired

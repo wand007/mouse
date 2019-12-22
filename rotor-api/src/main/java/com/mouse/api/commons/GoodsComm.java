@@ -1,4 +1,4 @@
-package com.mouse.api;
+package com.mouse.api.commons;
 
 import com.mouse.api.service.CategoryService;
 import com.mouse.api.service.GoodsService;

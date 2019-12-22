@@ -1,7 +1,9 @@
 package com.mouse.api.service;
 
 import com.mouse.dao.entity.operate.GrouponEntity;
-import org.springframework.data.domain.Page;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  * @author ; lidongdong
@@ -9,5 +11,14 @@ import org.springframework.data.domain.Page;
  * @Date 2019-12-15
  */
 public interface GrouponService {
-    Page<GrouponEntity> findPage(Integer pageNum, Integer pageSize);
+
+    Optional<GrouponEntity> findById(Integer grouponId);
+
+    Optional<List<GrouponEntity>> findByIdAndStatus(Integer grouponId);
+
+    List<GrouponEntity> findByUserIdAndCreatorUserId(Integer userId);
+
+    List<GrouponEntity> findByUserId(Integer userId);
+
+    Integer countById(Integer grouponId);
 }
