@@ -40,6 +40,6 @@ public class ResourcesController extends BaseController {
             @Min(value = 1, message = "每页必须大于1")
             @Max(value = 300, message = "每页必须小于300")
             @RequestParam(name = "pageSize", defaultValue = "20", required = false) Integer pageSize) {
-        return resourcesFeign.findPage(pageNum, pageSize);
+        return null;
     }
 }

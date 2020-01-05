@@ -84,6 +84,23 @@ spring:
           auto: update
         dialect: org.hibernate.dialect.MySQL55Dialect
 
+  # 邮件 参数配置
+  mail:
+    host: smtp.hvyogo.com
+    username: code@hvyogo.com
+    password: Hvyogo.news666
+    default-encoding: UTF-8
+    properties:
+      mail:
+        smtp:
+          socketFactory:
+            class: javax.net.ssl.SSLSocketFactory
+          port: 465
+          auth: true
+          starttls:
+            enable: true
+            required: true
+
   ##Consul配置信息
   cloud:
     consul:

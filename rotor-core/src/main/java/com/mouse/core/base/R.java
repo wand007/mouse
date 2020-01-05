@@ -44,6 +44,10 @@ public class R implements Serializable {
         return new R(businessCode.getCode(), businessCode.getDesc());
     }
 
+    public static R fromBusinessCode(BusinessCode businessCode, String statusText) {
+        return new R(businessCode.getCode(), statusText);
+    }
+
     public static R success(Object data) {
         return new R(BusinessCode.SUCCESS.getCode(), "success", data, System.currentTimeMillis());
     }
@@ -53,10 +57,12 @@ public class R implements Serializable {
     }
 
     public static R error() {
-        return new R(BusinessCode.ERROR.getCode(), BusinessCode.ERROR.getDesc(), "{}", System.currentTimeMillis()
-        );
+        return new R(BusinessCode.ERROR.getCode(), BusinessCode.ERROR.getDesc(), "{}", System.currentTimeMillis());
     }
 
+    public static R error(String statusText) {
+        return new R(BusinessCode.ERROR.getCode(), statusText, "{}", System.currentTimeMillis());
+    }
 
     public int getStatusCode() {
         return statusCode;

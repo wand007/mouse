@@ -37,8 +37,8 @@ public class AddressEntity implements Serializable {
     @Column(name = "county", columnDefinition = "varchar(32) COMMENT '县/区'", nullable = false)
     private String county;
 
-    @Column(name = "address_detail", columnDefinition = "varchar(32) COMMENT '详细收货地址'", nullable = false)
-    private String addressDetail;
+    @Column(name = "address", columnDefinition = "varchar(32) COMMENT '详细收货地址'", nullable = false)
+    private String address;
 
     @Column(name = "area_code", columnDefinition = "varchar(32) COMMENT '地区编码'", nullable = false)
     private String areaCode;
@@ -61,6 +61,15 @@ public class AddressEntity implements Serializable {
     @Column(name = "update_time", columnDefinition = "datetime COMMENT '更新时间'", nullable = false)
     private LocalDateTime updateTime;
 
-   @Column(name = "deleted", columnDefinition = "tinyint unsigned DEFAULT '0' COMMENT '逻辑删除 0 未删除，1 删除'", nullable = false)
+    @Column(name = "deleted", columnDefinition = "tinyint unsigned DEFAULT '0' COMMENT '逻辑删除 0 未删除，1 删除'", nullable = false)
     private Boolean deleted;
+
+    /**
+     * 获取地址详情
+     *
+     * @return
+     */
+    public String onAddressDetail() {
+        return this.province + this.city + this.county + this.address;
+    }
 }

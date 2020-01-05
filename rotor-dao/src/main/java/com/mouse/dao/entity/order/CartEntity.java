@@ -47,8 +47,8 @@ public class CartEntity implements Serializable {
     @Column(name = "specifications", columnDefinition = "varchar(1023) DEFAULT '[]' COMMENT '商品规格值列表，采用JSON数组格式'", nullable = false)
     private String specifications;
 
-    @Column(name = "checked", columnDefinition = "tinyint unsigned DEFAULT '0' COMMENT '购物车中商品是否选择状态'", nullable = false)
-    private Boolean checked;
+    @Column(name = "is_checked", columnDefinition = "tinyint unsigned DEFAULT '0' COMMENT '购物车中商品是否选择状态'", nullable = false)
+    private Boolean isChecked;
 
     @Column(name = "pic_url", columnDefinition = "varchar(64) COMMENT '商品图片或者商品货品图片'", nullable = false)
     private String picUrl;
@@ -61,7 +61,7 @@ public class CartEntity implements Serializable {
     @Column(name = "update_time", columnDefinition = "datetime COMMENT '更新时间'", nullable = false)
     private LocalDateTime updateTime;
 
-   @Column(name = "deleted", columnDefinition = "tinyint unsigned DEFAULT '0' COMMENT '逻辑删除 0 未删除，1 删除'", nullable = false)
+    @Column(name = "deleted", columnDefinition = "tinyint unsigned DEFAULT '0' COMMENT '逻辑删除 0 未删除，1 删除'", nullable = false)
     private Boolean deleted;
 
 }

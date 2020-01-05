@@ -1,5 +1,6 @@
 package com.mouse.api.commons;
 
+import com.mouse.api.service.CartService;
 import com.mouse.api.service.CategoryService;
 import com.mouse.api.service.GoodsService;
 import com.mouse.api.system.SystemConfig;
@@ -7,6 +8,7 @@ import com.mouse.dao.entity.resource.CategoryEntity;
 import com.mouse.dao.entity.resource.GoodsEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -24,6 +26,9 @@ public class GoodsComm {
     GoodsService goodsService;
     @Autowired
     CategoryService categoryService;
+    @Autowired
+    CartService cartService;
+
 
     public List<Map<String, Object>> getCategoryList() {
         List<Map<String, Object>> categoryList = new ArrayList<>();
@@ -44,5 +49,24 @@ public class GoodsComm {
             categoryList.add(map);
         });
         return categoryList;
+    }
+
+    /**
+     * 验证购物车商品是否再售 -- 异步
+     *
+     * @param goodsId 商品ID
+     * @param cartId  购物车记录ID
+     */
+    @Async
+    public void asyncCheckIsOnSale(Integer goodsId, Integer cartId) {
+        GoodsEntity goodsEntity = goodsService.findById(goodsId).orElseGet(() -> {
+            GoodsEntity goods = new GoodsEntity();
+            goods.setIsOnSale(false);
+            return goods;
+        });
+        if (goodsEntity.getIsOnSale()) {
+            cartService.deleteById(cartId);
+            log.debug("系统自动删除失效购物车商品 goodsId=" + goodsId);
+        }
     }
 }

@@ -44,6 +44,24 @@ spring:
         #连接池最大阻塞等待时间（默认-1ms 使用负值表示没有限制）
         max-wait:
 
+  # 邮件 参数配置
+  mail:
+    host: smtp.hvyogo.com
+    username: code@hvyogo.com
+    password: Hvyogo.news666
+    default-encoding: UTF-8
+    properties:
+      mail:
+        smtp:
+          socketFactory:
+            class: javax.net.ssl.SSLSocketFactory
+          port: 465
+          auth: true
+          starttls:
+            enable: true
+            required: true
+
+
   ##Consul配置信息
   cloud:
     consul:

@@ -17,4 +17,6 @@ public interface ProductService {
      * @return
      */
     Optional<List<GoodsProductEntity>> findByGoodsId(Integer goodsId);
+
+    Optional<GoodsProductEntity> findById(Integer productId);
 }

@@ -21,6 +21,12 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     GoodsProductRepository goodsProductRepository;
 
+
+    @Override
+    public Optional<GoodsProductEntity> findById(Integer productId) {
+        return goodsProductRepository.findById(productId);
+    }
+
     /**
      * 根据商品ID查询商品货品表
      * @param goodsId 商品ID
