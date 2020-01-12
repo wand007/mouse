@@ -1,6 +1,5 @@
 package com.mouse.api.service;
 
-import com.mouse.dao.entity.operate.CouponEntity;
 import com.mouse.dao.entity.resource.GoodsEntity;
 import org.springframework.data.domain.Page;
 
@@ -64,4 +63,6 @@ public interface GoodsService {
     Integer countByIsOnSale();
 
     Optional<GoodsEntity> findByIdAndIsOnSale(String goodsId);
+
+    Optional<List<GoodsEntity>> findByIds(List<Integer> goodsIds);
 }

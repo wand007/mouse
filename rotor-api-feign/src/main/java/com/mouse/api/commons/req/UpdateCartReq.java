@@ -10,9 +10,9 @@ import java.io.Serializable;
  * @Date 2019-11-26
  */
 @Data
-public class SaveCartReq implements Serializable {
+public class UpdateCartReq implements Serializable {
 
-    private static final long serialVersionUID = 4581717326125424275L;
+    private static final long serialVersionUID = 3874692096982638365L;
     /**
      * 用户表的用户ID
      */
@@ -27,7 +27,6 @@ public class SaveCartReq implements Serializable {
      * 商品货品的数量
      */
     private Short number;
-
 
     /**
      * 购物车中商品是否选择状态

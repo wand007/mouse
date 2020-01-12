@@ -3,6 +3,7 @@ package com.mouse.api.client;
 import com.mouse.api.base.BaseClient;
 import com.mouse.api.commons.GoodsComm;
 import com.mouse.api.commons.req.SaveCartReq;
+import com.mouse.api.commons.req.UpdateCartReq;
 import com.mouse.api.commons.rsp.CartRsp;
 import com.mouse.api.feign.CartFeign;
 import com.mouse.api.service.CartService;
@@ -49,7 +50,6 @@ public class CartClient extends BaseClient implements CartFeign {
      * @return 用户购物车信息
      */
     @Override
-    @GetMapping("index")
     public R index(@RequestParam(name = "userId") Integer userId) {
         List<CartEntity> cartEntities = cartService.findByUserId(userId).orElseGet(() -> Arrays.asList());
         //商品总数量
@@ -114,7 +114,6 @@ public class CartClient extends BaseClient implements CartFeign {
      * @return 加入购物车操作结果
      */
     @Override
-    @PostMapping("add")
     public R add(@RequestParam(name = "userId") Integer userId,
                  @RequestBody SaveCartReq param) {
         Integer productId = param.getProductId();
@@ -123,13 +122,13 @@ public class CartClient extends BaseClient implements CartFeign {
         GoodsProductEntity product = productService.findById(productId).orElseThrow(() -> new BusinessException("此规格商品不存在"));
         Integer goodsId = product.getGoodsId();
         //判断商品是否可以购买
-        GoodsEntity goods = goodsService.findById(goodsId).orElseThrow(() -> new BusinessException("商品不存在"));
-        if (!goods.getIsOnSale()) {
+        GoodsEntity goodsEntity = goodsService.findById(goodsId).orElseThrow(() -> new BusinessException("商品不存在"));
+        if (!goodsEntity.getIsOnSale()) {
             return R.error("商品已下架");
         }
 
         //判断购物车中是否存在此规格商品
-        Optional<CartEntity> cartEntityOptional = cartService.findByUserIdAndGoodsIdAndProductId(goodsId, productId, userId);
+        Optional<CartEntity> cartEntityOptional = cartService.findByUserIdAndProductId(userId, productId);
 
         if (!cartEntityOptional.isPresent()) {
             //取得规格的信息,判断规格库存
@@ -164,7 +163,6 @@ public class CartClient extends BaseClient implements CartFeign {
      * @return 立即购买操作结果
      */
     @Override
-    @PostMapping("fastadd")
     public R fastadd(@RequestParam(name = "userId") Integer userId,
                      @RequestBody SaveCartReq param) {
         Integer productId = param.getProductId();
@@ -173,21 +171,22 @@ public class CartClient extends BaseClient implements CartFeign {
         GoodsProductEntity product = productService.findById(productId).orElseThrow(() -> new BusinessException("此规格商品不存在"));
         Integer goodsId = product.getGoodsId();
         //判断商品是否可以购买
-        GoodsEntity goods = goodsService.findById(goodsId).orElseThrow(() -> new BusinessException("商品不存在"));
-        if (!goods.getIsOnSale()) {
+        GoodsEntity goodsEntity = goodsService.findById(goodsId).orElseThrow(() -> new BusinessException("商品不存在"));
+        if (!goodsEntity.getIsOnSale()) {
             return R.error("商品已下架");
         }
 
-        //判断购物车中是否存在此规格商品
-        Optional<CartEntity> cartEntityOptional = cartService.findByUserIdAndGoodsIdAndProductId(goodsId, productId, userId);
+        //根据商品ID和产品ID判断购物车中是否存在此规格商品
+        Optional<CartEntity> cartEntityOptional = cartService.findByUserIdAndProductId(userId, productId);
+        CartEntity cartEntity;
         if (!cartEntityOptional.isPresent()) {
             //取得规格的信息,判断规格库存
             if (product == null || number > product.getNumber()) {
                 return R.error("库存不足");
             }
-            cartService.save(param.getUserId(), param.getProductId());
+            cartEntity = cartService.save(param.getUserId(), param.getProductId());
         } else {
-            CartEntity cartEntity = cartEntityOptional.get();
+            cartEntity = cartEntityOptional.get();
             //取得规格的信息,判断规格库存
             int num = cartEntity.getNumber() + number;
             if (num > product.getNumber()) {
@@ -197,7 +196,7 @@ public class CartClient extends BaseClient implements CartFeign {
             cartService.updateNumberById(cartEntity.getId(), num);
         }
 
-        return R.success(cartEntityOptional != null ? cartEntityOptional.getId() : param.getId());
+        return R.success(cartEntity.getId());
     }
 
 
@@ -209,26 +208,42 @@ public class CartClient extends BaseClient implements CartFeign {
      * @return 修改结果
      */
     @Override
-    @PostMapping("update")
     public R update(@RequestParam(name = "userId") Integer userId,
-                    @RequestBody SaveCartReq param) {
+                    @RequestBody UpdateCartReq param) {
+        //根据商品ID和产品ID判断购物车中是否存在此规格商品
+        CartEntity cartEntity = cartService.findByUserIdAndProductId(userId, param.getProductId())
+                .orElseThrow(() -> new BusinessException("购物车记录不存在"));
+        GoodsEntity goodsEntity = goodsService.findById(cartEntity.getGoodsId())
+                .orElseThrow(() -> new BusinessException("商品已下架"));
+        if (!goodsEntity.getIsOnSale()) {
+            throw new BusinessException("商品已下架");
+        }
+        GoodsProductEntity productEntity = productService.findById(cartEntity.getProductId())
+                .orElseThrow(() -> new BusinessException("商品记录不存在"));
+
+        if (productEntity.getNumber() < param.getNumber()) {
+            throw new BusinessException("库存不足");
+        }
+        int num = cartEntity.getNumber() + param.getNumber();
+        cartService.updateNumberById(cartEntity.getId(), num);
         return R.success();
     }
-
 
     /**
      * 购物车商品货品勾选状态
      * <p>
      * 如果原来没有勾选，则设置勾选状态；如果商品已经勾选，则设置非勾选状态。
      *
-     * @param userId 用户ID
-     * @param params 购物车商品信息， { productIds: xxx, isChecked: 1/0 }
-     * @return 购物车信息
+     * @param userId     用户ID
+     * @param isChecked  选中状态
+     * @param productIds 产品ID集合
+     * @return
      */
     @Override
-    @PostMapping("checked")
     public R checked(@RequestParam(name = "userId") Integer userId,
-                     @RequestBody List<SaveCartReq> params) {
+                     @RequestParam(name = "isChecked") Boolean isChecked,
+                     @RequestBody List<Integer> productIds) {
+        cartService.updateChecked(userId, productIds, isChecked);
         return R.success();
     }
 
@@ -248,9 +263,9 @@ public class CartClient extends BaseClient implements CartFeign {
      * 失败则 { errno: XXX, errmsg: XXX }
      */
     @Override
-    @PostMapping("delete")
     public R delete(@RequestParam(name = "userId") Integer userId,
                     @RequestBody List<String> productIds) {
+        cartService.deleteByUserIdAndProductIdIn(userId, productIds);
         return R.success();
     }
 

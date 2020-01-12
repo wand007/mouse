@@ -1,17 +1,13 @@
 package com.mouse.api.hystrix;
 
-import com.mouse.api.commons.req.SaveAddressReq;
 import com.mouse.api.commons.req.SaveCartReq;
-import com.mouse.api.feign.AddressFeign;
+import com.mouse.api.commons.req.UpdateCartReq;
 import com.mouse.api.feign.CartFeign;
 import com.mouse.core.base.R;
 import feign.hystrix.FallbackFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import java.util.List;
 
 /**
@@ -43,12 +39,12 @@ public class HystrixCartFeign implements FallbackFactory<CartFeign> {
             }
 
             @Override
-            public R update(Integer userId, SaveCartReq param) {
+            public R update(Integer userId, UpdateCartReq param) {
                 return R.error();
             }
 
             @Override
-            public R checked(Integer userId, List<SaveCartReq> params) {
+            public R checked(Integer userId, Boolean isChecked, List<Integer> productIds) {
                 return R.error();
             }
 

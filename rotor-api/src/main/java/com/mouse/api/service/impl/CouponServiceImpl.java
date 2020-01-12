@@ -19,6 +19,7 @@ import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -35,6 +36,17 @@ public class CouponServiceImpl implements CouponService {
     @Autowired
     CouponUserRepository couponUserRepository;
 
+
+    @Override
+    public Optional<CouponEntity> findById(Integer couponId) {
+        return couponRepository.findById(couponId);
+    }
+
+    @Override
+    public Optional<CouponEntity> findByCode(String code) {
+        return couponRepository.findByCode(code);
+    }
+
     @Override
     public Page<CouponEntity> findPage(Integer pageNum, Integer pageSize) {
         Page<CouponEntity> page = couponRepository.findAll((Specification<CouponEntity>) (root, criteriaQuery, criteriaBuilder) -> {
@@ -42,12 +54,12 @@ public class CouponServiceImpl implements CouponService {
             Predicate predicate = criteriaBuilder.conjunction();
             List<Expression<Boolean>> expressions = predicate.getExpressions();
             expressions.add(criteriaBuilder.equal(root.<Boolean>get("deleted"), false));
-
             return predicate;
         }, PageRequest.of(pageNum, pageSize, new Sort(Sort.Direction.DESC, "id")));
 
         return page;
     }
+
 
     @Override
     public Page<CouponEntity> findByUserIdPage(Integer userId, Integer pageNum, Integer pageSize) {
@@ -72,5 +84,11 @@ public class CouponServiceImpl implements CouponService {
         }, PageRequest.of(pageNum, pageSize, new Sort(Sort.Direction.DESC, "id")));
 
         return page;
+    }
+
+
+    @Override
+    public Optional<List<CouponEntity>> findByIdIn(List<Integer> couponIds) {
+        return couponUserRepository.findByDeletedAndIdIn(false, couponIds);
     }
 }

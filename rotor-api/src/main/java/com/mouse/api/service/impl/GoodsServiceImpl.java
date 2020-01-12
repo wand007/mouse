@@ -47,6 +47,11 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
+    public Optional<List<GoodsEntity>> findByIds(List<Integer> goodsIds) {
+        return goodsRepository.findByIdIn(goodsIds);
+    }
+
+    @Override
     public Page<GoodsEntity> findByIsNewAndIsOnSaleAndPage(Integer pageNum, Integer pageSize) {
         Page<GoodsEntity> page = goodsRepository.findAll((Specification<GoodsEntity>) (root, criteriaQuery, criteriaBuilder) -> {
 

@@ -7,6 +7,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -66,18 +67,18 @@ public class CouponEntity implements Serializable {
     private Short days;
 
     @Column(name = "start_time", columnDefinition = "datetime COMMENT '使用券开始时间'", nullable = false)
-    private Date startTime;
+    private LocalDateTime startTime;
 
     @Column(name = "end_time", columnDefinition = "datetime COMMENT '使用券截至时间'", nullable = false)
-    private Date endTime;
+    private LocalDateTime endTime;
 
     @CreationTimestamp
     @Column(name = "add_time", columnDefinition = "datetime  COMMENT '创建时间'", nullable = false)
-    private Date addTime;
+    private LocalDateTime addTime;
 
     @UpdateTimestamp
     @Column(name = "update_time", columnDefinition = "datetime COMMENT '更新时间'", nullable = false)
-    private Date updateTime;
+    private LocalDateTime updateTime;
 
     @Column(name = "deleted", columnDefinition = "tinyint unsigned DEFAULT '0' COMMENT '逻辑删除 0 未删除，1 删除'", nullable = false)
     private Boolean deleted;

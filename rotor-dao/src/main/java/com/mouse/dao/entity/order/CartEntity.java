@@ -61,7 +61,5 @@ public class CartEntity implements Serializable {
     @Column(name = "update_time", columnDefinition = "datetime COMMENT '更新时间'", nullable = false)
     private LocalDateTime updateTime;
 
-    @Column(name = "deleted", columnDefinition = "tinyint unsigned DEFAULT '0' COMMENT '逻辑删除 0 未删除，1 删除'", nullable = false)
-    private Boolean deleted;
 
 }

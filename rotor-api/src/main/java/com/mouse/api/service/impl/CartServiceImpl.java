@@ -33,6 +33,10 @@ public class CartServiceImpl implements CartService {
     @Autowired
     GoodsProductRepository goodsProductRepository;
 
+    @Override
+    public Optional<CartEntity> findById(Integer cartId) {
+        return cartRepository.findById(cartId);
+    }
 
     /**
      * 根据用户ID查询用户购物车记录
@@ -58,14 +62,13 @@ public class CartServiceImpl implements CartService {
     /**
      * 根据用户ID和商品ID和产品ID查询用户购物车记录
      *
-     * @param goodsId   商品ID
      * @param productId 产品ID
      * @param userId    用户ID
      * @return
      */
     @Override
-    public Optional<CartEntity> findByUserIdAndGoodsIdAndProductId(Integer goodsId, Integer productId, Integer userId) {
-        return cartRepository.findByUserIdAndGoodsIdAndProductId(userId, goodsId, productId);
+    public Optional<CartEntity> findByUserIdAndProductId(Integer userId, Integer productId) {
+        return cartRepository.findByUserIdAndProductId(userId, productId);
     }
 
     /**
@@ -88,7 +91,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void save(Integer userId, Integer productId) {
+    public CartEntity save(Integer userId, Integer productId) {
         GoodsProductEntity product = goodsProductRepository.findById(productId).get();
         GoodsEntity goods = goodsRepository.findById(product.getGoodsId()).get();
         CartEntity cartEntity = new CartEntity();
@@ -105,12 +108,28 @@ public class CartServiceImpl implements CartService {
         cartEntity.setPrice(product.getPrice());
         cartEntity.setSpecifications(product.getSpecifications());
         cartEntity.setIsChecked(true);
-        cartEntity.setDeleted(false);
         cartRepository.save(cartEntity);
+        return cartEntity;
     }
 
     @Override
     public void updateNumberById(Integer id, Integer number) {
-        cartRepository.updateNumberById(id,number);
+        cartRepository.updateNumberById(id, number);
+    }
+
+    @Override
+    public void updateChecked(Integer userId, List<Integer> productIds, Boolean isChecked) {
+        cartRepository.updateChecked(userId, productIds, isChecked);
+    }
+
+    @Override
+    public void deleteByUserIdAndProductIdIn(Integer userId, List<String> productIds) {
+        cartRepository.deleteByUserIdAndProductIdIn(userId, productIds);
+    }
+
+
+    @Override
+    public Optional<List<CartEntity>> findByUserIdAndIsChecked(Integer userId, boolean checked) {
+        return cartRepository.findByUserIdAndIsChecked(userId, checked);
     }
 }

@@ -1,7 +1,7 @@
 package com.mouse.api.client;
 
-import com.mouse.api.commons.GoodsComm;
 import com.mouse.api.base.BaseClient;
+import com.mouse.api.commons.GoodsComm;
 import com.mouse.api.commons.enums.RefererEnum;
 import com.mouse.api.feign.ResourcesFeign;
 import com.mouse.api.service.*;
@@ -154,7 +154,7 @@ public class ResourcesClient extends BaseClient implements ResourcesFeign {
         List<BrandEntity> brandEntities = brandService.findByGoodsId(info.getBrandId());
 
         // 评论
-        Page<CommentEntity> commentEntityPage = commentService.findByValueIdPage(id, 0, 2);
+        Page<CommentEntity> commentEntityPage = commentService.findPage(id, null, null, 0, 2);
         List<CommentEntity> content = commentEntityPage.getContent();
         List<Map<String, Object>> commentsVo = new ArrayList<>(content.size());
         for (CommentEntity comment : commentEntityPage) {

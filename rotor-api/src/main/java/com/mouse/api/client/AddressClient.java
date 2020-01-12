@@ -74,8 +74,7 @@ public class AddressClient extends BaseClient implements AddressFeign {
                 result.add(addressRsp);
             });
         }
-        PageNation pageNation = PageNation.of(page.getNumber(), page.getSize(), page.getTotalElements(), page.getTotalPages(), result);
-        return R.success(pageNation);
+        return R.success(PageNation.of(page, result));
     }
 
     /**

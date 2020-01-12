@@ -1,6 +1,7 @@
 package com.mouse.api.feign;
 
 import com.mouse.api.commons.req.SaveCartReq;
+import com.mouse.api.commons.req.UpdateCartReq;
 import com.mouse.api.hystrix.HystrixCartFeign;
 import com.mouse.core.base.R;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -67,20 +68,22 @@ public interface CartFeign {
      */
     @PostMapping("update")
     R update(@RequestParam(name = "userId") Integer userId,
-             @RequestBody SaveCartReq param);
+             @RequestBody UpdateCartReq param);
 
     /**
      * 购物车商品货品勾选状态
      * <p>
      * 如果原来没有勾选，则设置勾选状态；如果商品已经勾选，则设置非勾选状态。
      *
-     * @param userId 用户ID
-     * @param params  购物车商品信息， { productIds: xxx, isChecked: 1/0 }
-     * @return 购物车信息
+     * @param userId     用户ID
+     * @param isChecked  选中状态
+     * @param productIds 产品ID集合
+     * @return
      */
     @PostMapping("checked")
     R checked(@RequestParam(name = "userId") Integer userId,
-              @RequestBody List<SaveCartReq> params);
+              @RequestParam(name = "isChecked") Boolean isChecked,
+              @RequestBody List<Integer> productIds);
 
     /**
      * 购物车商品删除

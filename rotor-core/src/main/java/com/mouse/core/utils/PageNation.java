@@ -1,6 +1,8 @@
 package com.mouse.core.utils;
 
 
+import org.springframework.data.domain.Page;
+
 import java.util.List;
 
 /**
@@ -26,8 +28,9 @@ public class PageNation<T> {
         this.list = list;
     }
 
-    public static PageNation of(int pageNum, int pageSize, long totalCount, int totalPageCount, List list) {
-        return new PageNation(pageNum, pageSize, totalCount, totalPageCount, list);
+
+    public static PageNation of(Page page, List list) {
+        return new PageNation(page.getNumber(), page.getSize(), page.getTotalElements(), page.getTotalPages(), list);
     }
 
     PageNation() {

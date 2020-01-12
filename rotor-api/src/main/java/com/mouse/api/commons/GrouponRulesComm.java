@@ -55,9 +55,6 @@ public class GrouponRulesComm {
                 result.add(grouponRuleVo);
             }
         }
-
-        PageNation pageNation = PageNation.of(page.getNumber(), page.getSize(), page.getTotalElements(), page.getTotalPages(), result);
-
-        return pageNation;
+        return PageNation.of(page, result);
     }
 }

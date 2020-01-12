@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -17,11 +18,27 @@ public interface GoodsRepository extends JpaRepository<GoodsEntity, Integer>, Jp
     /**
      * 统计再售商品数量
      *
-     * @param isOnSale
+     * @param isOnSale 再售状态
      * @param deleted
      * @return
      */
     Integer countByIsOnSaleAndDeleted(Boolean isOnSale, Boolean deleted);
 
+    /**
+     * 统计再售商品详情
+     *
+     * @param goodsId  商品ID
+     * @param isOnSale 再售状态
+     * @param deleted
+     * @return
+     */
     Optional<GoodsEntity> countByIdAndIsOnSaleAndDeleted(String goodsId, Boolean isOnSale, Boolean deleted);
+
+    /**
+     * 根据商品ID集合查询商品信息
+     *
+     * @param goodsIds 商品ID集合
+     * @return
+     */
+    Optional<List<GoodsEntity>> findByIdIn(List<Integer> goodsIds);
 }
