@@ -19,11 +19,19 @@ public enum BusinessCode {
     SUCCESS(10000, "操作成功"),
     SUCCESS_PART(10001, "部分成功"),
 
-
     /**
      * 此状态码前端直接提示
      */
     ALERT_MESSAGE(12000, "前端直接提示的 指导用户进一步操作的信息"),
+
+    //用户相关
+    USER_NOT_LOGIN(20100, "登录获取更好体验~"),
+
+    USER_NON_EXISTENT(20101, "用户不存在"),
+
+    USER_LOGIN_TIME_OUT(20102, "登录超时"),
+
+    USER_STATUS_ERROR(20103, "用户状态异常"),
 
     ERROR_PARAMS(400201, "参数非法"),
     /**

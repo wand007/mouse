@@ -37,16 +37,26 @@ public class RotorConfig {
          * 邮件发送标记
          */
         public static final String MAIL_SEND_FLAG = "MAIL_SEND_FLAG_";
-        /**
-         * 同一用户ID最多可创建的收货地址记录数量
-         */
-        public static final Integer HVYOSV_ADDRESS_MAX = 20;
 
-        /**
-         * 同一用户ID最多可创建的银行卡记录数量
-         */
-        public static final Integer HVYOSV_BANK_CARD_MAX = 20;
 
+    }
+
+    /**
+     * 登陆相关
+     */
+    public static final class LoginPrefix {
+        /**
+         * 用户授权缓存
+         */
+        public static final String REDIS_TOKEN_AUTH = "S_AUTH:";
+        /**
+         * 用户常用信息缓存
+         */
+        public static final String REDIS_TOKEN_USER_INFO = "S_USER_INFO:";
+        /**
+         * 授权session 过期时间    前端用
+         */
+        public static final int REDIS_TOKEN_AUTH_EXPIRED_DEFAUT = 7;
 
     }
 }
