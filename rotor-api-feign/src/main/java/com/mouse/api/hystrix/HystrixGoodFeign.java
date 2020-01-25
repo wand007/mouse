@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import java.util.List;
 
 /**
  * @author ; lidongdong
@@ -17,7 +16,7 @@ import java.util.List;
  */
 @Slf4j
 @Component
-public class HystrixFootprintFeign implements FallbackFactory<FootprintFeign> {
+public class HystrixGoodFeign implements FallbackFactory<FootprintFeign> {
     @Override
     public FootprintFeign create(Throwable throwable) {
 

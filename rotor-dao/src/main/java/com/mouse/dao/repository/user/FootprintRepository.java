@@ -12,5 +12,12 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface FootprintRepository extends JpaRepository<FootprintEntity, Integer>, JpaSpecificationExecutor<FootprintEntity> {
-
+    /**
+     * 删除用户访问记录
+     *
+     * @param id     记录ID
+     * @param userId 用户ID
+     * @return
+     */
+    Integer deleteByIdAndUserId(String id, Integer userId);
 }
