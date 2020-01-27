@@ -9,7 +9,7 @@ import org.springframework.data.domain.Page;
  * @Date 2019-12-21
  */
 public interface FootprintService {
-    void asyncSave(Integer userId, Integer goodsId);
+    void save(Integer userId, Integer goodsId);
 
     /**
      * 删除用户访问记录

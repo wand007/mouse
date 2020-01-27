@@ -38,12 +38,12 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Override
     public Integer countByIsOnSale() {
-        return goodsRepository.countByIsOnSaleAndDeleted(true,false);
+        return goodsRepository.countByIsOnSaleAndDeleted(true, false);
     }
 
     @Override
     public Optional<GoodsEntity> findByIdAndIsOnSale(String goodsId) {
-        return goodsRepository.countByIdAndIsOnSaleAndDeleted(goodsId,true,false);
+        return goodsRepository.countByIdAndIsOnSaleAndDeleted(goodsId, true, false);
     }
 
     @Override
@@ -178,5 +178,32 @@ public class GoodsServiceImpl implements GoodsService {
         }, PageRequest.of(pageNum, pageSize, new Sort(Sort.Direction.DESC, "id")));
 
         return page;
+    }
+
+    @Override
+    public List<GoodsEntity> findByBrandIdAndIsHotAndIsNewAndKeyword(Integer brandId, Boolean isHot, Boolean isNew, String keyword) {
+
+        List<GoodsEntity> entityList = goodsRepository.findAll((Specification<GoodsEntity>) (root, criteriaQuery, criteriaBuilder) -> {
+
+            Predicate predicate = criteriaBuilder.conjunction();
+            List<Expression<Boolean>> expressions = predicate.getExpressions();
+            expressions.add(criteriaBuilder.equal(root.<Boolean>get("deleted"), false));
+            expressions.add(criteriaBuilder.equal(root.<Boolean>get("isOnSale"), true));
+            if (brandId != null) {
+                expressions.add(criteriaBuilder.equal(root.<Integer>get("brandId"), brandId));
+            }
+            if (isHot != null) {
+                expressions.add(criteriaBuilder.equal(root.<Boolean>get("isHot"), isHot));
+            }
+            if (isNew != null) {
+                expressions.add(criteriaBuilder.equal(root.<Boolean>get("isNew"), isNew));
+            }
+            if (StringUtils.isNotBlank(keyword)) {
+                expressions.add(criteriaBuilder.like(root.get("keywords"), "%" + keyword + "%"));
+            }
+            return predicate;
+        }, new Sort(Sort.Direction.DESC, "id"));
+
+        return entityList;
     }
 }

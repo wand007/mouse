@@ -56,4 +56,5 @@ public interface CollectService {
      * @param valueId 如果type=0，则是商品ID；如果type=1，则是专题ID
      */
     void save(Integer userId, Integer type, Integer valueId);
+
 }

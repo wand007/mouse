@@ -1,7 +1,7 @@
 package com.mouse.api.hystrix;
 
 import com.mouse.api.commons.req.FeedbackReq;
-import com.mouse.api.feign.Feedbackfeign;
+import com.mouse.api.feign.FeedbackFeign;
 import com.mouse.core.base.R;
 import feign.hystrix.FallbackFactory;
 import lombok.extern.slf4j.Slf4j;
@@ -14,11 +14,11 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
-public class HystrixWxFeedbackfeign implements FallbackFactory<Feedbackfeign> {
+public class HystrixWxFeedbackfeign implements FallbackFactory<FeedbackFeign> {
     @Override
-    public Feedbackfeign create(Throwable throwable) {
+    public FeedbackFeign create(Throwable throwable) {
         log.error("错误信息：", throwable);
-        return new Feedbackfeign() {
+        return new FeedbackFeign() {
             @Override
             public Object submit(Integer userId, FeedbackReq param) {
                 return R.error();

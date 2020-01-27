@@ -65,4 +65,6 @@ public interface GoodsService {
     Optional<GoodsEntity> findByIdAndIsOnSale(String goodsId);
 
     Optional<List<GoodsEntity>> findByIds(List<Integer> goodsIds);
+
+    List<GoodsEntity> findByBrandIdAndIsHotAndIsNewAndKeyword(Integer brandId, Boolean isHot, Boolean isNew, String keyword);
 }

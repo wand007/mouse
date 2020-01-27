@@ -2,7 +2,7 @@ package com.mouse.api.client;
 
 import com.mouse.api.base.BaseClient;
 import com.mouse.api.commons.req.FeedbackReq;
-import com.mouse.api.feign.WxFeedbackfeign;
+import com.mouse.api.feign.FeedbackFeign;
 import com.mouse.api.service.FeedbackService;
 import com.mouse.api.service.UserService;
 import com.mouse.core.base.BusinessException;
@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 @RestController
 @RequestMapping("/wx/feedback")
-public class WxFeedbackClient extends BaseClient implements WxFeedbackfeign {
+public class WxFeedbackClient extends BaseClient implements FeedbackFeign {
     @Autowired
     UserService userService;
     @Autowired

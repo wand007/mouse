@@ -1,6 +1,6 @@
 package com.mouse.api.hystrix;
 
-import com.mouse.api.feign.FootprintFeign;
+import com.mouse.api.feign.GoodsFeign;
 import com.mouse.core.base.R;
 import feign.hystrix.FallbackFactory;
 import lombok.extern.slf4j.Slf4j;
@@ -16,19 +16,34 @@ import javax.validation.constraints.Min;
  */
 @Slf4j
 @Component
-public class HystrixGoodFeign implements FallbackFactory<FootprintFeign> {
+public class HystrixGoodFeign implements FallbackFactory<GoodsFeign> {
     @Override
-    public FootprintFeign create(Throwable throwable) {
+    public GoodsFeign create(Throwable throwable) {
 
         log.error("错误信息：", throwable);
-        return new FootprintFeign() {
+        return new GoodsFeign() {
             @Override
-            public R delete(Integer userId, String id) {
+            public R detail(Integer userId, Integer id) {
                 return R.error();
             }
 
             @Override
-            public R findPage(Integer userId, @Min(value = 0, message = "必须从0页开始") Integer pageNum, @Min(value = 1, message = "每页必须大于1") @Max(value = 300, message = "每页必须小于300") Integer pageSize) {
+            public R category(Integer id) {
+                return R.error();
+            }
+
+            @Override
+            public R findPage(Integer categoryId, Integer brandId, String keyword, Boolean isNew, Boolean isHot, Integer userId, Integer referer, @Min(value = 0, message = "必须从0页开始") Integer pageNum, @Min(value = 1, message = "每页必须大于1") @Max(value = 300, message = "每页必须小于300") Integer pageSize, String sort, String order) {
+                return R.error();
+            }
+
+            @Override
+            public R related(Integer id) {
+                return R.error();
+            }
+
+            @Override
+            public R count() {
                 return R.error();
             }
         };

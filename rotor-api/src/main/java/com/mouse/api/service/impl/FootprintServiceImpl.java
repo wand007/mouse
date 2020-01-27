@@ -9,7 +9,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.Expression;
@@ -27,9 +26,8 @@ public class FootprintServiceImpl implements FootprintService {
     @Autowired
     FootprintRepository footprintRepository;
 
-    @Async
     @Override
-    public void asyncSave(Integer userId, Integer goodsId) {
+    public void save(Integer userId, Integer goodsId) {
         FootprintEntity footprint = new FootprintEntity();
         footprint.setUserId(userId);
         footprint.setGoodsId(goodsId);

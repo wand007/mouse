@@ -1,6 +1,7 @@
 package com.mouse.api.client;
 
 import com.mouse.api.base.BaseClient;
+import com.mouse.api.commons.FootprintComm;
 import com.mouse.api.commons.GoodsComm;
 import com.mouse.api.commons.enums.RefererEnum;
 import com.mouse.api.feign.ResourcesFeign;
@@ -41,6 +42,8 @@ public class ResourcesClient extends BaseClient implements ResourcesFeign {
 
     @Autowired
     GoodsComm goodsComm;
+    @Autowired
+    FootprintComm footprintComm;
     @Autowired
     GoodsService goodsService;
     @Autowired
@@ -183,7 +186,7 @@ public class ResourcesClient extends BaseClient implements ResourcesFeign {
 
         // 记录用户的足迹 异步处理
         if (userId != null) {
-            footprintService.asyncSave(userId, id);
+            footprintComm.asyncSave(userId, id);
         }
 
         Map<String, Object> data = new HashMap<>();

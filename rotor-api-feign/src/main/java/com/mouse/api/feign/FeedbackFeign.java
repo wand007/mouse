@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(name = "http://ROTOR-API",
         path = "rotor-api/wx/feedback",
         fallbackFactory = HystrixWxFeedbackfeign.class)
-public interface Feedbackfeign {
+public interface FeedbackFeign {
     /**
      * 添加意见反馈
      *
