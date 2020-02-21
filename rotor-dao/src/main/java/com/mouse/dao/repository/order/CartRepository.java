@@ -81,4 +81,13 @@ public interface CartRepository extends JpaRepository<CartEntity, Integer>, JpaS
      * @return
      */
     Optional<List<CartEntity>> findByUserIdAndIsChecked(Integer userId, boolean checked);
+
+    /**
+     * 根据购物车记录ID和用户ID删除购物车记录
+     *
+     * @param userId  用户ID
+     * @param cartIds 购物车记录ID集合
+     * @return
+     */
+    Integer deleteByUserIdAndIdIn(Integer userId, List<Integer> cartIds);
 }

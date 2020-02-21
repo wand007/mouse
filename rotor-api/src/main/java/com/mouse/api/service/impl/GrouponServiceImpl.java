@@ -6,8 +6,6 @@ import com.mouse.dao.entity.operate.GrouponEntity;
 import com.mouse.dao.repository.operate.GrouponRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -36,6 +34,10 @@ public class GrouponServiceImpl implements GrouponService {
         return grouponRepository.findById(grouponId);
     }
 
+    @Override
+    public Optional<GrouponEntity> findByOrderId(String orderId) {
+        return grouponRepository.findByOrderId(orderId);
+    }
 
     @Override
     public Optional<List<GrouponEntity>> findByIdAndStatus(Integer grouponId) {
@@ -45,7 +47,34 @@ public class GrouponServiceImpl implements GrouponService {
 
     @Override
     public Integer countById(Integer grouponId) {
-        return grouponRepository.countByIdAndDeletedAndStatusIn(grouponId,false,Arrays.asList(GrouponConstant.STATUS_ON, GrouponConstant.STATUS_SUCCEED, GrouponConstant.STATUS_FAIL));
+        return grouponRepository.countByIdAndDeletedAndStatusIn(grouponId, false, Arrays.asList(GrouponConstant.STATUS_ON, GrouponConstant.STATUS_SUCCEED, GrouponConstant.STATUS_FAIL));
+    }
+
+    @Override
+    public Long countByGrouponId(Integer grouponId) {
+        return grouponRepository.count((Specification<GrouponEntity>) (root, criteriaQuery, criteriaBuilder) -> {
+
+            Predicate predicate = criteriaBuilder.conjunction();
+            List<Expression<Boolean>> expressions = predicate.getExpressions();
+            expressions.add(criteriaBuilder.equal(root.<Boolean>get("deleted"), false));
+            expressions.add(criteriaBuilder.equal(root.<Integer>get("status"), GrouponConstant.STATUS_NONE));
+            expressions.add(criteriaBuilder.equal(root.<Integer>get("grouponId"), grouponId));
+            return predicate;
+        });
+    }
+
+    @Override
+    public Long countByUserIdAndGrouponId(Integer userId, Integer grouponId) {
+        return grouponRepository.count((Specification<GrouponEntity>) (root, criteriaQuery, criteriaBuilder) -> {
+
+            Predicate predicate = criteriaBuilder.conjunction();
+            List<Expression<Boolean>> expressions = predicate.getExpressions();
+            expressions.add(criteriaBuilder.equal(root.<Boolean>get("deleted"), false));
+            expressions.add(criteriaBuilder.equal(root.<Integer>get("status"), GrouponConstant.STATUS_NONE));
+            expressions.add(criteriaBuilder.equal(root.<Integer>get("grouponId"), grouponId));
+            expressions.add(criteriaBuilder.equal(root.<Integer>get("userId"), grouponId));
+            return predicate;
+        });
     }
 
     @Override
@@ -90,4 +119,8 @@ public class GrouponServiceImpl implements GrouponService {
     }
 
 
+    @Override
+    public void createGroupon(GrouponEntity groupon) {
+        grouponRepository.save(groupon);
+    }
 }

@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -22,4 +23,14 @@ public interface CouponRepository extends JpaRepository<CouponEntity, Integer>, 
      * @return
      */
     Optional<CouponEntity> findByCode(String code);
+
+    /**
+     * 查询优惠券集合
+     *
+     * @param deleted
+     * @param couponIds
+     * @return
+     */
+    Optional<List<CouponEntity>> findByDeletedAndIdIn(boolean deleted, List<Integer> couponIds);
+
 }

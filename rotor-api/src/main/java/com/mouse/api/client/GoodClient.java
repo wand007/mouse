@@ -254,7 +254,14 @@ public class GoodClient extends BaseClient implements GoodsFeign {
      */
     @Override
     public R related(@RequestParam("id") Integer id) {
-        return R.success();
+        GoodsEntity goodsEntity = goodsService.findById(id).orElseThrow(() -> new BusinessException("商品记录不存在"));
+
+        // 目前的商品推荐算法仅仅是推荐同类目的其他商品
+        int cid = goodsEntity.getCategoryId();
+
+        // 查找六个相关商品
+        Page<GoodsEntity> goodsEntityPage = goodsService.findByCategoryIdPage(cid, 0, 6);
+        return R.success(goodsEntityPage.getContent());
     }
 
     /**
@@ -264,6 +271,7 @@ public class GoodClient extends BaseClient implements GoodsFeign {
      */
     @Override
     public R count() {
-        return R.success();
+        Integer goodsCount = goodsService.countByIsOnSale();
+        return R.success(goodsCount);
     }
 }

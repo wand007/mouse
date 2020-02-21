@@ -21,4 +21,12 @@ public interface GrouponService {
     List<GrouponEntity> findByUserId(Integer userId);
 
     Integer countById(Integer grouponId);
+
+    Optional<GrouponEntity> findByOrderId(String orderId);
+
+    Long countByGrouponId(Integer grouponId);
+
+    Long countByUserIdAndGrouponId(Integer userId, Integer grouponId);
+
+    void createGroupon(GrouponEntity groupon);
 }

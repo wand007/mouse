@@ -19,4 +19,6 @@ public interface GrouponRepository extends JpaRepository<GrouponEntity, Integer>
     Optional<List<GrouponEntity>> findByIdAndDeletedAndStatusIn(Integer grouponId, boolean deleted, List<Short> statuss);
 
     Integer countByIdAndDeletedAndStatusIn(Integer grouponId, boolean deleted, List<Short> statuss);
+
+    Optional<GrouponEntity> findByOrderId(String orderId);
 }

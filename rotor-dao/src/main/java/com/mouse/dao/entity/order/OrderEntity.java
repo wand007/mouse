@@ -4,7 +4,10 @@ import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -20,8 +23,8 @@ import java.time.LocalDateTime;
 public class OrderEntity implements Serializable {
     private static final long serialVersionUID = 8354296396321446889L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @Column(name = "id", columnDefinition = "varchar(32) COMMENT '订单ID'", nullable = false)
+    private String id;
 
     @Column(name = "user_id", columnDefinition = "int unsigned DEFAULT '0' COMMENT '用户表的用户ID'", nullable = false)
     private Integer userId;
@@ -98,6 +101,6 @@ public class OrderEntity implements Serializable {
     @Column(name = "update_time", columnDefinition = "datetime COMMENT '更新时间'", nullable = false)
     private LocalDateTime updateTime;
 
-   @Column(name = "deleted", columnDefinition = "tinyint unsigned DEFAULT '0' COMMENT '逻辑删除 0 未删除，1 删除'", nullable = false)
+    @Column(name = "deleted", columnDefinition = "tinyint unsigned DEFAULT '0' COMMENT '逻辑删除 0 未删除，1 删除'", nullable = false)
     private Boolean deleted;
 }

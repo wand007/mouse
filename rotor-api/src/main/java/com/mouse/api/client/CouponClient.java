@@ -9,6 +9,7 @@ import com.mouse.api.service.*;
 import com.mouse.core.base.BusinessException;
 import com.mouse.core.base.R;
 import com.mouse.core.enums.CouponConstant;
+import com.mouse.core.enums.CouponTypeEnum;
 import com.mouse.core.utils.PageNation;
 import com.mouse.dao.entity.operate.CouponEntity;
 import com.mouse.dao.entity.operate.CouponUserEntity;
@@ -32,7 +33,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.mouse.core.enums.CouponConstant.*;
+import static com.mouse.core.enums.CouponConstant.STATUS_EXPIRED;
+import static com.mouse.core.enums.CouponConstant.STATUS_OUT;
 
 /**
  * @author ; lidongdong
@@ -232,11 +234,11 @@ public class CouponClient extends BaseClient implements CouponFeign {
         // 优惠券分发类型
         // 例如注册赠券类型的优惠券不能领取
         Short type = couponEntity.getType();
-        if (type.equals(TYPE_REGISTER)) {
+        if (type.equals(CouponTypeEnum.TYPE_REGISTER.getCode())) {
             return R.error("新用户优惠券自动发送");
-        } else if (type.equals(TYPE_CODE)) {
+        } else if (type.equals(CouponTypeEnum.TYPE_CODE.getCode())) {
             return R.error("优惠券只能兑换");
-        } else if (!type.equals(TYPE_COMMON)) {
+        } else if (!type.equals(CouponTypeEnum.TYPE_COMMON.getCode())) {
             return R.error("优惠券类型不支持");
         }
 
@@ -287,11 +289,11 @@ public class CouponClient extends BaseClient implements CouponFeign {
         // 优惠券分发类型
         // 例如注册赠券类型的优惠券不能领取
         Short type = coupon.getType();
-        if (type.equals(CouponConstant.TYPE_REGISTER)) {
+        if (type.equals(CouponTypeEnum.TYPE_REGISTER.getCode())) {
             return R.error("新用户优惠券自动发送");
-        } else if (type.equals(CouponConstant.TYPE_COMMON)) {
+        } else if (type.equals(CouponTypeEnum.TYPE_COMMON.getCode())) {
             return R.error("优惠券只能领取，不能兑换");
-        } else if (!type.equals(CouponConstant.TYPE_CODE)) {
+        } else if (!type.equals(CouponTypeEnum.TYPE_CODE.getCode())) {
             return R.error("优惠券类型不支持");
         }
 

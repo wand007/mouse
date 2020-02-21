@@ -19,4 +19,6 @@ public interface ProductService {
     Optional<List<GoodsProductEntity>> findByGoodsId(Integer goodsId);
 
     Optional<GoodsProductEntity> findById(Integer productId);
+
+    Integer reduceStock(Integer productId, Short number);
 }

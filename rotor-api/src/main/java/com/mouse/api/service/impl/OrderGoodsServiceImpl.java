@@ -23,7 +23,12 @@ public class OrderGoodsServiceImpl implements OrderGoodsService {
 
 
     @Override
-    public Optional<List<OrderGoodsEntity>> findByOrderId(Integer orderId) {
+    public Optional<List<OrderGoodsEntity>> findByOrderId(String orderId) {
         return orderGoodsRepository.findByOrderIdAndDeleted(orderId,false);
+    }
+
+    @Override
+    public void add(OrderGoodsEntity orderGoodsEntity) {
+        orderGoodsRepository.save(orderGoodsEntity);
     }
 }

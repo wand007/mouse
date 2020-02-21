@@ -29,11 +29,17 @@ public class ProductServiceImpl implements ProductService {
 
     /**
      * 根据商品ID查询商品货品表
+     *
      * @param goodsId 商品ID
      * @return
      */
     @Override
     public Optional<List<GoodsProductEntity>> findByGoodsId(Integer goodsId) {
-        return goodsProductRepository.findByGoodsIdAndDeleted(goodsId,false);
+        return goodsProductRepository.findByGoodsIdAndDeleted(goodsId, false);
+    }
+
+    @Override
+    public Integer reduceStock(Integer productId, Short number) {
+        return goodsProductRepository.updateStock(productId, number);
     }
 }

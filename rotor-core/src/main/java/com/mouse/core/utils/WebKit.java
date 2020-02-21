@@ -34,7 +34,7 @@ public class WebKit {
     /**
      * 授权的 token header
      */
-    public static final String HVYOSV_AUTH_HEADER = "Authorization";
+    public static final String  AUTH_HEADER = "Authorization";
 
     public static String getRequestIp(HttpServletRequest request) {
         String ip = request.getHeader("X-Forwarded-For");

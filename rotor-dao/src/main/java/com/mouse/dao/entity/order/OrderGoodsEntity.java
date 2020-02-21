@@ -24,7 +24,7 @@ public class OrderGoodsEntity implements Serializable {
     private Integer id;
 
     @Column(name = "order_id", columnDefinition = "int unsigned DEFAULT '0' COMMENT '订单表的订单ID'", nullable = false)
-    private Integer orderId;
+    private String orderId;
 
     @Column(name = "goods_id", columnDefinition = "int unsigned DEFAULT '0' COMMENT '商品表的商品ID'", nullable = false)
     private Integer goodsId;

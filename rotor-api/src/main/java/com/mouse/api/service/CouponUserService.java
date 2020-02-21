@@ -13,9 +13,13 @@ import java.util.Optional;
  */
 public interface CouponUserService {
 
-    Page<CouponUserEntity> findPage(Integer userId, Integer status, Integer pageNum, Integer pageSize);
+
+    Optional<CouponUserEntity> findById(Integer id);
 
     Optional<List<CouponUserEntity>> findByUserId(Integer userId);
+
+    Page<CouponUserEntity> findPage(Integer userId, Integer status, Integer pageNum, Integer pageSize);
+
 
     /**
      * 统计优惠券可领取数量
@@ -41,4 +45,8 @@ public interface CouponUserService {
      * @param couponId 优惠券ID
      */
     void save(Integer userId, Integer couponId);
+
+
+    void update(CouponUserEntity couponUser);
+
 }

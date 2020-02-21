@@ -35,7 +35,7 @@ public class SafeInterceptor extends BaseController implements HandlerIntercepto
         String uri = request.getRequestURI();
 
         //授权token
-        String authToken = request.getHeader(WebKit.HVYOSV_AUTH_HEADER);
+        String authToken = request.getHeader(WebKit. AUTH_HEADER);
         //下载、导出等部分接口无法在header中的值，所以将token放在了请求URL地址中
         if (StringUtils.isBlank(authToken)) {
             authToken = request.getParameter("token");

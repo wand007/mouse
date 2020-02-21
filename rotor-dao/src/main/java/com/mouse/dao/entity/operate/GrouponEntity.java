@@ -23,7 +23,7 @@ public class GrouponEntity implements Serializable {
     private Integer id;
 
     @Column(name = "order_id", columnDefinition = "int unsigned DEFAULT '0' COMMENT '关联的订单ID'")
-    private Integer orderId;
+    private String orderId;
 
     @Column(name = "groupon_id", columnDefinition = "int unsigned DEFAULT '0' COMMENT '参与的团购ID，仅当user_type不是1'")
     private Integer grouponId;

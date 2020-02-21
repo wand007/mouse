@@ -86,4 +86,6 @@ public interface CartService {
      * @return
      */
     Optional<CartEntity> findById(Integer cartId);
+
+    void clearGoods(Integer userId, List<Integer> cartIds);
 }

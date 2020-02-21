@@ -132,4 +132,9 @@ public class CartServiceImpl implements CartService {
     public Optional<List<CartEntity>> findByUserIdAndIsChecked(Integer userId, boolean checked) {
         return cartRepository.findByUserIdAndIsChecked(userId, checked);
     }
+
+    @Override
+    public void clearGoods(Integer userId, List<Integer> cartIds) {
+        cartRepository.deleteByUserIdAndIdIn(userId,cartIds);
+    }
 }

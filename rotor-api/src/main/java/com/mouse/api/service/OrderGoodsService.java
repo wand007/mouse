@@ -11,5 +11,7 @@ import java.util.Optional;
  * @Date 2019-12-22
  */
 public interface OrderGoodsService {
-    Optional<List<OrderGoodsEntity>> findByOrderId(Integer orderId);
+    Optional<List<OrderGoodsEntity>> findByOrderId(String orderId);
+
+    void add(OrderGoodsEntity orderGoodsEntity);
 }

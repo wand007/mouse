@@ -41,7 +41,7 @@ public class CouponUserEntity implements Serializable {
     private LocalDateTime endTime;
 
     @Column(name = "order_id", columnDefinition = "int unsigned DEFAULT '0' COMMENT '订单ID'")
-    private Integer orderId;
+    private String orderId;
 
     @CreationTimestamp
     @Column(name = "add_time", columnDefinition = "datetime  COMMENT '创建时间'", nullable = false)

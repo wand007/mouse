@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 /**
  * @author ; lidongdong
  * @Description
@@ -40,4 +42,6 @@ public interface AddressRepository extends JpaRepository<AddressEntity, Integer>
     @Transactional(rollbackFor = Exception.class, timeout = 30, isolation = Isolation.READ_COMMITTED)
     @Query(value = "update AddressEntity r set r.deleted = ?2, r.updateTime = now() where r.id = ?1")
     Integer updateDeleteByIdAndUserId(Integer id, Boolean deleted);
+
+    Optional<AddressEntity> findByIdAndUserId(Integer id, Integer userId);
 }
