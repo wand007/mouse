@@ -69,7 +69,7 @@ public class HomeClient extends BaseClient implements HomeFeign {
      * @return
      */
     @Override
-    public R index(Integer userId) {
+    public R index(String userId) {
         Page<CouponEntity> couponEntityPage;
         if (userId == null) {
             couponEntityPage = couponService.findPage(0, 3);

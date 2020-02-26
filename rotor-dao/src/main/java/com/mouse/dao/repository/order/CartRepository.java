@@ -27,7 +27,7 @@ public interface CartRepository extends JpaRepository<CartEntity, Integer>, JpaS
      * @param userId
      * @return
      */
-    Optional<List<CartEntity>> findByUserId(Integer userId);
+    Optional<List<CartEntity>> findByUserId(String userId);
 
     /**
      * 根据用户ID和产品ID查询用户购物车记录
@@ -36,7 +36,7 @@ public interface CartRepository extends JpaRepository<CartEntity, Integer>, JpaS
      * @param userId    用户ID
      * @return
      */
-    Optional<CartEntity> findByUserIdAndProductId(Integer userId, Integer productId);
+    Optional<CartEntity> findByUserIdAndProductId(String userId, Integer productId);
 
     /**
      * 修改购物车中商品数量
@@ -60,7 +60,7 @@ public interface CartRepository extends JpaRepository<CartEntity, Integer>, JpaS
     @Modifying
     @Transactional(rollbackFor = Exception.class, timeout = 30, isolation = Isolation.READ_COMMITTED)
     @Query(value = "update CartEntity r set r.isChecked = ?3, r.updateTime = now() where r.userId = ?1 and r.productId in (?2)")
-    Integer updateChecked(Integer userId, List<Integer> productIds, Boolean isChecked);
+    Integer updateChecked(String userId, List<Integer> productIds, Boolean isChecked);
 
     /**
      * 删除购物车记录
@@ -71,7 +71,7 @@ public interface CartRepository extends JpaRepository<CartEntity, Integer>, JpaS
     @Modifying
     @Transactional(rollbackFor = Exception.class, timeout = 30, isolation = Isolation.READ_COMMITTED)
     @Query(value = "delete from CartEntity r  where r.userId = ?1 and r.productId in (?2)")
-    Integer deleteByUserIdAndProductIdIn(Integer userId, List<String> productIds);
+    Integer deleteByUserIdAndProductIdIn(String userId, List<String> productIds);
 
     /**
      * 查询用户选中的购物车记录
@@ -80,7 +80,7 @@ public interface CartRepository extends JpaRepository<CartEntity, Integer>, JpaS
      * @param checked 选中状态
      * @return
      */
-    Optional<List<CartEntity>> findByUserIdAndIsChecked(Integer userId, boolean checked);
+    Optional<List<CartEntity>> findByUserIdAndIsChecked(String userId, boolean checked);
 
     /**
      * 根据购物车记录ID和用户ID删除购物车记录
@@ -89,5 +89,5 @@ public interface CartRepository extends JpaRepository<CartEntity, Integer>, JpaS
      * @param cartIds 购物车记录ID集合
      * @return
      */
-    Integer deleteByUserIdAndIdIn(Integer userId, List<Integer> cartIds);
+    Integer deleteByUserIdAndIdIn(String userId, List<Integer> cartIds);
 }

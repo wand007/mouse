@@ -28,7 +28,7 @@ public interface CartFeign {
      * @return 用户购物车信息
      */
     @GetMapping("index")
-    R index(@RequestParam(name = "userId") Integer userId);
+    R index(@RequestParam(name = "userId") String userId);
 
     /**
      * 加入商品到购物车
@@ -41,7 +41,7 @@ public interface CartFeign {
      * @return 加入购物车操作结果
      */
     @PostMapping("add")
-    R add(@RequestParam(name = "userId") Integer userId,
+    R add(@RequestParam(name = "userId") String userId,
           @RequestBody SaveCartReq param);
 
     /**
@@ -56,7 +56,7 @@ public interface CartFeign {
      * @return 立即购买操作结果
      */
     @PostMapping("fastadd")
-    R fastadd(@RequestParam(name = "userId") Integer userId,
+    R fastadd(@RequestParam(name = "userId") String userId,
               @RequestBody SaveCartReq param);
 
     /**
@@ -67,7 +67,7 @@ public interface CartFeign {
      * @return 修改结果
      */
     @PostMapping("update")
-    R update(@RequestParam(name = "userId") Integer userId,
+    R update(@RequestParam(name = "userId") String userId,
              @RequestBody UpdateCartReq param);
 
     /**
@@ -81,7 +81,7 @@ public interface CartFeign {
      * @return
      */
     @PostMapping("checked")
-    R checked(@RequestParam(name = "userId") Integer userId,
+    R checked(@RequestParam(name = "userId") String userId,
               @RequestParam(name = "isChecked") Boolean isChecked,
               @RequestBody List<Integer> productIds);
 
@@ -100,7 +100,7 @@ public interface CartFeign {
      * 失败则 { errno: XXX, errmsg: XXX }
      */
     @PostMapping("delete")
-    R delete(@RequestParam(name = "userId") Integer userId,
+    R delete(@RequestParam(name = "userId") String userId,
              @RequestBody List<String> productIds);
 
     /**
@@ -112,7 +112,7 @@ public interface CartFeign {
      * @return 购物车商品货品数量
      */
     @GetMapping("count")
-    R count(@RequestParam(name = "userId") Integer userId);
+    R count(@RequestParam(name = "userId") String userId);
 
     /**
      * 购物车下单
@@ -128,7 +128,7 @@ public interface CartFeign {
      * @return 购物车操作结果
      */
     @GetMapping("checkout")
-    R checkout(@RequestParam(name = "userId") Integer userId,
+    R checkout(@RequestParam(name = "userId") String userId,
                @RequestParam(name = "cartId") Integer cartId,
                @RequestParam(name = "addressId") Integer addressId,
                @RequestParam(name = "couponId") Integer couponId,

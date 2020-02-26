@@ -31,7 +31,7 @@ public interface CommentFeign {
      * @return 发表评论操作结果
      */
     @PostMapping("post")
-    R post(@RequestParam(name = "userId") Integer userId,
+    R post(@RequestParam(name = "userId") String userId,
            @RequestBody SaveCommentReq param);
 
     /**

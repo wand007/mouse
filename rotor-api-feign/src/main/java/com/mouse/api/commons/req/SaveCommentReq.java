@@ -31,7 +31,7 @@ public class SaveCommentReq implements Serializable {
     /**
      * 用户表的用户ID
      */
-    private Integer userId;
+    private String userId;
 
     /**
      * 是否含有图片

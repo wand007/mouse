@@ -67,7 +67,7 @@ public class CouponServiceImpl implements CouponService {
 
 
     @Override
-    public Page<CouponEntity> findByUserIdPage(Integer userId, Integer pageNum, Integer pageSize) {
+    public Page<CouponEntity> findByUserIdPage(String userId, Integer pageNum, Integer pageSize) {
 
         List<CouponUserEntity> couponUserEntities = couponUserRepository.findByUserIdAndDeleted(userId, false).orElseGet(() -> new ArrayList<>());
         List<Integer> couponIds = couponUserEntities.stream().map(CouponUserEntity::getCouponId).collect(Collectors.toList());
@@ -107,7 +107,7 @@ public class CouponServiceImpl implements CouponService {
      * @return
      */
     @Override
-    public CouponEntity checkCoupon(Integer userId, Integer couponId, Integer userCouponId, BigDecimal checkedGoodsPrice) {
+    public CouponEntity checkCoupon(String userId, Integer couponId, Integer userCouponId, BigDecimal checkedGoodsPrice) {
         CouponEntity couponEntity = couponRepository.findById(couponId).orElseThrow(() -> new BusinessException("拼团记录不存在"));
 
         CouponUserEntity couponUserEntity = couponUserRepository.findById(userCouponId).orElseGet(() -> {

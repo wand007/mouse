@@ -16,9 +16,9 @@ public interface CouponUserService {
 
     Optional<CouponUserEntity> findById(Integer id);
 
-    Optional<List<CouponUserEntity>> findByUserId(Integer userId);
+    Optional<List<CouponUserEntity>> findByUserId(String userId);
 
-    Page<CouponUserEntity> findPage(Integer userId, Integer status, Integer pageNum, Integer pageSize);
+    Page<CouponUserEntity> findPage(String userId, Integer status, Integer pageNum, Integer pageSize);
 
 
     /**
@@ -36,7 +36,7 @@ public interface CouponUserService {
      * @param couponId 优惠券ID
      * @return
      */
-    Integer countByUserIdAndCouponId(Integer userId, Integer couponId);
+    Integer countByUserIdAndCouponId(String userId, Integer couponId);
 
     /**
      * 保存用户优惠券领取记录
@@ -44,7 +44,7 @@ public interface CouponUserService {
      * @param userId   用户ID
      * @param couponId 优惠券ID
      */
-    void save(Integer userId, Integer couponId);
+    void save(String userId, Integer couponId);
 
 
     void update(CouponUserEntity couponUser);

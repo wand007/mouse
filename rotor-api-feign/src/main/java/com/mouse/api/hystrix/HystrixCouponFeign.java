@@ -29,22 +29,22 @@ public class HystrixCouponFeign implements FallbackFactory<CouponFeign> {
             }
 
             @Override
-            public R findPersonalPage(Integer userId, Integer status, @Min(value = 0, message = "必须从0页开始") Integer pageNum, @Min(value = 1, message = "每页必须大于1") @Max(value = 300, message = "每页必须小于300") Integer pageSize) {
+            public R findPersonalPage(String userId, Integer status, @Min(value = 0, message = "必须从0页开始") Integer pageNum, @Min(value = 1, message = "每页必须大于1") @Max(value = 300, message = "每页必须小于300") Integer pageSize) {
                 return R.error();
             }
 
             @Override
-            public R availableList(Integer userId, Integer cartId, Integer grouponRulesId) {
+            public R availableList(String userId, Integer cartId, Integer grouponRulesId) {
                 return R.error();
             }
 
             @Override
-            public R receive(Integer userId, Integer couponId) {
+            public R receive(String userId, Integer couponId) {
                 return R.error();
             }
 
             @Override
-            public R exchange(Integer userId, String code) {
+            public R exchange(String userId, String code) {
                 return R.error();
             }
         };

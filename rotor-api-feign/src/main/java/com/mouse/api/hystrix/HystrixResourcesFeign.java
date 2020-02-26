@@ -23,12 +23,12 @@ public class HystrixResourcesFeign implements FallbackFactory<ResourcesFeign> {
         log.error("错误信息：", throwable);
         return new ResourcesFeign() {
             @Override
-            public R findPage(Integer categoryId, Integer brandId, String keyword, Boolean isNew, Boolean isHot, Integer userId, Integer referer, @Min(value = 0, message = "必须从0页开始") Integer pageNum, @Min(value = 1, message = "每页必须大于1") @Max(value = 300, message = "每页必须小于300") Integer pageSize, String sort, String order) {
+            public R findPage(Integer categoryId, Integer brandId, String keyword, Boolean isNew, Boolean isHot, String userId, Integer referer, @Min(value = 0, message = "必须从0页开始") Integer pageNum, @Min(value = 1, message = "每页必须大于1") @Max(value = 300, message = "每页必须小于300") Integer pageSize, String sort, String order) {
                 return R.error();
             }
 
             @Override
-            public R detail(Integer userId, Integer id) {
+            public R detail(String userId, Integer id) {
                 return R.error();
             }
 

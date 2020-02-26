@@ -30,7 +30,7 @@ public interface AddressFeign {
      * @return
      */
     @GetMapping("findPage")
-    R findPage(@RequestParam(name = "userId") Integer userId,
+    R findPage(@RequestParam(name = "userId") String userId,
                @Min(value = 0, message = "必须从0页开始")
                @RequestParam(name = "pageNum", defaultValue = "0", required = false) Integer pageNum,
                @Min(value = 1, message = "每页必须大于1")
@@ -46,7 +46,7 @@ public interface AddressFeign {
      * @return 收货地址详情
      */
     @GetMapping("detail")
-    R detail(@RequestParam(name = "userId") Integer userId,
+    R detail(@RequestParam(name = "userId") String userId,
              @RequestParam(name = "id") Integer id);
 
 
@@ -76,7 +76,7 @@ public interface AddressFeign {
      * @return 删除操作结果
      */
     @PostMapping("delete")
-    R delete(@RequestParam(name = "userId") Integer userId,
+    R delete(@RequestParam(name = "userId") String userId,
              @RequestParam(name = "id") Integer id);
 }
 

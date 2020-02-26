@@ -18,7 +18,7 @@ public interface CollectService {
      * @param goodsId
      * @return
      */
-    Integer countByUserIdAndValueId(Integer userId, Integer goodsId);
+    Integer countByUserIdAndValueId(String userId, Integer goodsId);
 
     /**
      * 用户收藏统计列表
@@ -29,7 +29,7 @@ public interface CollectService {
      * @param pageSize
      * @return
      */
-    Page<CollectEntity> findPage(Integer userId, Byte type, Integer pageNum, Integer pageSize);
+    Page<CollectEntity> findPage(String userId, Byte type, Integer pageNum, Integer pageSize);
 
     /**
      * 查询用户收藏记录
@@ -39,7 +39,7 @@ public interface CollectService {
      * @param valueId 如果type=0，则是商品ID；如果type=1，则是专题ID
      * @return
      */
-    Optional<CollectEntity> findByUserIdAndValueIdAndType(Integer userId, Integer valueId, Integer type);
+    Optional<CollectEntity> findByUserIdAndValueIdAndType(String userId, Integer valueId, Integer type);
 
     /**
      * 删除收藏记录
@@ -55,6 +55,6 @@ public interface CollectService {
      * @param type    收藏类型，如果type=0，则是商品ID；如果type=1，则是专题ID
      * @param valueId 如果type=0，则是商品ID；如果type=1，则是专题ID
      */
-    void save(Integer userId, Integer type, Integer valueId);
+    void save(String userId, Integer type, Integer valueId);
 
 }

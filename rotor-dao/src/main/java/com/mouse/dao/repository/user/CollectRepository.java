@@ -15,7 +15,7 @@ import java.util.Optional;
 @Repository
 public interface CollectRepository extends JpaRepository<CollectEntity, Integer>, JpaSpecificationExecutor<CollectEntity> {
 
-    Integer countByUserIdAndValueIdAndDeleted(Integer userId, Integer goodsId, Boolean deleted);
+    Integer countByUserIdAndValueIdAndDeleted(String userId, Integer goodsId, Boolean deleted);
 
     /**
      * 查询用户收藏记录
@@ -25,5 +25,5 @@ public interface CollectRepository extends JpaRepository<CollectEntity, Integer>
      * @param valueId 如果type=0，则是商品ID；如果type=1，则是专题ID
      * @return
      */
-    Optional<CollectEntity> findByUserIdAndValueIdAndType(Integer userId, Integer valueId, Integer type);
+    Optional<CollectEntity> findByUserIdAndValueIdAndType(String userId, Integer valueId, Integer type);
 }

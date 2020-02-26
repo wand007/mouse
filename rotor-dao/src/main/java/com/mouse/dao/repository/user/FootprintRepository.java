@@ -19,5 +19,5 @@ public interface FootprintRepository extends JpaRepository<FootprintEntity, Inte
      * @param userId 用户ID
      * @return
      */
-    Integer deleteByIdAndUserId(String id, Integer userId);
+    Integer deleteByIdAndUserId(String id, String userId);
 }

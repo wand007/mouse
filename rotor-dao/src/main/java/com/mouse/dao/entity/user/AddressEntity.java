@@ -26,7 +26,7 @@ public class AddressEntity implements Serializable {
     private String name;
 
     @Column(name = "user_id", columnDefinition = "int unsigned COMMENT '用户表的用户ID'", nullable = false)
-    private Integer userId;
+    private String userId;
 
     @Column(name = "province", columnDefinition = "varchar(32) COMMENT '省'", nullable = false)
     private String province;

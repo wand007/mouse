@@ -19,10 +19,10 @@ import java.util.Optional;
 @Repository
 public interface SearchHistoryRepository extends JpaRepository<SearchHistoryEntity, Integer>, JpaSpecificationExecutor<SearchHistoryEntity> {
 
-    Optional<List<SearchHistoryEntity>> findByUserIdAndDeleted(Integer userId, Boolean deleted);
+    Optional<List<SearchHistoryEntity>> findByUserIdAndDeleted(String userId, Boolean deleted);
 
     @Transactional
     @Modifying
     @Query(value = "delete from SearchHistoryEntity rc where rc.userId = ?1 ")
-    Integer deleteByUserId(Integer userId);
+    Integer deleteByUserId(String userId);
 }

@@ -95,7 +95,7 @@ public class ResourcesClient extends BaseClient implements ResourcesFeign {
                       @RequestParam(name = "keyword", required = false) String keyword,
                       @RequestParam(name = "isNew", required = false) Boolean isNew,
                       @RequestParam(name = "isHot", required = false) Boolean isHot,
-                      @RequestParam(name = "userId", required = false) Integer userId,
+                      @RequestParam(name = "userId", required = false) String userId,
                       @RequestParam(name = "referer") Integer referer,
                       @Min(value = 0, message = "必须从0页开始")
                       @RequestParam(name = "pageNum", defaultValue = "0", required = false) Integer pageNum,
@@ -133,7 +133,7 @@ public class ResourcesClient extends BaseClient implements ResourcesFeign {
     }
 
     @Override
-    public R detail(@RequestParam(name = "userId", required = false) Integer userId,
+    public R detail(@RequestParam(name = "userId", required = false) String userId,
                     @RequestParam(name = "id") Integer id) {
         // 商品信息
         GoodsEntity info = goodsService.findById(id).orElseThrow(() -> {

@@ -45,7 +45,7 @@ public class CartServiceImpl implements CartService {
      * @return
      */
     @Override
-    public Optional<List<CartEntity>> findByUserId(Integer userId) {
+    public Optional<List<CartEntity>> findByUserId(String userId) {
         return cartRepository.findByUserId(userId);
     }
 
@@ -67,7 +67,7 @@ public class CartServiceImpl implements CartService {
      * @return
      */
     @Override
-    public Optional<CartEntity> findByUserIdAndProductId(Integer userId, Integer productId) {
+    public Optional<CartEntity> findByUserIdAndProductId(String userId, Integer productId) {
         return cartRepository.findByUserIdAndProductId(userId, productId);
     }
 
@@ -78,7 +78,7 @@ public class CartServiceImpl implements CartService {
      * @return
      */
     @Override
-    public Long count(Integer userId) {
+    public Long count(String userId) {
         return cartRepository.count((Specification<CartEntity>) (root, criteriaQuery, criteriaBuilder) -> {
 
             Predicate predicate = criteriaBuilder.conjunction();
@@ -91,7 +91,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public CartEntity save(Integer userId, Integer productId) {
+    public CartEntity save(String userId, Integer productId) {
         GoodsProductEntity product = goodsProductRepository.findById(productId).get();
         GoodsEntity goods = goodsRepository.findById(product.getGoodsId()).get();
         CartEntity cartEntity = new CartEntity();
@@ -118,23 +118,23 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void updateChecked(Integer userId, List<Integer> productIds, Boolean isChecked) {
+    public void updateChecked(String userId, List<Integer> productIds, Boolean isChecked) {
         cartRepository.updateChecked(userId, productIds, isChecked);
     }
 
     @Override
-    public void deleteByUserIdAndProductIdIn(Integer userId, List<String> productIds) {
+    public void deleteByUserIdAndProductIdIn(String userId, List<String> productIds) {
         cartRepository.deleteByUserIdAndProductIdIn(userId, productIds);
     }
 
 
     @Override
-    public Optional<List<CartEntity>> findByUserIdAndIsChecked(Integer userId, boolean checked) {
+    public Optional<List<CartEntity>> findByUserIdAndIsChecked(String userId, boolean checked) {
         return cartRepository.findByUserIdAndIsChecked(userId, checked);
     }
 
     @Override
-    public void clearGoods(Integer userId, List<Integer> cartIds) {
+    public void clearGoods(String userId, List<Integer> cartIds) {
         cartRepository.deleteByUserIdAndIdIn(userId,cartIds);
     }
 }

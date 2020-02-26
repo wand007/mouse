@@ -32,7 +32,7 @@ public class UserClient extends BaseClient implements UserFeign {
     OrderService orderService;
 
     @Override
-    public R index(Integer userId) {
+    public R index(String userId) {
 
         List<OrderEntity> orderEntities = orderService.findByUserId(userId).orElseGet(() -> Arrays.asList());
 

@@ -24,6 +24,6 @@ public interface UserFeign {
      * @return 用户个人页面数据
      */
     @GetMapping("index")
-    R index(@RequestParam(defaultValue = "userId") Integer userId);
+    R index(@RequestParam(defaultValue = "userId") String userId);
 }
 

@@ -50,7 +50,7 @@ public class CartClient extends BaseClient implements CartFeign {
      * @return 用户购物车信息
      */
     @Override
-    public R index(@RequestParam(name = "userId") Integer userId) {
+    public R index(@RequestParam(name = "userId") String userId) {
         List<CartEntity> cartEntities = cartService.findByUserId(userId).orElseGet(() -> Arrays.asList());
         //商品总数量
         int goodsCount = 0;
@@ -114,7 +114,7 @@ public class CartClient extends BaseClient implements CartFeign {
      * @return 加入购物车操作结果
      */
     @Override
-    public R add(@RequestParam(name = "userId") Integer userId,
+    public R add(@RequestParam(name = "userId") String userId,
                  @RequestBody SaveCartReq param) {
         Integer productId = param.getProductId();
         Integer number = param.getNumber().intValue();
@@ -163,7 +163,7 @@ public class CartClient extends BaseClient implements CartFeign {
      * @return 立即购买操作结果
      */
     @Override
-    public R fastadd(@RequestParam(name = "userId") Integer userId,
+    public R fastadd(@RequestParam(name = "userId") String userId,
                      @RequestBody SaveCartReq param) {
         Integer productId = param.getProductId();
         Integer number = param.getNumber().intValue();
@@ -208,7 +208,7 @@ public class CartClient extends BaseClient implements CartFeign {
      * @return 修改结果
      */
     @Override
-    public R update(@RequestParam(name = "userId") Integer userId,
+    public R update(@RequestParam(name = "userId") String userId,
                     @RequestBody UpdateCartReq param) {
         //根据商品ID和产品ID判断购物车中是否存在此规格商品
         CartEntity cartEntity = cartService.findByUserIdAndProductId(userId, param.getProductId())
@@ -240,7 +240,7 @@ public class CartClient extends BaseClient implements CartFeign {
      * @return
      */
     @Override
-    public R checked(@RequestParam(name = "userId") Integer userId,
+    public R checked(@RequestParam(name = "userId") String userId,
                      @RequestParam(name = "isChecked") Boolean isChecked,
                      @RequestBody List<Integer> productIds) {
         cartService.updateChecked(userId, productIds, isChecked);
@@ -263,7 +263,7 @@ public class CartClient extends BaseClient implements CartFeign {
      * 失败则 { errno: XXX, errmsg: XXX }
      */
     @Override
-    public R delete(@RequestParam(name = "userId") Integer userId,
+    public R delete(@RequestParam(name = "userId") String userId,
                     @RequestBody List<String> productIds) {
         cartService.deleteByUserIdAndProductIdIn(userId, productIds);
         return R.success();
@@ -280,7 +280,7 @@ public class CartClient extends BaseClient implements CartFeign {
      */
     @Override
     @GetMapping("count")
-    public R count(@RequestParam(name = "userId") Integer userId) {
+    public R count(@RequestParam(name = "userId") String userId) {
 
         return R.success(cartService.count(userId));
     }
@@ -301,7 +301,7 @@ public class CartClient extends BaseClient implements CartFeign {
      */
     @Override
     @GetMapping("checkout")
-    public R checkout(@RequestParam(name = "userId") Integer userId,
+    public R checkout(@RequestParam(name = "userId") String userId,
                       @RequestParam(name = "cartId") Integer cartId,
                       @RequestParam(name = "addressId") Integer addressId,
                       @RequestParam(name = "couponId") Integer couponId,

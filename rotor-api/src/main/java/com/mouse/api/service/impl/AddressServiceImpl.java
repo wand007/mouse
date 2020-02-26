@@ -52,7 +52,7 @@ public class AddressServiceImpl implements AddressService {
      * @return
      */
     @Override
-    public Optional<AddressEntity> findByIdAndUserId(Integer id, Integer userId) {
+    public Optional<AddressEntity> findByIdAndUserId(Integer id, String userId) {
         AddressEntity product = new AddressEntity();
         product.setId(id);
         product.setUserId(userId);
@@ -69,7 +69,7 @@ public class AddressServiceImpl implements AddressService {
      * @return
      */
     @Override
-    public Page<AddressEntity> findPage(Integer userId, Integer pageNum, Integer pageSize) {
+    public Page<AddressEntity> findPage(String userId, Integer pageNum, Integer pageSize) {
 
         List<Sort.Order> orders = new ArrayList<>();
         orders.add(new Sort.Order(Sort.Direction.ASC, "isDefault"));

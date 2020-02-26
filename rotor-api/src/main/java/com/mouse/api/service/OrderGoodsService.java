@@ -14,4 +14,8 @@ public interface OrderGoodsService {
     Optional<List<OrderGoodsEntity>> findByOrderId(String orderId);
 
     void add(OrderGoodsEntity orderGoodsEntity);
+
+    Integer countByOrderId(String orderId);
+
+    Optional<List<OrderGoodsEntity>> findByOrderIdAndGoodsId(String orderId, Integer goodsId);
 }

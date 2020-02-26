@@ -90,7 +90,7 @@ public class GoodClient extends BaseClient implements GoodsFeign {
      * @return 商品详情
      */
     @Override
-    public R detail(@RequestParam(value = "userId", required = false) Integer userId,
+    public R detail(@RequestParam(value = "userId", required = false) String userId,
                     @RequestParam("id") Integer id) {
         // 商品信息
         GoodsEntity goodsEntity = goodsService.findById(id).orElseThrow(() -> new BusinessException("商品不存在"));
@@ -212,7 +212,7 @@ public class GoodClient extends BaseClient implements GoodsFeign {
             @RequestParam("keyword") String keyword,
             @RequestParam("isNew") Boolean isNew,
             @RequestParam("isHot") Boolean isHot,
-            @RequestParam("userId") Integer userId,
+            @RequestParam("userId") String userId,
             @RequestParam(name = "referer") Integer referer,
             @Min(value = 0, message = "必须从0页开始")
             @RequestParam(name = "pageNum", defaultValue = "0", required = false) Integer pageNum,

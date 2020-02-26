@@ -47,7 +47,7 @@ public class AddressClient extends BaseClient implements AddressFeign {
      * @return
      */
     @Override
-    public R findPage(@RequestParam(name = "userId") Integer userId,
+    public R findPage(@RequestParam(name = "userId") String userId,
                       @Min(value = 0, message = "必须从0页开始")
                       @RequestParam(name = "pageNum", defaultValue = "0", required = false) Integer pageNum,
                       @Min(value = 1, message = "每页必须大于1")
@@ -85,7 +85,7 @@ public class AddressClient extends BaseClient implements AddressFeign {
      * @return 收货地址详情
      */
     @Override
-    public R detail(@RequestParam(name = "userId") Integer userId,
+    public R detail(@RequestParam(name = "userId") String userId,
                     @RequestParam(name = "id") Integer id) {
         AddressRsp addressRsp = new AddressRsp();
 
@@ -139,7 +139,7 @@ public class AddressClient extends BaseClient implements AddressFeign {
      * @return 删除操作结果
      */
     @Override
-    public R delete(@RequestParam(name = "userId") Integer userId,
+    public R delete(@RequestParam(name = "userId") String userId,
                     @RequestParam(name = "id") Integer id) {
         addressService.delete(id);
         return R.success();

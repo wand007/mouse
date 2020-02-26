@@ -35,6 +35,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -125,7 +126,7 @@ public class OrderClient extends BaseClient implements OrderFeign {
      * @return
      */
     @Override
-    public R findPage(@RequestParam("userId") Integer userId,
+    public R findPage(@RequestParam("userId") String userId,
                       @RequestParam(defaultValue = "0") Integer showType,
                       @RequestParam(name = "referer") Integer referer,
                       @Min(value = 0, message = "必须从0页开始")
@@ -179,7 +180,7 @@ public class OrderClient extends BaseClient implements OrderFeign {
      * @return 订单详情
      */
     @Override
-    public R detail(@RequestParam("userId") Integer userId,
+    public R detail(@RequestParam("userId") String userId,
                     @RequestParam("orderId") String orderId) {
         // 订单信息
         OrderEntity orderEntity = orderService.findById(orderId).orElseThrow(() -> new BusinessException("订单不存在"));
@@ -234,7 +235,7 @@ public class OrderClient extends BaseClient implements OrderFeign {
      * @return 提交订单操作结果
      */
     @Override
-    public R submit(@RequestParam("userId") Integer userId, @RequestBody SaveOrderReq param) {
+    public R submit(@RequestParam("userId") String userId, @RequestBody SaveOrderReq param) {
 
         Integer cartId = param.getCartId();
         Integer addressId = param.getAddressId();
@@ -460,7 +461,7 @@ public class OrderClient extends BaseClient implements OrderFeign {
      * @return 取消订单操作结果
      */
     @Override
-    public R cancel(@RequestParam("userId") Integer userId,
+    public R cancel(@RequestParam("userId") String userId,
                     @RequestParam("orderId") String orderId) {
         RLock lock = redisLock.lock(orderId);
 
@@ -514,7 +515,7 @@ public class OrderClient extends BaseClient implements OrderFeign {
      * @return 支付订单ID
      */
     @Override
-    public R prepay(@RequestParam("userId") Integer userId, @RequestParam("orderId") String orderId, HttpServletRequest request) {
+    public R prepay(@RequestParam("userId") String userId, @RequestParam("orderId") String orderId) {
         return R.success();
     }
 
@@ -523,11 +524,10 @@ public class OrderClient extends BaseClient implements OrderFeign {
      *
      * @param userId
      * @param orderId
-     * @param request
      * @return
      */
     @Override
-    public R h5pay(@RequestParam("userId") Integer userId, @RequestParam("orderId") String orderId, HttpServletRequest request) {
+    public R h5pay(@RequestParam("userId") String userId, @RequestParam("orderId") String orderId) {
 
         OrderEntity orderEntity = orderService.findById(orderId).orElseThrow(() -> new BusinessException("订单记录不存在"));
         if (!orderEntity.getUserId().equals(userId)) {
@@ -580,8 +580,24 @@ public class OrderClient extends BaseClient implements OrderFeign {
      * @return 订单退款操作结果
      */
     @Override
-    public R refund(@RequestParam("userId") Integer userId,
+    public R refund(@RequestParam("userId") String userId,
                     @RequestParam("orderId") String orderId) {
+        OrderEntity orderEntity = orderService.findById(orderId).orElseThrow(() -> new BusinessException("订单记录不存在"));
+        if (!orderEntity.getUserId().equals(userId)) {
+            return R.error("不能支付ta人的订单");
+        }
+        OrderHandleOption handleOption = OrderUtil.build(orderEntity);
+        if (!handleOption.isRefund()) {
+            return R.error("订单不能取消");
+        }
+        // 设置订单申请退款状态
+        orderEntity.setOrderStatus(OrderUtil.STATUS_REFUND);
+        orderEntity.setEndTime(LocalDateTime.now());
+        if (orderService.updateStatusAndEndTime(orderEntity.getId(), orderEntity.getOrderStatus(), orderEntity.getEndTime()) == 0) {
+            return R.error("订单取消失败");
+        }
+        //TODO 发送邮件和短信通知，这里采用异步发送
+        // 有用户申请退款，邮件通知运营人员
         return R.success();
     }
 
@@ -593,8 +609,24 @@ public class OrderClient extends BaseClient implements OrderFeign {
      * @return 订单操作结果
      */
     @Override
-    public R confirm(@RequestParam("userId") Integer userId,
+    public R confirm(@RequestParam("userId") String userId,
                      @RequestParam("orderId") String orderId) {
+        OrderEntity orderEntity = orderService.findById(orderId).orElseThrow(() -> new BusinessException("订单记录不存在"));
+        if (!orderEntity.getUserId().equals(userId)) {
+            return R.error("不能支付ta人的订单");
+        }
+        OrderHandleOption handleOption = OrderUtil.build(orderEntity);
+        if (!handleOption.isConfirm()) {
+            return R.error("订单不能确认收货");
+        }
+        Integer comments = orderGoodsService.countByOrderId(orderId);
+        orderEntity.setComments(comments);
+
+        orderEntity.setOrderStatus(OrderUtil.STATUS_CONFIRM);
+        orderEntity.setConfirmTime(LocalDateTime.now());
+        if (orderService.updateStatusAndConfirmTime(orderEntity.getId(), orderEntity.getOrderStatus(), orderEntity.getConfirmTime()) == 0) {
+            return R.error("订单确认收货失败");
+        }
         return R.success();
     }
 
@@ -606,8 +638,17 @@ public class OrderClient extends BaseClient implements OrderFeign {
      * @return 订单操作结果
      */
     @Override
-    public R delete(@RequestParam("userId") Integer userId,
+    public R delete(@RequestParam("userId") String userId,
                     @RequestParam("orderId") String orderId) {
+        OrderEntity orderEntity = orderService.findById(orderId).orElseThrow(() -> new BusinessException("订单记录不存在"));
+        if (!orderEntity.getUserId().equals(userId)) {
+            return R.error("不能支付ta人的订单");
+        }
+        OrderHandleOption handleOption = OrderUtil.build(orderEntity);
+        if (!handleOption.isDelete()) {
+            return R.error("订单不能删除");
+        }
+        orderService.updateDeleteByOrderId(orderId, false);
         return R.success();
     }
 
@@ -620,10 +661,19 @@ public class OrderClient extends BaseClient implements OrderFeign {
      * @return 待评价订单商品信息
      */
     @Override
-    public R goods(@RequestParam("userId") Integer userId,
+    public R goods(@RequestParam("userId") String userId,
                    @RequestParam("orderId") String orderId,
                    @RequestParam("goodsId") Integer goodsId) {
-        return R.success();
+        List<OrderGoodsEntity> orderGoodsEntities = orderGoodsService.findByOrderIdAndGoodsId(orderId, goodsId)
+                .orElseThrow(() -> new BusinessException("订单商品记录不存在"));
+        int size = orderGoodsEntities.size();
+        if (size == 0) {
+            return R.error("订单商品记录异常");
+        }
+        Assert.state(size < 2, "存在多个符合条件的订单商品");
+
+        OrderGoodsEntity orderGoods = orderGoodsEntities.get(0);
+        return R.success(orderGoods);
     }
 
     /**
@@ -634,7 +684,7 @@ public class OrderClient extends BaseClient implements OrderFeign {
      * @return 订单操作结果
      */
     @Override
-    public R comment(@RequestParam("userId") Integer userId,
+    public R comment(@RequestParam("userId") String userId,
                      @RequestBody SaveCommentReq param) {
         return R.success();
     }

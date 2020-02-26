@@ -30,7 +30,7 @@ public interface GoodsFeign {
      * @return 商品详情
      */
     @GetMapping("detail")
-    R detail(@RequestParam(name = "userId", required = false) Integer userId,
+    R detail(@RequestParam(name = "userId", required = false) String userId,
              @RequestParam("id") Integer id);
 
     /**
@@ -67,7 +67,7 @@ public interface GoodsFeign {
             @RequestParam("keyword") String keyword,
             @RequestParam("isNew") Boolean isNew,
             @RequestParam("isHot") Boolean isHot,
-            @RequestParam("userId") Integer userId,
+            @RequestParam("userId") String userId,
             @RequestParam(name = "referer") Integer referer,
             @Min(value = 0, message = "必须从0页开始")
             @RequestParam(name = "pageNum", defaultValue = "0", required = false) Integer pageNum,

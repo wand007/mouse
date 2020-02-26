@@ -24,7 +24,7 @@ public class FootprintComm {
      * @param goodsId 商品ID
      */
     @Async
-    public void asyncSave(Integer userId, Integer goodsId) {
+    public void asyncSave(String userId, Integer goodsId) {
         try {
             footprintService.save(userId, goodsId);
         } catch (Exception e) {

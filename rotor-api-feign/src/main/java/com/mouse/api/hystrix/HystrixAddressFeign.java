@@ -25,12 +25,12 @@ public class HystrixAddressFeign implements FallbackFactory<AddressFeign> {
         log.error("错误信息：", throwable);
         return new AddressFeign() {
             @Override
-            public R findPage(Integer userId, @Min(value = 0, message = "必须从0页开始") Integer pageNum, @Min(value = 1, message = "每页必须大于1") @Max(value = 300, message = "每页必须小于300") Integer pageSize) {
+            public R findPage(String userId, @Min(value = 0, message = "必须从0页开始") Integer pageNum, @Min(value = 1, message = "每页必须大于1") @Max(value = 300, message = "每页必须小于300") Integer pageSize) {
                 return R.error();
             }
 
             @Override
-            public R detail(Integer userId, Integer id) {
+            public R detail(String userId, Integer id) {
                 return R.error();
             }
 
@@ -45,7 +45,7 @@ public class HystrixAddressFeign implements FallbackFactory<AddressFeign> {
             }
 
             @Override
-            public R delete(@RequestParam(name = "userId") Integer userId,
+            public R delete(@RequestParam(name = "userId") String userId,
                             @RequestParam(name = "id") Integer id) {
                 return R.error();
             }

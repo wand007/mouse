@@ -29,12 +29,12 @@ public class CollectServiceImpl implements CollectService {
 
 
     @Override
-    public Integer countByUserIdAndValueId(Integer userId, Integer goodsId) {
+    public Integer countByUserIdAndValueId(String userId, Integer goodsId) {
         return collectRepository.countByUserIdAndValueIdAndDeleted(userId, goodsId, false);
     }
 
     @Override
-    public Optional<CollectEntity> findByUserIdAndValueIdAndType(Integer userId, Integer valueId, Integer type) {
+    public Optional<CollectEntity> findByUserIdAndValueIdAndType(String userId, Integer valueId, Integer type) {
         return collectRepository.findByUserIdAndValueIdAndType(userId, valueId, type);
     }
 
@@ -44,7 +44,7 @@ public class CollectServiceImpl implements CollectService {
     }
 
     @Override
-    public void save(Integer userId, Integer type, Integer valueId) {
+    public void save(String userId, Integer type, Integer valueId) {
         CollectEntity collectEntity = new CollectEntity();
         collectEntity.setDeleted(false);
         collectEntity.setType(type);
@@ -54,7 +54,7 @@ public class CollectServiceImpl implements CollectService {
     }
 
     @Override
-    public Page<CollectEntity> findPage(Integer userId, Byte type, Integer pageNum, Integer pageSize) {
+    public Page<CollectEntity> findPage(String userId, Byte type, Integer pageNum, Integer pageSize) {
         Page<CollectEntity> page = collectRepository.findAll((Specification<CollectEntity>) (root, criteriaQuery, criteriaBuilder) -> {
 
             Predicate predicate = criteriaBuilder.conjunction();

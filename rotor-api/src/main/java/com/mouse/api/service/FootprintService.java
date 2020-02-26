@@ -9,7 +9,7 @@ import org.springframework.data.domain.Page;
  * @Date 2019-12-21
  */
 public interface FootprintService {
-    void save(Integer userId, Integer goodsId);
+    void save(String userId, Integer goodsId);
 
     /**
      * 删除用户访问记录
@@ -18,7 +18,7 @@ public interface FootprintService {
      * @param userId 用户ID
      * @return
      */
-    void delete(Integer userId, String id);
+    void delete(String userId, String id);
 
     /**
      * 查询用户足迹分页列表记录
@@ -28,6 +28,6 @@ public interface FootprintService {
      * @param pageSize
      * @return
      */
-    Page<FootprintEntity> findPage(Integer userId, Integer pageNum, Integer pageSize);
+    Page<FootprintEntity> findPage(String userId, Integer pageNum, Integer pageSize);
 
 }

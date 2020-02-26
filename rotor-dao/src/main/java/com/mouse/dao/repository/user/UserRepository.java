@@ -14,7 +14,7 @@ import java.util.Optional;
  * @Date 2019-11-26
  */
 @Repository
-public interface UserRepository extends JpaRepository<UserEntity, Integer>, JpaSpecificationExecutor<UserEntity> {
+public interface UserRepository extends JpaRepository<UserEntity, String>, JpaSpecificationExecutor<UserEntity> {
 
     /**
      * 查询用户集合
@@ -22,5 +22,5 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer>, JpaS
      * @param userIds 用户ID集合
      * @return
      */
-    Optional<List<UserEntity>> findByIdIn(List<Integer> userIds);
+    Optional<List<UserEntity>> findByIdIn(List<String> userIds);
 }

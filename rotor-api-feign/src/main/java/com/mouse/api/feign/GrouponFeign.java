@@ -44,7 +44,7 @@ public interface GrouponFeign {
      * @return 团购活动详情
      */
     @GetMapping("detail")
-    R detail(@RequestParam(name = "userId") Integer userId,
+    R detail(@RequestParam(name = "userId") String userId,
              @RequestParam(name = "grouponId") Integer grouponId);
 
     /**
@@ -64,7 +64,7 @@ public interface GrouponFeign {
      * @return 用户开团或入团情况
      */
     @GetMapping("my")
-    R my(@RequestParam(name = "userId") Integer userId,
+    R my(@RequestParam(name = "userId") String userId,
          @RequestParam(name = "showType") Integer showType);
 
 }

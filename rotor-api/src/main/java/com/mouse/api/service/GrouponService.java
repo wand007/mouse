@@ -16,9 +16,9 @@ public interface GrouponService {
 
     Optional<List<GrouponEntity>> findByIdAndStatus(Integer grouponId);
 
-    List<GrouponEntity> findByUserIdAndCreatorUserId(Integer userId);
+    List<GrouponEntity> findByUserIdAndCreatorUserId(String userId);
 
-    List<GrouponEntity> findByUserId(Integer userId);
+    List<GrouponEntity> findByUserId(String userId);
 
     Integer countById(Integer grouponId);
 
@@ -26,7 +26,7 @@ public interface GrouponService {
 
     Long countByGrouponId(Integer grouponId);
 
-    Long countByUserIdAndGrouponId(Integer userId, Integer grouponId);
+    Long countByUserIdAndGrouponId(String userId, Integer grouponId);
 
     void createGroupon(GrouponEntity groupon);
 }

@@ -25,13 +25,13 @@ public class SearchHistoryServiceImpl implements SearchHistoryService {
 
 
     @Override
-    public void deleteByUserId(Integer userId) {
+    public void deleteByUserId(String userId) {
         searchHistoryRepository.deleteByUserId(userId);
     }
 
     @Async
     @Override
-    public void asyncSave(Integer userId, String keyword, RefererEnum refererEnum) {
+    public void asyncSave(String userId, String keyword, RefererEnum refererEnum) {
         SearchHistoryEntity searchHistoryVo = new SearchHistoryEntity();
         searchHistoryVo.setKeyword(keyword);
         searchHistoryVo.setUserId(userId);
@@ -42,7 +42,7 @@ public class SearchHistoryServiceImpl implements SearchHistoryService {
 
 
     @Override
-    public Optional<List<SearchHistoryEntity>> findByUid(Integer userId) {
+    public Optional<List<SearchHistoryEntity>> findByUid(String userId) {
         return searchHistoryRepository.findByUserIdAndDeleted(userId,false);
     }
 }

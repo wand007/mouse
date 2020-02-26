@@ -42,7 +42,7 @@ public class CouponUserServiceImpl implements CouponUserService {
     }
 
     @Override
-    public Optional<List<CouponUserEntity>> findByUserId(Integer userId) {
+    public Optional<List<CouponUserEntity>> findByUserId(String userId) {
         return couponUserRepository.findByUserIdAndDeleted(userId, false);
     }
 
@@ -52,12 +52,12 @@ public class CouponUserServiceImpl implements CouponUserService {
     }
 
     @Override
-    public Integer countByUserIdAndCouponId(Integer userId, Integer couponId) {
+    public Integer countByUserIdAndCouponId(String userId, Integer couponId) {
         return couponUserRepository.countByUserIdAndCouponIdAndDeleted(userId, couponId, false);
     }
 
     @Override
-    public Page<CouponUserEntity> findPage(Integer userId, Integer status, Integer pageNum, Integer pageSize) {
+    public Page<CouponUserEntity> findPage(String userId, Integer status, Integer pageNum, Integer pageSize) {
         Page<CouponUserEntity> page = couponUserRepository.findAll((Specification<CouponUserEntity>) (root, criteriaQuery, criteriaBuilder) -> {
 
             Predicate predicate = criteriaBuilder.conjunction();
@@ -77,7 +77,7 @@ public class CouponUserServiceImpl implements CouponUserService {
 
 
     @Override
-    public void save(Integer userId, Integer couponId) {
+    public void save(String userId, Integer couponId) {
         CouponEntity couponEntity = couponRepository.findById(couponId).get();
 
         CouponUserEntity couponUserEntity = new CouponUserEntity();

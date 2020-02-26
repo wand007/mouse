@@ -23,7 +23,7 @@ public interface CouponUserRepository extends JpaRepository<CouponUserEntity, In
      * @param deleted
      * @return
      */
-    Optional<List<CouponUserEntity>> findByUserIdAndDeleted(Integer userId, Boolean deleted);
+    Optional<List<CouponUserEntity>> findByUserIdAndDeleted(String userId, Boolean deleted);
 
     /**
      * 查询优惠券领取集合
@@ -49,7 +49,7 @@ public interface CouponUserRepository extends JpaRepository<CouponUserEntity, In
      * @param couponId 优惠券ID
      * @return
      */
-    Integer countByUserIdAndCouponIdAndDeleted(Integer userId, Integer couponId, boolean deleted);
+    Integer countByUserIdAndCouponIdAndDeleted(String userId, Integer couponId, boolean deleted);
 
     /**
      * 根据用户ID和优惠ID查询优惠券使用记录
@@ -59,6 +59,6 @@ public interface CouponUserRepository extends JpaRepository<CouponUserEntity, In
      * @param deleted
      * @return
      */
-    Optional<CouponUserEntity> findByUserIdAndCouponIdAndDeleted(Integer userId, Integer couponId, boolean deleted);
+    Optional<CouponUserEntity> findByUserIdAndCouponIdAndDeleted(String userId, Integer couponId, boolean deleted);
 
 }

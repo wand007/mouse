@@ -38,7 +38,7 @@ public interface OrderFeign {
      * @return
      */
     @GetMapping("findPage")
-    R findPage(@RequestParam("userId") Integer userId,
+    R findPage(@RequestParam("userId") String userId,
                @RequestParam(defaultValue = "0") Integer showType,
                @RequestParam(name = "referer") Integer referer,
                @Min(value = 0, message = "必须从0页开始")
@@ -57,7 +57,7 @@ public interface OrderFeign {
      * @return 订单详情
      */
     @GetMapping("detail")
-    R detail(@RequestParam("userId") Integer userId, @RequestParam("orderId") String orderId);
+    R detail(@RequestParam("userId") String userId, @RequestParam("orderId") String orderId);
 
     /**
      * 提交订单
@@ -67,7 +67,7 @@ public interface OrderFeign {
      * @return 提交订单操作结果
      */
     @PostMapping("submit")
-    R submit(@RequestParam("userId") Integer userId, @RequestBody SaveOrderReq param);
+    R submit(@RequestParam("userId") String userId, @RequestBody SaveOrderReq param);
 
     /**
      * 取消订单
@@ -77,7 +77,7 @@ public interface OrderFeign {
      * @return 取消订单操作结果
      */
     @PostMapping("cancel")
-    R cancel(@RequestParam("userId") Integer userId,
+    R cancel(@RequestParam("userId") String userId,
              @RequestParam("orderId") String orderId);
 
     /**
@@ -88,18 +88,17 @@ public interface OrderFeign {
      * @return 支付订单ID
      */
     @PostMapping("prepay")
-    R prepay(@RequestParam("userId") Integer userId, @RequestParam("orderId") String orderId, HttpServletRequest request);
+    R prepay(@RequestParam("userId") String userId, @RequestParam("orderId") String orderId);
 
     /**
      * 微信H5支付
      *
      * @param userId
      * @param orderId
-     * @param request
      * @return
      */
     @PostMapping("h5pay")
-    R h5pay(@RequestParam("userId") Integer userId, @RequestParam("orderId") String orderId, HttpServletRequest request);
+    R h5pay(@RequestParam("userId") String userId, @RequestParam("orderId") String orderId);
 
     /**
      * 微信付款成功或失败回调接口
@@ -122,7 +121,7 @@ public interface OrderFeign {
      * @return 订单退款操作结果
      */
     @PostMapping("refund")
-    R refund(@RequestParam("userId") Integer userId,
+    R refund(@RequestParam("userId") String userId,
              @RequestParam("orderId") String orderId);
 
     /**
@@ -133,7 +132,7 @@ public interface OrderFeign {
      * @return 订单操作结果
      */
     @PostMapping("confirm")
-    R confirm(@RequestParam("userId") Integer userId,
+    R confirm(@RequestParam("userId") String userId,
               @RequestParam("orderId") String orderId);
 
     /**
@@ -144,7 +143,7 @@ public interface OrderFeign {
      * @return 订单操作结果
      */
     @PostMapping("delete")
-    R delete(@RequestParam("userId") Integer userId,
+    R delete(@RequestParam("userId") String userId,
              @RequestParam("orderId") String orderId);
 
     /**
@@ -156,7 +155,7 @@ public interface OrderFeign {
      * @return 待评价订单商品信息
      */
     @GetMapping("goods")
-    R goods(@RequestParam("userId") Integer userId,
+    R goods(@RequestParam("userId") String userId,
             @RequestParam("orderId") String orderId,
             @RequestParam("goodsId") Integer goodsId);
 
@@ -168,5 +167,5 @@ public interface OrderFeign {
      * @return 订单操作结果
      */
     @PostMapping("comment")
-    R comment(@RequestParam("userId") Integer userId, @RequestBody SaveCommentReq param);
+    R comment(@RequestParam("userId") String userId, @RequestBody SaveCommentReq param);
 }

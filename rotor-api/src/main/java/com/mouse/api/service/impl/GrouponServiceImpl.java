@@ -64,7 +64,7 @@ public class GrouponServiceImpl implements GrouponService {
     }
 
     @Override
-    public Long countByUserIdAndGrouponId(Integer userId, Integer grouponId) {
+    public Long countByUserIdAndGrouponId(String userId, Integer grouponId) {
         return grouponRepository.count((Specification<GrouponEntity>) (root, criteriaQuery, criteriaBuilder) -> {
 
             Predicate predicate = criteriaBuilder.conjunction();
@@ -78,7 +78,7 @@ public class GrouponServiceImpl implements GrouponService {
     }
 
     @Override
-    public List<GrouponEntity> findByUserIdAndCreatorUserId(Integer userId) {
+    public List<GrouponEntity> findByUserIdAndCreatorUserId(String userId) {
         List<GrouponEntity> grouponEntities = grouponRepository.findAll((Specification<GrouponEntity>) (root, criteriaQuery, criteriaBuilder) -> {
 
             Predicate predicate = criteriaBuilder.conjunction();
@@ -99,7 +99,7 @@ public class GrouponServiceImpl implements GrouponService {
     }
 
     @Override
-    public List<GrouponEntity> findByUserId(Integer userId) {
+    public List<GrouponEntity> findByUserId(String userId) {
         List<GrouponEntity> grouponEntities = grouponRepository.findAll((Specification<GrouponEntity>) (root, criteriaQuery, criteriaBuilder) -> {
 
             Predicate predicate = criteriaBuilder.conjunction();

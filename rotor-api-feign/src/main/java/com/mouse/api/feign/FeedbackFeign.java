@@ -24,6 +24,6 @@ public interface FeedbackFeign {
      * @return 操作结果
      */
     @PostMapping("submit")
-    public Object submit(@RequestParam(defaultValue = "userId") Integer userId,
+    public Object submit(@RequestParam(defaultValue = "userId") String userId,
                          @RequestBody FeedbackReq param);
 }

@@ -17,7 +17,7 @@ public interface CartService {
      * @param userId
      * @return
      */
-    Optional<List<CartEntity>> findByUserId(Integer userId);
+    Optional<List<CartEntity>> findByUserId(String userId);
 
     /**
      * 根据ID删除用户购物车记录
@@ -32,7 +32,7 @@ public interface CartService {
      * @param userId 用户ID
      * @return
      */
-    Long count(Integer userId);
+    Long count(String userId);
 
     /**
      * 根据用户ID和商品ID和产品ID查询用户购物车记录
@@ -41,7 +41,7 @@ public interface CartService {
      * @param userId    用户ID
      * @return
      */
-    Optional<CartEntity> findByUserIdAndProductId(Integer userId, Integer productId);
+    Optional<CartEntity> findByUserIdAndProductId(String userId, Integer productId);
 
     /**
      * 保存购物车记录
@@ -50,7 +50,7 @@ public interface CartService {
      * @param productId 产品ID
      * @return
      */
-    CartEntity save(Integer userId, Integer productId);
+    CartEntity save(String userId, Integer productId);
 
     /**
      * 修改购物车商品数量
@@ -67,7 +67,7 @@ public interface CartService {
      * @param productIds 产品ID集合
      * @param isChecked  选中状态
      */
-    void updateChecked(Integer userId, List<Integer> productIds, Boolean isChecked);
+    void updateChecked(String userId, List<Integer> productIds, Boolean isChecked);
 
     /**
      * 根据用户ID和产品ID集合删除购物车记录
@@ -75,9 +75,9 @@ public interface CartService {
      * @param userId     用户ID
      * @param productIds 产品ID集合
      */
-    void deleteByUserIdAndProductIdIn(Integer userId, List<String> productIds);
+    void deleteByUserIdAndProductIdIn(String userId, List<String> productIds);
 
-    Optional<List<CartEntity>> findByUserIdAndIsChecked(Integer userId, boolean checked);
+    Optional<List<CartEntity>> findByUserIdAndIsChecked(String userId, boolean checked);
 
     /**
      * 根据购物车记录ID购物车记录
@@ -87,5 +87,5 @@ public interface CartService {
      */
     Optional<CartEntity> findById(Integer cartId);
 
-    void clearGoods(Integer userId, List<Integer> cartIds);
+    void clearGoods(String userId, List<Integer> cartIds);
 }

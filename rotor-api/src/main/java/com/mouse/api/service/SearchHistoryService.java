@@ -12,9 +12,9 @@ import java.util.Optional;
  * @Date 2019-12-21
  */
 public interface SearchHistoryService {
-    void asyncSave(Integer userId, String keyword, RefererEnum refererEnum);
+    void asyncSave(String userId, String keyword, RefererEnum refererEnum);
 
-    Optional<List<SearchHistoryEntity>> findByUid(Integer userId);
+    Optional<List<SearchHistoryEntity>> findByUid(String userId);
 
-    void deleteByUserId(Integer userId);
+    void deleteByUserId(String userId);
 }

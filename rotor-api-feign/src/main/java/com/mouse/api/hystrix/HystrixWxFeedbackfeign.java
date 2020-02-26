@@ -20,7 +20,7 @@ public class HystrixWxFeedbackfeign implements FallbackFactory<FeedbackFeign> {
         log.error("错误信息：", throwable);
         return new FeedbackFeign() {
             @Override
-            public Object submit(Integer userId, FeedbackReq param) {
+            public Object submit(String userId, FeedbackReq param) {
                 return R.error();
             }
         };

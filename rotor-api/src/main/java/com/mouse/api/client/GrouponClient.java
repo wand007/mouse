@@ -66,7 +66,7 @@ public class GrouponClient extends BaseClient implements GrouponFeign {
     }
 
     @Override
-    public R detail(@RequestParam(name = "userId") Integer userId,
+    public R detail(@RequestParam(name = "userId") String userId,
                     @RequestParam(name = "grouponId") Integer grouponId) {
 
         Optional<GrouponEntity> grouponEntityOptional = grouponService.findById(grouponId);
@@ -172,7 +172,7 @@ public class GrouponClient extends BaseClient implements GrouponFeign {
     }
 
     @Override
-    public R my(@RequestParam(name = "userId") Integer userId,
+    public R my(@RequestParam(name = "userId") String userId,
                 @RequestParam(name = "showType") Integer showType) {
 
         List<GrouponEntity> myGroupons;

@@ -19,7 +19,7 @@ public class CartRsp implements Serializable {
     /**
      * 用户表的用户ID
      */
-    private Integer userId;
+    private String userId;
 
     /**
      * 商品表的商品ID

@@ -48,7 +48,7 @@ public class FootprintClient extends BaseClient implements FootprintFeign {
      * @return
      */
     @Override
-    public R delete(@RequestParam(defaultValue = "userId") Integer userId,
+    public R delete(@RequestParam(defaultValue = "userId") String userId,
                     @RequestParam(defaultValue = "id") String id) {
 
         footprintService.delete(userId, id);
@@ -57,7 +57,7 @@ public class FootprintClient extends BaseClient implements FootprintFeign {
     }
 
     @Override
-    public R findPage(@RequestParam(defaultValue = "userId") Integer userId,
+    public R findPage(@RequestParam(defaultValue = "userId") String userId,
                       @Min(value = 0, message = "必须从0页开始")
                       @RequestParam(name = "pageNum", defaultValue = "0", required = false) Integer pageNum,
                       @Min(value = 1, message = "每页必须大于1")

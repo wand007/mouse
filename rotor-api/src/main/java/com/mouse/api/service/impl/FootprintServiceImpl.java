@@ -27,7 +27,7 @@ public class FootprintServiceImpl implements FootprintService {
     FootprintRepository footprintRepository;
 
     @Override
-    public void save(Integer userId, Integer goodsId) {
+    public void save(String userId, Integer goodsId) {
         FootprintEntity footprint = new FootprintEntity();
         footprint.setUserId(userId);
         footprint.setGoodsId(goodsId);
@@ -37,12 +37,12 @@ public class FootprintServiceImpl implements FootprintService {
 
 
     @Override
-    public void delete(Integer userId, String id) {
+    public void delete(String userId, String id) {
         footprintRepository.deleteByIdAndUserId(id, userId);
     }
 
     @Override
-    public Page<FootprintEntity> findPage(Integer userId, Integer pageNum, Integer pageSize) {
+    public Page<FootprintEntity> findPage(String userId, Integer pageNum, Integer pageSize) {
         Page<FootprintEntity> page = footprintRepository.findAll((Specification<FootprintEntity>) (root, criteriaQuery, criteriaBuilder) -> {
 
             Predicate predicate = criteriaBuilder.conjunction();

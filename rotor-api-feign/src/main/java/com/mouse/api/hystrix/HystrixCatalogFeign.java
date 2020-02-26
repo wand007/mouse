@@ -22,27 +22,27 @@ public class HystrixCatalogFeign implements FallbackFactory<CatalogFeign> {
         log.error("错误信息：", throwable);
         return new CatalogFeign() {
             @Override
-            public Object getFirstCategory() {
+            public R findFirstCategory() {
                 return R.error();
             }
 
             @Override
-            public Object getSecondCategory(@NotNull Integer id) {
+            public R findSecondCategory(@NotNull Integer id) {
                 return R.error();
             }
 
             @Override
-            public Object index(Integer id) {
+            public R index(Integer id) {
                 return R.error();
             }
 
             @Override
-            public Object queryAll() {
+            public R findAll() {
                 return R.error();
             }
 
             @Override
-            public Object current(@NotNull Integer id) {
+            public R current(@NotNull Integer id) {
                 return R.error();
             }
         };

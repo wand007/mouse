@@ -21,7 +21,7 @@ public interface AddressService {
      * @param pageSize
      * @return
      */
-    Page<AddressEntity> findPage(Integer userId, Integer pageNum, Integer pageSize);
+    Page<AddressEntity> findPage(String userId, Integer pageNum, Integer pageSize);
 
     /**
      * 根据记录ID查询用户收货地址记录
@@ -38,7 +38,7 @@ public interface AddressService {
      * @param userId 用户ID
      * @return
      */
-    Optional<AddressEntity> findByIdAndUserId(Integer id, Integer userId);
+    Optional<AddressEntity> findByIdAndUserId(Integer id, String userId);
 
     /**
      * 新增/修改用户收货地址记录

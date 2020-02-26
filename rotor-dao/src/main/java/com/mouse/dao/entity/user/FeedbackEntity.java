@@ -22,8 +22,8 @@ public class FeedbackEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "user_id", columnDefinition = "int unsigned DEFAULT '0' COMMENT '用户表的用户ID'", nullable = false)
-    private Integer userId;
+    @Column(name = "id", columnDefinition = "varchar(32) COMMENT '用户ID'", nullable = false)
+    private String userId;
 
     @Column(name = "user_name", columnDefinition = "varchar(64) COMMENT '用户名称'", nullable = false)
     private String userName;

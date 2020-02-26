@@ -37,7 +37,7 @@ public class SearchClient extends BaseClient implements SearchFeign {
     SearchHistoryService searchHistoryService;
 
     @Override
-    public R index(Integer userId) {
+    public R index(String userId) {
         //取出输入框默认的关键词
         KeywordEntity defaultKeyword = keywordsService.findDefault().orElseGet(() -> new KeywordEntity());
         //取出热闹关键词
@@ -74,7 +74,7 @@ public class SearchClient extends BaseClient implements SearchFeign {
     }
 
     @Override
-    public R clearhistory(Integer userId) {
+    public R clearhistory(String userId) {
         searchHistoryService.deleteByUserId(userId);
         return R.success();
     }

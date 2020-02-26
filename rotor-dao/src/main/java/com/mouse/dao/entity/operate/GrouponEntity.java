@@ -32,13 +32,13 @@ public class GrouponEntity implements Serializable {
     private Integer rulesId;
 
     @Column(name = "user_id", columnDefinition = "int unsigned DEFAULT '0' COMMENT '用户ID'")
-    private Integer userId;
+    private String userId;
 
     @Column(name = "share_url", columnDefinition = "varchar(500) COMMENT '团购分享图片地址'", nullable = false)
     private String shareUrl;
 
-    @Column(name = "creator_user_id", columnDefinition = "int unsigned DEFAULT '0' COMMENT '创建者ID'")
-    private Integer creatorUserId;
+    @Column(name = "creator_user_id", columnDefinition = "varchar(32) COMMENT '创建者ID'")
+    private String creatorUserId;
 
     @Column(name = "creator_user_time", columnDefinition = "datetime  COMMENT '开团时间'")
     private LocalDateTime creatorUserTime;

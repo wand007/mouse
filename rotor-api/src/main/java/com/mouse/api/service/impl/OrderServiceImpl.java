@@ -48,12 +48,12 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Optional<List<OrderEntity>> findByUserId(Integer userId) {
+    public Optional<List<OrderEntity>> findByUserId(String userId) {
         return orderRepository.findByUserIdAndDeleted(userId, false);
     }
 
     @Override
-    public Page<OrderEntity> findByUserIdPage(Integer userId, List<Short> orderStatus, Integer pageNum, Integer pageSize) {
+    public Page<OrderEntity> findByUserIdPage(String userId, List<Short> orderStatus, Integer pageNum, Integer pageSize) {
         Page<OrderEntity> page = orderRepository.findAll((Specification<OrderEntity>) (root, criteriaQuery, criteriaBuilder) -> {
 
             Predicate predicate = criteriaBuilder.conjunction();
@@ -80,6 +80,16 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Integer updateStatusAndEndTime(String id, Short orderStatus, LocalDateTime endTime) {
         return orderRepository.updateStatusAndEndTime(id, orderStatus, endTime);
+    }
+
+    @Override
+    public Integer updateStatusAndConfirmTime(String id, Short orderStatus, LocalDateTime confirmTime) {
+        return orderRepository.updateStatusAndConfirmTime(id, orderStatus, confirmTime);
+    }
+
+    @Override
+    public Integer updateDeleteByOrderId(String orderId, Boolean deleted) {
+        return orderRepository.updateDeleteByOrderId(orderId, deleted);
     }
 
     @Override

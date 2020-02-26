@@ -27,32 +27,32 @@ public class HystrixOrderFeign implements FallbackFactory<OrderFeign> {
         log.error("错误信息：", throwable);
         return new OrderFeign() {
             @Override
-            public R findPage(Integer userId, Integer showType, Integer referer, @Min(value = 0, message = "必须从0页开始") Integer pageNum, @Min(value = 1, message = "每页必须大于1") @Max(value = 300, message = "每页必须小于300") Integer pageSize, String sort, String order) {
+            public R findPage(String userId, Integer showType, Integer referer, @Min(value = 0, message = "必须从0页开始") Integer pageNum, @Min(value = 1, message = "每页必须大于1") @Max(value = 300, message = "每页必须小于300") Integer pageSize, String sort, String order) {
                 return R.error();
             }
 
             @Override
-            public R detail(Integer userId, String orderId) {
+            public R detail(String userId, String orderId) {
                 return R.error();
             }
 
             @Override
-            public R submit(Integer userId, SaveOrderReq param) {
+            public R submit(String userId, SaveOrderReq param) {
                 return R.error();
             }
 
             @Override
-            public R cancel(Integer userId, String orderId) {
+            public R cancel(String userId, String orderId) {
                 return R.error();
             }
 
             @Override
-            public R prepay(Integer userId, String body, HttpServletRequest request) {
+            public R prepay(String userId, String body) {
                 return R.error();
             }
 
             @Override
-            public R h5pay(Integer userId, String body, HttpServletRequest request) {
+            public R h5pay(String userId, String body) {
                 return R.error();
             }
 
@@ -62,27 +62,27 @@ public class HystrixOrderFeign implements FallbackFactory<OrderFeign> {
             }
 
             @Override
-            public R refund(Integer userId, String orderId) {
+            public R refund(String userId, String orderId) {
                 return R.error();
             }
 
             @Override
-            public R confirm(Integer userId, String orderId) {
+            public R confirm(String userId, String orderId) {
                 return R.error();
             }
 
             @Override
-            public R delete(Integer userId, String orderId) {
+            public R delete(String userId, String orderId) {
                 return R.error();
             }
 
             @Override
-            public R goods(Integer userId, String orderId, Integer goodsId) {
+            public R goods(String userId, String orderId, Integer goodsId) {
                 return R.error();
             }
 
             @Override
-            public R comment(Integer userId, SaveCommentReq param) {
+            public R comment(String userId, SaveCommentReq param) {
                 return R.error();
             }
         };

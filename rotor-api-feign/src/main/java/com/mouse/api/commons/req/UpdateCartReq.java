@@ -16,7 +16,7 @@ public class UpdateCartReq implements Serializable {
     /**
      * 用户表的用户ID
      */
-    private Integer userId;
+    private String userId;
 
     /**
      * 商品货品表的货品ID

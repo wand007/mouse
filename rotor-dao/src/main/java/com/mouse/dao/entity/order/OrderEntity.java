@@ -26,8 +26,8 @@ public class OrderEntity implements Serializable {
     @Column(name = "id", columnDefinition = "varchar(32) COMMENT '订单ID'", nullable = false)
     private String id;
 
-    @Column(name = "user_id", columnDefinition = "int unsigned DEFAULT '0' COMMENT '用户表的用户ID'", nullable = false)
-    private Integer userId;
+    @Column(name = "id", columnDefinition = "varchar(32) COMMENT '用户ID'", nullable = false)
+    private String userId;
 
     @Column(name = "order_sn", columnDefinition = "char(15) COMMENT '订单编号'", nullable = false)
     private String orderSn;
@@ -87,7 +87,7 @@ public class OrderEntity implements Serializable {
     private LocalDateTime confirmTime;
 
     @Column(name = "comments", columnDefinition = "smallint unsigned DEFAULT '0' COMMENT '待评价订单商品数量'", nullable = false)
-    private Short comments;
+    private Integer comments;
 
     @Column(name = "end_time", columnDefinition = "datetime COMMENT '订单关闭时间'", nullable = false)
     private LocalDateTime endTime;

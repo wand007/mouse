@@ -24,42 +24,42 @@ public class HystrixCartFeign implements FallbackFactory<CartFeign> {
         log.error("错误信息：", throwable);
         return new CartFeign() {
             @Override
-            public R index(Integer userId) {
+            public R index(String userId) {
                 return R.error();
             }
 
             @Override
-            public R add(Integer userId, SaveCartReq cart) {
+            public R add(String userId, SaveCartReq cart) {
                 return R.error();
             }
 
             @Override
-            public R fastadd(Integer userId, SaveCartReq param) {
+            public R fastadd(String userId, SaveCartReq param) {
                 return R.error();
             }
 
             @Override
-            public R update(Integer userId, UpdateCartReq param) {
+            public R update(String userId, UpdateCartReq param) {
                 return R.error();
             }
 
             @Override
-            public R checked(Integer userId, Boolean isChecked, List<Integer> productIds) {
+            public R checked(String userId, Boolean isChecked, List<Integer> productIds) {
                 return R.error();
             }
 
             @Override
-            public R delete(Integer userId, List<String> productIds) {
+            public R delete(String userId, List<String> productIds) {
                 return R.error();
             }
 
             @Override
-            public R count(Integer userId) {
+            public R count(String userId) {
                 return R.error();
             }
 
             @Override
-            public R checkout(Integer userId, Integer cartId, Integer addressId, Integer couponId, Integer userCouponId, Integer grouponRulesId) {
+            public R checkout(String userId, Integer cartId, Integer addressId, Integer couponId, Integer userCouponId, Integer grouponRulesId) {
                 return R.error();
             }
         };

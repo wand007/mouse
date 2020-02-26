@@ -1,6 +1,7 @@
 package com.mouse.api.feign;
 
 import com.mouse.api.hystrix.HystrixCatalogFeign;
+import com.mouse.core.base.R;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -16,11 +17,11 @@ import javax.validation.constraints.NotNull;
         fallbackFactory = HystrixCatalogFeign.class)
 public interface CatalogFeign {
 
-    @GetMapping("/getFirstCategory")
-    Object getFirstCategory();
+    @GetMapping("/findFirstCategory")
+    R findFirstCategory();
 
-    @GetMapping("/getSecondCategory")
-    Object getSecondCategory(@NotNull Integer id);
+    @GetMapping("/findSecondCategory")
+    R findSecondCategory(@NotNull Integer id);
 
     /**
      * 分类详情
@@ -31,15 +32,15 @@ public interface CatalogFeign {
      * @return 分类详情
      */
     @GetMapping("index")
-    Object index(Integer id);
+    R index(Integer id);
 
     /**
      * 所有分类数据
      *
      * @return 所有分类数据
      */
-    @GetMapping("all")
-    Object queryAll();
+    @GetMapping("findAll")
+    R findAll();
 
     /**
      * 当前分类栏目
@@ -48,5 +49,5 @@ public interface CatalogFeign {
      * @return 当前分类栏目
      */
     @GetMapping("current")
-    Object current(@NotNull Integer id);
+    R current(@NotNull Integer id);
 }

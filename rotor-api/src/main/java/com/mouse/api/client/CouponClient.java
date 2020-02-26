@@ -116,7 +116,7 @@ public class CouponClient extends BaseClient implements CouponFeign {
      * @return
      */
     @Override
-    public R findPersonalPage(@RequestParam(name = "userId") Integer userId,
+    public R findPersonalPage(@RequestParam(name = "userId") String userId,
                               @RequestParam(name = "status") Integer status,
                               @Min(value = 0, message = "必须从0页开始")
                               @RequestParam(name = "pageNum", defaultValue = "0", required = false) Integer pageNum,
@@ -167,7 +167,7 @@ public class CouponClient extends BaseClient implements CouponFeign {
      * @return
      */
     @Override
-    public R availableList(@RequestParam(name = "userId") Integer userId,
+    public R availableList(@RequestParam(name = "userId") String userId,
                            @RequestParam(name = "cartId") Integer cartId,
                            @RequestParam(name = "grouponRulesId") Integer grouponRulesId) {
 
@@ -212,7 +212,7 @@ public class CouponClient extends BaseClient implements CouponFeign {
      * @return 操作结果
      */
     @Override
-    public R receive(@RequestParam(name = "userId") Integer userId,
+    public R receive(@RequestParam(name = "userId") String userId,
                      @RequestParam(name = "couponId") Integer couponId) {
 
         CouponEntity couponEntity = couponService.findById(couponId).orElseThrow(() -> new BusinessException("优惠券记录不存在"));
@@ -266,7 +266,7 @@ public class CouponClient extends BaseClient implements CouponFeign {
      */
     @Override
     @PostMapping("exchange")
-    public R exchange(@RequestParam(name = "userId") Integer userId,
+    public R exchange(@RequestParam(name = "userId") String userId,
                       @RequestParam(name = "code") String code) {
 
         CouponEntity coupon = couponService.findByCode(code).orElseThrow(() -> new BusinessException("优惠券不正确"));

@@ -17,4 +17,8 @@ import java.util.Optional;
 public interface OrderGoodsRepository extends JpaRepository<OrderGoodsEntity, Integer>, JpaSpecificationExecutor<OrderGoodsEntity> {
 
     Optional<List<OrderGoodsEntity>> findByOrderIdAndDeleted(String orderId, Boolean deleted);
+
+    Integer countByOrderIdAndDeleted(String orderId, Boolean deleted);
+
+    Optional<List<OrderGoodsEntity>> findByOrderIdAndGoodsIdAndDeleted(String orderId, Integer goodsId, Boolean deleted);
 }

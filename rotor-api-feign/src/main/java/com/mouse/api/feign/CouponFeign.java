@@ -44,7 +44,7 @@ public interface CouponFeign {
      * @return
      */
     @GetMapping("personal/findPage")
-    R findPersonalPage(@RequestParam(name = "userId") Integer userId,
+    R findPersonalPage(@RequestParam(name = "userId") String userId,
                        @RequestParam(name = "status") Integer status,
                        @Min(value = 0, message = "必须从0页开始")
                        @RequestParam(name = "pageNum", defaultValue = "0", required = false) Integer pageNum,
@@ -62,7 +62,7 @@ public interface CouponFeign {
      * @return
      */
     @GetMapping("availableList")
-    R availableList(@RequestParam(name = "userId") Integer userId,
+    R availableList(@RequestParam(name = "userId") String userId,
                     @RequestParam(name = "cartId") Integer cartId,
                     @RequestParam(name = "grouponRulesId") Integer grouponRulesId);
 
@@ -74,7 +74,7 @@ public interface CouponFeign {
      * @return 操作结果
      */
     @PostMapping("receive")
-    R receive(@RequestParam(name = "userId") Integer userId,
+    R receive(@RequestParam(name = "userId") String userId,
               @RequestParam(name = "couponId") Integer couponId);
 
     /**
@@ -85,6 +85,6 @@ public interface CouponFeign {
      * @return 操作结果
      */
     @PostMapping("exchange")
-    R exchange(@RequestParam(name = "userId") Integer userId,
+    R exchange(@RequestParam(name = "userId") String userId,
                @RequestParam(name = "code") String code);
 }

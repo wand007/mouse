@@ -11,7 +11,7 @@ import java.util.Optional;
  * @Date 2019-12-21
  */
 public interface UserService {
-    Optional<UserEntity> findById(Integer userId);
+    Optional<UserEntity> findById(String userId);
 
-    Optional<List<UserEntity>> findByIdIn(List<Integer> userIds);
+    Optional<List<UserEntity>> findByIdIn(List<String> userIds);
 }

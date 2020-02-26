@@ -2,11 +2,14 @@ package com.mouse.web.controller;
 
 import com.mouse.api.feign.ResourcesFeign;
 import com.mouse.core.base.R;
-import com.mouse.web.base.BaseController;
+import com.mouse.web.base.GlobalExceptionHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -20,7 +23,7 @@ import javax.validation.constraints.Min;
 @Validated
 @RestController
 @RequestMapping("resources")
-public class ResourcesController extends BaseController {
+public class ResourcesController extends GlobalExceptionHandler {
 
 
     @Autowired
@@ -45,14 +48,13 @@ public class ResourcesController extends BaseController {
      * @param order      排序类型，顺序或者降序
      * @return 根据条件搜素的商品详情
      */
-    @ResponseBody
     @GetMapping(value = "findPage")
     public R findPage(@RequestParam(name = "categoryId", required = false) Integer categoryId,
                       @RequestParam(name = "brandId", required = false) Integer brandId,
                       @RequestParam(name = "keyword", required = false) String keyword,
                       @RequestParam(name = "isNew", required = false) Boolean isNew,
                       @RequestParam(name = "isHot", required = false) Boolean isHot,
-                      @RequestParam(name = "userId", required = false) Integer userId,
+                      @RequestParam(name = "userId", required = false) String userId,
                       @RequestParam(name = "referer") Integer referer,
                       @Min(value = 0, message = "必须从0页开始")
                       @RequestParam(name = "pageNum", defaultValue = "0", required = false) Integer pageNum,
@@ -76,7 +78,7 @@ public class ResourcesController extends BaseController {
      * @return 商品详情
      */
     @GetMapping("detail")
-    public R detail(@RequestParam(name = "userId", required = false) Integer userId,
+    public R detail(@RequestParam(name = "userId", required = false) String userId,
                     @RequestParam(name = "id") Integer id) {
         return resourcesFeign.detail(userId, id);
     }

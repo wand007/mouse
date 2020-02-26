@@ -23,7 +23,7 @@ public class HystrixSearchFeign implements FallbackFactory<SearchFeign> {
         log.error("错误信息：", throwable);
         return new SearchFeign() {
             @Override
-            public R index(Integer userId) {
+            public R index(String userId) {
                 return R.error();
             }
 
@@ -33,7 +33,7 @@ public class HystrixSearchFeign implements FallbackFactory<SearchFeign> {
             }
 
             @Override
-            public R clearhistory(Integer userId) {
+            public R clearhistory(String userId) {
                 return R.error();
             }
         };

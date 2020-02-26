@@ -33,7 +33,7 @@ public class WxFeedbackClient extends BaseClient implements FeedbackFeign {
 
 
     @Override
-    public R submit(@RequestParam(defaultValue = "userId") Integer userId,
+    public R submit(@RequestParam(defaultValue = "userId") String userId,
                     @RequestBody FeedbackReq param) {
         UserEntity userEntity = userService.findById(userId).orElseThrow(() -> new BusinessException("用户记录不存在"));
 

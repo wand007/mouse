@@ -29,7 +29,7 @@ public class HystrixGrouponFeign implements FallbackFactory<GrouponFeign> {
             }
 
             @Override
-            public R detail(Integer userId, Integer grouponId) {
+            public R detail(String userId, Integer grouponId) {
                 return R.error();
             }
 
@@ -39,7 +39,7 @@ public class HystrixGrouponFeign implements FallbackFactory<GrouponFeign> {
             }
 
             @Override
-            public R my(Integer userId, Integer showType) {
+            public R my(String userId, Integer showType) {
                 return R.error();
             }
         };

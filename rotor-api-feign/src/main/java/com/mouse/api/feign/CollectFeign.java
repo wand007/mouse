@@ -31,7 +31,7 @@ public interface CollectFeign {
      * @return
      */
     @GetMapping("findPage")
-    R findPage(@RequestParam(name = "userId") Integer userId,
+    R findPage(@RequestParam(name = "userId") String userId,
                @RequestParam(name = "type") Byte type,
                @Min(value = 0, message = "必须从0页开始")
                @RequestParam(name = "pageNum", defaultValue = "0", required = false) Integer pageNum,
@@ -49,8 +49,8 @@ public interface CollectFeign {
      * @param valueId 如果type=0，则是商品ID；如果type=1，则是专题ID
      * @return 操作结果
      */
-    @PostMapping("addordelete")
-    R addordelete(@RequestParam(name = "userId") Integer userId,
+    @PostMapping("addOrDelete")
+    R addOrDelete(@RequestParam(name = "userId") String userId,
                   @RequestParam(name = "type") Integer type,
                   @RequestParam(name = "valueId") Integer valueId);
 }

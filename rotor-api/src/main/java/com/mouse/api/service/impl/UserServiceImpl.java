@@ -22,12 +22,12 @@ public class UserServiceImpl implements UserService {
     UserRepository userRepository;
 
     @Override
-    public Optional<UserEntity> findById(Integer userId) {
+    public Optional<UserEntity> findById(String userId) {
         return userRepository.findById(userId);
     }
 
     @Override
-    public Optional<List<UserEntity>> findByIdIn(List<Integer> userIds) {
+    public Optional<List<UserEntity>> findByIdIn(List<String> userIds) {
         return userRepository.findByIdIn(userIds);
     }
 }

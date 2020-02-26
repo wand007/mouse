@@ -48,7 +48,7 @@ public class CollectClient extends BaseClient implements CollectFeign {
      * @return
      */
     @Override
-    public R findPage(@RequestParam(name = "userId") Integer userId,
+    public R findPage(@RequestParam(name = "userId") String userId,
                       @RequestParam(name = "type") Byte type,
                       @Min(value = 0, message = "必须从0页开始")
                       @RequestParam(name = "pageNum", defaultValue = "0", required = false) Integer pageNum,
@@ -95,7 +95,7 @@ public class CollectClient extends BaseClient implements CollectFeign {
      * @return 操作结果
      */
     @Override
-    public R addordelete(@RequestParam(name = "userId") Integer userId,
+    public R addOrDelete(@RequestParam(name = "userId") String userId,
                          @RequestParam(name = "type") Integer type,
                          @RequestParam(name = "valueId") Integer valueId) {
 

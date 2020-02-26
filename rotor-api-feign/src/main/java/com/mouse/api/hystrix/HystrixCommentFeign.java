@@ -24,7 +24,7 @@ public class HystrixCommentFeign implements FallbackFactory<CommentFeign> {
         log.error("错误信息：", throwable);
         return new CommentFeign() {
             @Override
-            public R post(Integer userId, SaveCommentReq param) {
+            public R post(String userId, SaveCommentReq param) {
                 return R.error();
             }
 

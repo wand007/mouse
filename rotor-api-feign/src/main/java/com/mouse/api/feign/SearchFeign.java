@@ -30,7 +30,7 @@ public interface SearchFeign {
      * @return 搜索页面信息
      */
     @GetMapping("index")
-    R index(@RequestParam(name = "userId") Integer userId);
+    R index(@RequestParam(name = "userId") String userId);
 
     /**
      * 关键字提醒
@@ -55,6 +55,6 @@ public interface SearchFeign {
      * @return 清理是否成功
      */
     @PostMapping("clearhistory")
-    R clearhistory(@RequestParam(name = "userId") Integer userId);
+    R clearhistory(@RequestParam(name = "userId") String userId);
 }
 

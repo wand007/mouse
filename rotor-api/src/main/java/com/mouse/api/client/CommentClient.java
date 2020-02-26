@@ -45,7 +45,7 @@ public class CommentClient extends BaseClient implements CommentFeign {
     CommentService commentService;
 
     @Override
-    public R post(@RequestParam(name = "userId") Integer userId, @RequestBody SaveCommentReq param) {
+    public R post(@RequestParam(name = "userId") String userId, @RequestBody SaveCommentReq param) {
         param.setUserId(userId);
         commentService.save(param);
         return R.success();
@@ -79,9 +79,9 @@ public class CommentClient extends BaseClient implements CommentFeign {
         List<CommentEntity> content = page.getContent();
 
         if (!CollectionUtils.isEmpty(content)) {
-            List<Integer> userIds = content.stream().map(CommentEntity::getUserId).collect(Collectors.toList());
+            List<String> userIds = content.stream().map(CommentEntity::getUserId).collect(Collectors.toList());
             List<UserEntity> userEntities = userService.findByIdIn(userIds).orElseGet(() -> new ArrayList<>());
-            Map<Integer, UserEntity> userMap = userEntities.stream().collect(Collectors.toMap(UserEntity::getId, a -> a, (k1, k2) -> k1));
+            Map<String, UserEntity> userMap = userEntities.stream().collect(Collectors.toMap(UserEntity::getId, a -> a, (k1, k2) -> k1));
             for (CommentEntity comment : content) {
                 Map<String, Object> commentVo = new HashMap<>(16);
                 commentVo.put("addTime", comment.getAddTime());

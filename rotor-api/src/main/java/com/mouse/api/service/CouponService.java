@@ -19,7 +19,7 @@ public interface CouponService {
 
     Page<CouponEntity> findPage(Integer pageNum, Integer pageSize);
 
-    Page<CouponEntity> findByUserIdPage(Integer userId, Integer pageNum, Integer pageSize);
+    Page<CouponEntity> findByUserIdPage(String userId, Integer pageNum, Integer pageSize);
 
     Optional<List<CouponEntity>> findByIdIn(List<Integer> couponIds);
 
@@ -33,5 +33,5 @@ public interface CouponService {
      * @param checkedGoodsPrice
      * @return
      */
-     CouponEntity checkCoupon(Integer userId, Integer couponId, Integer userCouponId, BigDecimal checkedGoodsPrice);
+     CouponEntity checkCoupon(String userId, Integer couponId, Integer userCouponId, BigDecimal checkedGoodsPrice);
 }

@@ -24,12 +24,12 @@ public class HystrixFootprintFeign implements FallbackFactory<FootprintFeign> {
         log.error("错误信息：", throwable);
         return new FootprintFeign() {
             @Override
-            public R delete(Integer userId, String id) {
+            public R delete(String userId, String id) {
                 return R.error();
             }
 
             @Override
-            public R findPage(Integer userId, @Min(value = 0, message = "必须从0页开始") Integer pageNum, @Min(value = 1, message = "每页必须大于1") @Max(value = 300, message = "每页必须小于300") Integer pageSize) {
+            public R findPage(String userId, @Min(value = 0, message = "必须从0页开始") Integer pageNum, @Min(value = 1, message = "每页必须大于1") @Max(value = 300, message = "每页必须小于300") Integer pageSize) {
                 return R.error();
             }
         };
