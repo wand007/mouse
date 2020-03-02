@@ -26,7 +26,7 @@ public class OrderEntity implements Serializable {
     @Column(name = "id", columnDefinition = "varchar(32) COMMENT '订单ID'", nullable = false)
     private String id;
 
-    @Column(name = "id", columnDefinition = "varchar(32) COMMENT '用户ID'", nullable = false)
+    @Column(name = "user_id", columnDefinition = "varchar(32) COMMENT '用户ID'", nullable = false)
     private String userId;
 
     @Column(name = "order_sn", columnDefinition = "char(15) COMMENT '订单编号'", nullable = false)

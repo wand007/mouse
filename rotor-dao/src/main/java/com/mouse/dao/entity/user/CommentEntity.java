@@ -31,7 +31,7 @@ public class CommentEntity implements Serializable {
     @Column(name = "content", columnDefinition = "varchar(1023) COMMENT '评论内容'", nullable = false)
     private String content;
 
-    @Column(name = "id", columnDefinition = "varchar(32) COMMENT '用户ID'", nullable = false)
+    @Column(name = "user_id", columnDefinition = "varchar(32) COMMENT '用户ID'", nullable = false)
     private String userId;
 
     @Column(name = "has_picture", columnDefinition = "tinyint unsigned DEFAULT '0' COMMENT '是否含有图片'", nullable = false)

@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-/**
+/**CartEntity
  * @author ; lidongdong
  * @Description 订单商品表
  * @Date 2019-11-26
