@@ -23,7 +23,7 @@ import java.util.List;
  * @Date 2020-02-14
  */
 @Slf4j
-@Component
+//@Component
 public class OrderUnpaidTask extends Task {
     @Autowired
     OrderService orderService;

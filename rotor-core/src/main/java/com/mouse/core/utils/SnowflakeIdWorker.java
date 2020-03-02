@@ -93,6 +93,9 @@ public class SnowflakeIdWorker {
      */
     private long lastTimestamp = -1L;
 
+    public SnowflakeIdWorker() {
+    }
+
     /**
      * 构造函数
      *

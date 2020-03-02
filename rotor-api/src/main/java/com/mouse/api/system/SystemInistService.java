@@ -14,7 +14,6 @@ import java.util.*;
  */
 @Component
 class SystemInistService {
-    private SystemInistService systemInistService;
 
 
     @Autowired
@@ -22,7 +21,6 @@ class SystemInistService {
 
     @PostConstruct
     private void inist() {
-        systemInistService = this;
         initConfigs();
         SystemInfoPrinter.printInfo("Litemall 初始化信息", getSystemInfo());
     }
