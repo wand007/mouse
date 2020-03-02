@@ -1,6 +1,7 @@
 package com.mouse.api.hystrix;
 
 import com.mouse.api.feign.CatalogFeign;
+import com.mouse.core.base.BusinessCode;
 import com.mouse.core.base.R;
 import feign.hystrix.FallbackFactory;
 import lombok.extern.slf4j.Slf4j;
@@ -23,27 +24,27 @@ public class HystrixCatalogFeign implements FallbackFactory<CatalogFeign> {
         return new CatalogFeign() {
             @Override
             public R findFirstCategory() {
-                return R.error();
+                return R.fromBusinessCode(BusinessCode.ERROR_SYS_SERVICE_RESTART);
             }
 
             @Override
             public R findSecondCategory(@NotNull Integer id) {
-                return R.error();
+                return R.fromBusinessCode(BusinessCode.ERROR_SYS_SERVICE_RESTART);
             }
 
             @Override
             public R index(Integer id) {
-                return R.error();
+                return R.fromBusinessCode(BusinessCode.ERROR_SYS_SERVICE_RESTART);
             }
 
             @Override
             public R findAll() {
-                return R.error();
+                return R.fromBusinessCode(BusinessCode.ERROR_SYS_SERVICE_RESTART);
             }
 
             @Override
             public R current(@NotNull Integer id) {
-                return R.error();
+                return R.fromBusinessCode(BusinessCode.ERROR_SYS_SERVICE_RESTART);
             }
         };
     }

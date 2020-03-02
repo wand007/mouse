@@ -1,7 +1,6 @@
 package com.mouse.web.base;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 
 /**
@@ -15,6 +14,4 @@ public class BaseController {
     @Autowired
     public RedisTemplate redisTemplate;
 
-    @Value("${env.suffix}")
-    public String envSuffix;
 }

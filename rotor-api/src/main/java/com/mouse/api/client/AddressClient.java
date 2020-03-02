@@ -15,11 +15,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -47,12 +44,7 @@ public class AddressClient extends BaseClient implements AddressFeign {
      * @return
      */
     @Override
-    public R findPage(@RequestParam(name = "userId") String userId,
-                      @Min(value = 0, message = "必须从0页开始")
-                      @RequestParam(name = "pageNum", defaultValue = "0", required = false) Integer pageNum,
-                      @Min(value = 1, message = "每页必须大于1")
-                      @Max(value = 300, message = "每页必须小于300")
-                      @RequestParam(name = "pageSize", defaultValue = "20", required = false) Integer pageSize) {
+    public R findPage(String userId, Integer pageNum, Integer pageSize) {
 
         List<AddressRsp> result = new ArrayList<>();
 
@@ -85,8 +77,7 @@ public class AddressClient extends BaseClient implements AddressFeign {
      * @return 收货地址详情
      */
     @Override
-    public R detail(@RequestParam(name = "userId") String userId,
-                    @RequestParam(name = "id") Integer id) {
+    public R detail(String userId, Integer id) {
         AddressRsp addressRsp = new AddressRsp();
 
         Optional<AddressEntity> addressEntityOptional = addressService.findByIdAndUserId(id, userId);
@@ -139,8 +130,7 @@ public class AddressClient extends BaseClient implements AddressFeign {
      * @return 删除操作结果
      */
     @Override
-    public R delete(@RequestParam(name = "userId") String userId,
-                    @RequestParam(name = "id") Integer id) {
+    public R delete(String userId, Integer id) {
         addressService.delete(id);
         return R.success();
     }

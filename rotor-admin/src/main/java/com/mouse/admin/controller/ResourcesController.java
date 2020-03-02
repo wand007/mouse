@@ -1,6 +1,6 @@
 package com.mouse.admin.controller;
 
-import com.mouse.admin.base.BaseController;
+import com.mouse.admin.base.GlobalExceptionHandler;
 import com.mouse.api.feign.ResourcesFeign;
 import com.mouse.core.base.R;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +20,7 @@ import javax.validation.constraints.Min;
 @Validated
 @RestController
 @RequestMapping("resources")
-public class ResourcesController extends BaseController {
+public class ResourcesController extends GlobalExceptionHandler {
 
     @Autowired
     private ResourcesFeign resourcesFeign;

@@ -2,6 +2,7 @@ package com.mouse.api.hystrix;
 
 import com.mouse.api.commons.req.SaveCommentReq;
 import com.mouse.api.feign.CommentFeign;
+import com.mouse.core.base.BusinessCode;
 import com.mouse.core.base.R;
 import feign.hystrix.FallbackFactory;
 import lombok.extern.slf4j.Slf4j;
@@ -25,17 +26,17 @@ public class HystrixCommentFeign implements FallbackFactory<CommentFeign> {
         return new CommentFeign() {
             @Override
             public R post(String userId, SaveCommentReq param) {
-                return R.error();
+                return R.fromBusinessCode(BusinessCode.ERROR_SYS_SERVICE_RESTART);
             }
 
             @Override
             public R count(Integer type, Integer valueId) {
-                return R.error();
+                return R.fromBusinessCode(BusinessCode.ERROR_SYS_SERVICE_RESTART);
             }
 
             @Override
             public R findPage(Integer valueId, Integer type, Integer showType, @Min(value = 0, message = "必须从0页开始") Integer pageNum, @Min(value = 1, message = "每页必须大于1") @Max(value = 300, message = "每页必须小于300") Integer pageSize) {
-                return R.error();
+                return R.fromBusinessCode(BusinessCode.ERROR_SYS_SERVICE_RESTART);
             }
         };
     }

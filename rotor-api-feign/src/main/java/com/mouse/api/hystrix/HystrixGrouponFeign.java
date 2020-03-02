@@ -1,7 +1,7 @@
 package com.mouse.api.hystrix;
 
 import com.mouse.api.feign.GrouponFeign;
-import com.mouse.api.feign.HomeFeign;
+import com.mouse.core.base.BusinessCode;
 import com.mouse.core.base.R;
 import feign.hystrix.FallbackFactory;
 import lombok.extern.slf4j.Slf4j;
@@ -25,22 +25,22 @@ public class HystrixGrouponFeign implements FallbackFactory<GrouponFeign> {
         return new GrouponFeign() {
             @Override
             public R findPage(@Min(value = 0, message = "必须从0页开始") Integer pageNum, @Min(value = 1, message = "每页必须大于1") @Max(value = 300, message = "每页必须小于300") Integer pageSize, String sort, String order) {
-                return R.error();
+                return R.fromBusinessCode(BusinessCode.ERROR_SYS_SERVICE_RESTART);
             }
 
             @Override
             public R detail(String userId, Integer grouponId) {
-                return R.error();
+                return R.fromBusinessCode(BusinessCode.ERROR_SYS_SERVICE_RESTART);
             }
 
             @Override
             public R join(Integer grouponId) {
-                return R.error();
+                return R.fromBusinessCode(BusinessCode.ERROR_SYS_SERVICE_RESTART);
             }
 
             @Override
             public R my(String userId, Integer showType) {
-                return R.error();
+                return R.fromBusinessCode(BusinessCode.ERROR_SYS_SERVICE_RESTART);
             }
         };
     }

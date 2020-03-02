@@ -17,34 +17,32 @@ public enum BusinessCode {
      * 自己定义方式: COMMON_SUCCESS_XXX(I, "某某某")
      */
     SUCCESS(10000, "操作成功"),
-    SUCCESS_PART(10001, "部分成功"),
 
     /**
      * 此状态码前端直接提示
      */
     ALERT_MESSAGE(12000, "前端直接提示的 指导用户进一步操作的信息"),
 
-    //用户相关
-    USER_NOT_LOGIN(20100, "登录获取更好体验~"),
-
-    USER_NON_EXISTENT(20101, "用户不存在"),
-
-    USER_LOGIN_TIME_OUT(20102, "登录超时"),
-
-    USER_STATUS_ERROR(20103, "用户状态异常"),
-
-    ERROR_PARAMS(400201, "参数非法"),
     /**
      * 基础失败状态码标志
      */
     ERROR(50000, "操作已受理,请稍后再试"),
 
-    REQUEST_ERROR(50001, "请求失败,请稍后再试"),
-    REQUEST_SIGN_ERROR(50002, "签名失败"),
-    REQUEST_TIMESTAMP_ERROR(50003, "时间戳异常"),
-    REQUEST_IP_ERROR(50004, "ip不允许访问"),
-    ERROR_SERVER(50005, "服务未知异常稍后再试"),
+    ERROR_SYS_SERVICE_RESTART(50001, "服务重启中, 请稍候重试"),
 
+    ERROR_SYS_REQUEST_TIMESTAMP(50002, "时间戳异常"),
+
+    ERROR_SYS_PARAMS(50003, "参数非法"),
+
+
+    //用户相关
+    ERROR_USER_NOT_LOGIN(20100, "登录获取更好体验~"),
+
+    ERROR_USER_NON_EXISTENT(20101, "用户不存在"),
+
+    ERROR_USER_LOGIN_TIME_OUT(20102, "登录超时"),
+
+    ERROR_USER_STATUS_ERROR(20103, "用户状态异常"),
     ;
 
     private int code;

@@ -1,4 +1,4 @@
-package com.mouse.web.base;
+package com.mouse.admin.base;
 
 import com.mouse.core.base.BusinessCode;
 import com.mouse.core.base.BusinessException;
@@ -18,13 +18,12 @@ import java.util.Set;
 
 /**
  * @author ; lidongdong
- * @Description 全局异常处理类
- * @Date 2019-12-13
+ * @Description 基础
+ * @Date 2019-11-30
  */
 @Slf4j
 @Component
-public class GlobalExceptionHandler extends BaseController {
-
+public class BaseController {
 
     @ExceptionHandler(BusinessException.class)
     @ResponseBody
@@ -37,7 +36,7 @@ public class GlobalExceptionHandler extends BaseController {
     @ResponseBody
     public R exceptionHandler(Exception e) {
         log.error("SystemException[系统异常]", e.getMessage(), e);
-        return R.fromBusinessCode(BusinessCode.ERROR);
+        return R.error();
     }
 
 
@@ -51,7 +50,7 @@ public class GlobalExceptionHandler extends BaseController {
     @ExceptionHandler
     @ResponseBody
 
-    public R exceptionHandler(ValidationException e) {
+    public Object exceptionHandler(ValidationException e) {
         log.error("ValidationException,e:" + e.getMessage(), e);
         StringBuilder errorInfo = new StringBuilder("");
         if (e instanceof ConstraintViolationException) {
@@ -62,14 +61,14 @@ public class GlobalExceptionHandler extends BaseController {
                 errorInfo.append(item.getMessage());
             }
         }
-        return new R(BusinessCode.ERROR_SYS_PARAMS.getCode(), errorInfo.toString());
+        return new R(BusinessCode.ERROR_PARAMS.getCode(), errorInfo.toString());
     }
 
     @ExceptionHandler(BindException.class)
     @ResponseBody
     public R exceptionHandler(BindException e) {
         log.error("BindException[绑定异常],e:" + e.getMessage(), e);
-        return new R(BusinessCode.ERROR_SYS_PARAMS.getCode(), e.getBindingResult().getAllErrors().get(0).getDefaultMessage());
+        return new R(BusinessCode.ERROR_PARAMS.getCode(), e.getBindingResult().getAllErrors().get(0).getDefaultMessage());
     }
 
     /**
@@ -82,7 +81,7 @@ public class GlobalExceptionHandler extends BaseController {
     @ResponseBody
     public R exceptionHandler(MethodArgumentNotValidException e) {
         log.error("MethodArgumentNotValidException[校验错误]", e);
-        return new R(BusinessCode.ERROR_SYS_PARAMS.getCode(), e.getBindingResult().getAllErrors().get(0).getDefaultMessage());
+        return new R(BusinessCode.ERROR_PARAMS.getCode(), e.getBindingResult().getAllErrors().get(0).getDefaultMessage());
     }
 
     /**
@@ -95,7 +94,6 @@ public class GlobalExceptionHandler extends BaseController {
     @ResponseBody
     public R exceptionHandler(HttpMessageConversionException e) {
         log.error("HttpMessageConversionException[参数类型转换错误]", e);
-        return new R(BusinessCode.ERROR_SYS_PARAMS.getCode(), "参数格式错误");
+        return new R(BusinessCode.ERROR_PARAMS.getCode(), "参数格式错误");
     }
-
 }

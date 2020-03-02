@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 
 /**
  * @author ; lidongdong
@@ -44,6 +43,6 @@ public interface BrandFeign {
      * @return 品牌详情
      */
     @GetMapping("detail")
-    R detail(@NotNull Integer id);
+    R detail(@RequestParam(defaultValue = "id") Integer id);
 }
 

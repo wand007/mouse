@@ -1,6 +1,7 @@
 package com.mouse.api.hystrix;
 
 import com.mouse.api.feign.HomeFeign;
+import com.mouse.core.base.BusinessCode;
 import com.mouse.core.base.R;
 import feign.hystrix.FallbackFactory;
 import lombok.extern.slf4j.Slf4j;
@@ -21,12 +22,12 @@ public class HystrixHomeFeign implements FallbackFactory<HomeFeign> {
         return new HomeFeign() {
             @Override
             public R index(String userId) {
-                return R.error();
+                return R.fromBusinessCode(BusinessCode.ERROR_SYS_SERVICE_RESTART);
             }
 
             @Override
             public R about() {
-                return R.error();
+                return R.fromBusinessCode(BusinessCode.ERROR_SYS_SERVICE_RESTART);
             }
         };
     }

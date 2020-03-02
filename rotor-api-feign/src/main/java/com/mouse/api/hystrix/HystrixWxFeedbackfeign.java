@@ -2,6 +2,7 @@ package com.mouse.api.hystrix;
 
 import com.mouse.api.commons.req.FeedbackReq;
 import com.mouse.api.feign.FeedbackFeign;
+import com.mouse.core.base.BusinessCode;
 import com.mouse.core.base.R;
 import feign.hystrix.FallbackFactory;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +22,7 @@ public class HystrixWxFeedbackfeign implements FallbackFactory<FeedbackFeign> {
         return new FeedbackFeign() {
             @Override
             public Object submit(String userId, FeedbackReq param) {
-                return R.error();
+                return R.fromBusinessCode(BusinessCode.ERROR_SYS_SERVICE_RESTART);
             }
         };
     }
