@@ -43,6 +43,6 @@ public interface BrandFeign {
      * @return 品牌详情
      */
     @GetMapping("detail")
-    R detail(@RequestParam(defaultValue = "id") Integer id);
+    R detail(@RequestParam(name = "id") Integer id);
 }
 
