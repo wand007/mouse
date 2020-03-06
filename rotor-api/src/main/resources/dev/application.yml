@@ -100,7 +100,8 @@ spring:
           starttls:
             enable: true
             required: true
-
+          ssl:
+            enable: true
   ##Consul配置信息
   cloud:
     consul:

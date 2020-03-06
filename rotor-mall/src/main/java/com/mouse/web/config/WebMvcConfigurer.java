@@ -20,7 +20,7 @@ import java.util.List;
  */
 @Slf4j
 @Configuration
-public class BaseInterceptorConfig extends WebMvcConfigurationSupport {
+public class WebMvcConfigurer extends WebMvcConfigurationSupport {
 
     @Autowired
     SafeInterceptor safeInterceptor;
