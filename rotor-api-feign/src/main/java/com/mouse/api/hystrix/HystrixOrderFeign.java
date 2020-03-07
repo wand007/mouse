@@ -9,8 +9,6 @@ import feign.hystrix.FallbackFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
@@ -58,7 +56,7 @@ public class HystrixOrderFeign implements FallbackFactory<OrderFeign> {
             }
 
             @Override
-            public R payNotify(HttpServletRequest request, HttpServletResponse response) {
+            public R payNotify() {
                 return R.fromBusinessCode(BusinessCode.ERROR_SYS_SERVICE_RESTART);
             }
 

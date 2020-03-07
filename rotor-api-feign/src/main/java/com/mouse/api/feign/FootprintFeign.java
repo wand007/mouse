@@ -28,8 +28,8 @@ public interface FootprintFeign {
      * @return 删除操作结果
      */
     @PostMapping("delete")
-    R delete(@RequestParam(defaultValue = "userId") String userId,
-             @RequestParam(defaultValue = "id") String id);
+    R delete(@RequestParam(name = "userId") String userId,
+             @RequestParam(name = "id") String id);
 
     /**
      * 用户足迹列表
@@ -39,7 +39,7 @@ public interface FootprintFeign {
      * @return 用户足迹列表
      */
     @GetMapping("findPage")
-    R findPage(@RequestParam(defaultValue = "userId") String userId,
+    R findPage(@RequestParam(name = "userId") String userId,
                @Min(value = 0, message = "必须从0页开始")
                @RequestParam(name = "pageNum", defaultValue = "0", required = false) Integer pageNum,
                @Min(value = 1, message = "每页必须大于1")

@@ -34,8 +34,8 @@ public interface TopicFeign {
                @Min(value = 1, message = "每页必须大于1")
                @Max(value = 300, message = "每页必须小于300")
                @RequestParam(name = "pageSize", defaultValue = "20", required = false) Integer pageSize,
-               @RequestParam(defaultValue = "add_time", required = false) String sort,
-               @RequestParam(defaultValue = "desc", required = false) String order);
+               @RequestParam(name = "sort", defaultValue = "add_time", required = false) String sort,
+               @RequestParam(name = "order", defaultValue = "desc", required = false) String order);
 
     /**
      * 专题详情
@@ -44,7 +44,7 @@ public interface TopicFeign {
      * @return 专题详情
      */
     @GetMapping("detail")
-    R detail(@RequestParam(defaultValue = "id") Integer id);
+    R detail(@RequestParam(name = "id") Integer id);
 
     /**
      * 相关专题
@@ -53,6 +53,6 @@ public interface TopicFeign {
      * @return 相关专题
      */
     @GetMapping("related")
-    R related(@RequestParam(defaultValue = "id") Integer id);
+    R related(@RequestParam(name = "id") Integer id);
 }
 

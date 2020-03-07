@@ -43,8 +43,8 @@ public class TopicController extends GlobalExceptionHandler {
                       @Min(value = 1, message = "每页必须大于1")
                       @Max(value = 300, message = "每页必须小于300")
                       @RequestParam(name = "pageSize", defaultValue = "20", required = false) Integer pageSize,
-                      @RequestParam(defaultValue = "add_time", required = false) String sort,
-                      @RequestParam(defaultValue = "desc", required = false) String order) {
+                      @RequestParam(name = "sort", defaultValue = "add_time", required = false) String sort,
+                      @RequestParam(name = "order", defaultValue = "desc", required = false) String order){
         return topicFeign.findPage(pageNum, pageSize, sort, order);
     }
 

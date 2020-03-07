@@ -1,4 +1,4 @@
-package com.mouse.api.config;
+package com.mouse.core.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;

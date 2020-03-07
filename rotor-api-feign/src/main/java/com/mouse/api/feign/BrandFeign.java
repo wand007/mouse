@@ -27,14 +27,14 @@ public interface BrandFeign {
      * @param order
      * @return
      */
-    @GetMapping("findPage")
+    @GetMapping(value = "findPage")
     R findPage(@Min(value = 0, message = "必须从0页开始")
                @RequestParam(name = "pageNum", defaultValue = "0", required = false) Integer pageNum,
                @Min(value = 1, message = "每页必须大于1")
                @Max(value = 300, message = "每页必须小于300")
                @RequestParam(name = "pageSize", defaultValue = "20", required = false) Integer pageSize,
-               @RequestParam(defaultValue = "add_time", required = false) String sort,
-               @RequestParam(defaultValue = "desc", required = false) String order);
+               @RequestParam(name = "sort", defaultValue = "add_time", required = false) String sort,
+               @RequestParam(name = "order", defaultValue = "desc", required = false) String order);
 
     /**
      * 品牌详情
@@ -42,7 +42,7 @@ public interface BrandFeign {
      * @param id 品牌ID
      * @return 品牌详情
      */
-    @GetMapping("detail")
-    R detail(@RequestParam(name = "id") Integer id);
+    @GetMapping(value = "findDetail")
+    R findDetail(@RequestParam(name = "id") Integer id);
 }
 

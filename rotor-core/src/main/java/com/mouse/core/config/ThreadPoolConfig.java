@@ -1,4 +1,4 @@
-package com.mouse.api.config;
+package com.mouse.core.config;
 
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 

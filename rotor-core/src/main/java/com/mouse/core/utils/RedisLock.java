@@ -18,6 +18,7 @@ public class RedisLock {
 
     public RLock lock(String key) {
         RLock lock = redissonClient.getLock("anyLock" + key);
+        lock.lock();
         return lock;
     }
 }

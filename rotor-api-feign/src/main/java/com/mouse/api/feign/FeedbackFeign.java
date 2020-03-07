@@ -2,6 +2,7 @@ package com.mouse.api.feign;
 
 import com.mouse.api.commons.req.FeedbackReq;
 import com.mouse.api.hystrix.HystrixWxFeedbackfeign;
+import com.mouse.core.base.R;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,6 +25,6 @@ public interface FeedbackFeign {
      * @return 操作结果
      */
     @PostMapping("submit")
-    public Object submit(@RequestParam(defaultValue = "userId") String userId,
-                         @RequestBody FeedbackReq param);
+    R submit(@RequestParam(name = "userId") String userId,
+             @RequestBody FeedbackReq param);
 }

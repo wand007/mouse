@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 
 /**
  * @author ; lidongdong
@@ -43,8 +42,8 @@ public class BrandController extends GlobalExceptionHandler {
                       @Min(value = 1, message = "每页必须大于1")
                       @Max(value = 300, message = "每页必须小于300")
                       @RequestParam(name = "pageSize", defaultValue = "20", required = false) Integer pageSize,
-                      @RequestParam(defaultValue = "add_time", required = false) String sort,
-                      @RequestParam(defaultValue = "desc", required = false) String order) {
+                      @RequestParam(name = "sort", defaultValue = "add_time", required = false) String sort,
+                      @RequestParam(name = "order", defaultValue = "desc", required = false) String order) {
         return brandFeign.findPage(pageNum, pageSize, sort, order);
     }
 
@@ -54,9 +53,9 @@ public class BrandController extends GlobalExceptionHandler {
      * @param id 品牌ID
      * @return 品牌详情
      */
-    @GetMapping("detail")
-    public R detail(@NotNull Integer id) {
-        return brandFeign.detail(id);
+    @GetMapping("findDetail")
+    public R detail(@RequestParam(name = "id") Integer id) {
+        return brandFeign.findDetail(id);
     }
 }
 

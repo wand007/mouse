@@ -21,7 +21,7 @@ public class HystrixWxFeedbackfeign implements FallbackFactory<FeedbackFeign> {
         log.error("错误信息：", throwable);
         return new FeedbackFeign() {
             @Override
-            public Object submit(String userId, FeedbackReq param) {
+            public R submit(String userId, FeedbackReq param) {
                 return R.fromBusinessCode(BusinessCode.ERROR_SYS_SERVICE_RESTART);
             }
         };

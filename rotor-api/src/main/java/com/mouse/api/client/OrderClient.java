@@ -43,8 +43,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.math.BigDecimal;
@@ -134,8 +132,8 @@ public class OrderClient extends BaseClient implements OrderFeign {
                       @Min(value = 1, message = "每页必须大于1")
                       @Max(value = 300, message = "每页必须小于300")
                       @RequestParam(name = "pageSize", defaultValue = "20", required = false) Integer pageSize,
-                      @RequestParam(defaultValue = "add_time", required = false) String sort,
-                      @RequestParam(defaultValue = "desc", required = false) String order) {
+                      @RequestParam(name = "sort", defaultValue = "add_time", required = false) String sort,
+                      @RequestParam(name = "order", defaultValue = "desc", required = false) String order) {
         List<Short> orderStatus = OrderUtil.orderStatus(showType);
         Page<OrderEntity> page = orderService.findByUserIdPage(userId, orderStatus, pageNum, pageSize);
         List<OrderEntity> content = page.getContent();
@@ -466,15 +464,11 @@ public class OrderClient extends BaseClient implements OrderFeign {
         RLock lock = redisLock.lock(orderId);
 
         try {
-            lock.lock();
-
 
             OrderEntity orderEntity = orderService.findById(orderId).orElseThrow(() -> new BusinessException("订单记录不存在"));
             if (!orderEntity.getUserId().equals(userId)) {
                 return R.error("不能取消ta人的订单");
             }
-
-            LocalDateTime preUpdateTime = orderEntity.getUpdateTime();
 
             // 检测是否能够取消
             OrderHandleOption handleOption = OrderUtil.build(orderEntity);
@@ -568,7 +562,7 @@ public class OrderClient extends BaseClient implements OrderFeign {
      * @return 操作结果
      */
     @Override
-    public R payNotify(HttpServletRequest request, HttpServletResponse response) {
+    public R payNotify() {
         return R.success();
     }
 

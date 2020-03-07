@@ -39,15 +39,17 @@ public interface OrderFeign {
      */
     @GetMapping("findPage")
     R findPage(@RequestParam("userId") String userId,
-               @RequestParam(defaultValue = "0") Integer showType,
+               @RequestParam(name = "showType", defaultValue = "0") Integer showType,
                @RequestParam(name = "referer") Integer referer,
                @Min(value = 0, message = "必须从0页开始")
                @RequestParam(name = "pageNum", defaultValue = "0", required = false) Integer pageNum,
                @Min(value = 1, message = "每页必须大于1")
                @Max(value = 300, message = "每页必须小于300")
                @RequestParam(name = "pageSize", defaultValue = "20", required = false) Integer pageSize,
-               @RequestParam(defaultValue = "add_time", required = false) String sort,
-               @RequestParam(defaultValue = "desc", required = false) String order);
+               @RequestParam(name = "sort", defaultValue = "add_time", required = false) String sort,
+               @RequestParam(name = "order", defaultValue = "desc", required = false) String order);
+
+    ;
 
     /**
      * 订单详情
@@ -57,7 +59,8 @@ public interface OrderFeign {
      * @return 订单详情
      */
     @GetMapping("detail")
-    R detail(@RequestParam("userId") String userId, @RequestParam("orderId") String orderId);
+    R detail(@RequestParam(name = "userId") String userId,
+             @RequestParam(name = "orderId") String orderId);
 
     /**
      * 提交订单
@@ -67,7 +70,8 @@ public interface OrderFeign {
      * @return 提交订单操作结果
      */
     @PostMapping("submit")
-    R submit(@RequestParam("userId") String userId, @RequestBody SaveOrderReq param);
+    R submit(@RequestParam(name = "userId") String userId,
+             @RequestBody SaveOrderReq param);
 
     /**
      * 取消订单
@@ -77,8 +81,8 @@ public interface OrderFeign {
      * @return 取消订单操作结果
      */
     @PostMapping("cancel")
-    R cancel(@RequestParam("userId") String userId,
-             @RequestParam("orderId") String orderId);
+    R cancel(@RequestParam(name = "userId") String userId,
+             @RequestParam(name = "orderId") String orderId);
 
     /**
      * 付款订单的预支付会话标识
@@ -88,7 +92,8 @@ public interface OrderFeign {
      * @return 支付订单ID
      */
     @PostMapping("prepay")
-    R prepay(@RequestParam("userId") String userId, @RequestParam("orderId") String orderId);
+    R prepay(@RequestParam(name = "userId") String userId,
+             @RequestParam(name = "orderId") String orderId);
 
     /**
      * 微信H5支付
@@ -98,7 +103,8 @@ public interface OrderFeign {
      * @return
      */
     @PostMapping("h5pay")
-    R h5pay(@RequestParam("userId") String userId, @RequestParam("orderId") String orderId);
+    R h5pay(@RequestParam(name = "userId") String userId,
+            @RequestParam(name = "orderId") String orderId);
 
     /**
      * 微信付款成功或失败回调接口
@@ -106,12 +112,10 @@ public interface OrderFeign {
      * TODO
      * 注意，这里pay-notify是示例地址，建议开发者应该设立一个隐蔽的回调地址
      *
-     * @param request  请求内容
-     * @param response 响应内容
      * @return 操作结果
      */
     @PostMapping("pay-notify")
-    R payNotify(HttpServletRequest request, HttpServletResponse response);
+    R payNotify();
 
     /**
      * 订单申请退款
@@ -121,8 +125,8 @@ public interface OrderFeign {
      * @return 订单退款操作结果
      */
     @PostMapping("refund")
-    R refund(@RequestParam("userId") String userId,
-             @RequestParam("orderId") String orderId);
+    R refund(@RequestParam(name = "userId") String userId,
+             @RequestParam(name = "orderId") String orderId);
 
     /**
      * 确认收货
@@ -132,8 +136,8 @@ public interface OrderFeign {
      * @return 订单操作结果
      */
     @PostMapping("confirm")
-    R confirm(@RequestParam("userId") String userId,
-              @RequestParam("orderId") String orderId);
+    R confirm(@RequestParam(name = "userId") String userId,
+              @RequestParam(name = "orderId") String orderId);
 
     /**
      * 删除订单
@@ -143,8 +147,8 @@ public interface OrderFeign {
      * @return 订单操作结果
      */
     @PostMapping("delete")
-    R delete(@RequestParam("userId") String userId,
-             @RequestParam("orderId") String orderId);
+    R delete(@RequestParam(name = "userId") String userId,
+             @RequestParam(name = "orderId") String orderId);
 
     /**
      * 待评价订单商品信息
@@ -155,9 +159,9 @@ public interface OrderFeign {
      * @return 待评价订单商品信息
      */
     @GetMapping("goods")
-    R goods(@RequestParam("userId") String userId,
-            @RequestParam("orderId") String orderId,
-            @RequestParam("goodsId") Integer goodsId);
+    R goods(@RequestParam(name = "userId") String userId,
+            @RequestParam(name = "orderId") String orderId,
+            @RequestParam(name = "goodsId") Integer goodsId);
 
     /**
      * 评价订单商品
@@ -167,5 +171,6 @@ public interface OrderFeign {
      * @return 订单操作结果
      */
     @PostMapping("comment")
-    R comment(@RequestParam("userId") String userId, @RequestBody SaveCommentReq param);
+    R comment(@RequestParam(name = "userId") String userId,
+              @RequestBody SaveCommentReq param);
 }

@@ -1,4 +1,4 @@
-package com.mouse.api.config;
+package com.mouse.core.config;
 
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;

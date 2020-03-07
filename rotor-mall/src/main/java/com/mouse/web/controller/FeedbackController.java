@@ -2,6 +2,7 @@ package com.mouse.web.controller;
 
 import com.mouse.api.commons.req.FeedbackReq;
 import com.mouse.api.feign.FeedbackFeign;
+import com.mouse.core.base.R;
 import com.mouse.core.params.RotorSessionUser;
 import com.mouse.web.base.GlobalExceptionHandler;
 import lombok.extern.slf4j.Slf4j;
@@ -30,8 +31,8 @@ public class FeedbackController extends GlobalExceptionHandler {
      * @return 操作结果
      */
     @PostMapping("submit")
-    public Object submit(@RequestAttribute(name = "sessionUser") RotorSessionUser sessionUser,
-                         @RequestBody FeedbackReq param) {
+    public R submit(@RequestAttribute(name = "sessionUser") RotorSessionUser sessionUser,
+                    @RequestBody FeedbackReq param) {
         return feedbackFeign.submit(sessionUser.getId(), param);
     }
 }

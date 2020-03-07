@@ -31,7 +31,7 @@ public interface GoodsFeign {
      */
     @GetMapping("detail")
     R detail(@RequestParam(name = "userId", required = false) String userId,
-             @RequestParam("id") Integer id);
+             @RequestParam(name = "id") Integer id);
 
     /**
      * 商品分类类目
@@ -40,7 +40,7 @@ public interface GoodsFeign {
      * @return 商品分类类目
      */
     @GetMapping("category")
-    R category(@RequestParam("id") Integer id);
+    R category(@RequestParam(name = "id") Integer id);
 
     /**
      * 根据条件搜素商品
@@ -62,20 +62,20 @@ public interface GoodsFeign {
      */
     @GetMapping("findPage")
     R findPage(
-            @RequestParam("categoryId") Integer categoryId,
-            @RequestParam("brandId") Integer brandId,
-            @RequestParam("keyword") String keyword,
-            @RequestParam("isNew") Boolean isNew,
-            @RequestParam("isHot") Boolean isHot,
-            @RequestParam("userId") String userId,
+            @RequestParam(name = "categoryId") Integer categoryId,
+            @RequestParam(name = "brandId") Integer brandId,
+            @RequestParam(name = "keyword") String keyword,
+            @RequestParam(name = "isNew") Boolean isNew,
+            @RequestParam(name = "isHot") Boolean isHot,
+            @RequestParam(name = "userId") String userId,
             @RequestParam(name = "referer") Integer referer,
             @Min(value = 0, message = "必须从0页开始")
             @RequestParam(name = "pageNum", defaultValue = "0", required = false) Integer pageNum,
             @Min(value = 1, message = "每页必须大于1")
             @Max(value = 300, message = "每页必须小于300")
             @RequestParam(name = "pageSize", defaultValue = "20", required = false) Integer pageSize,
-            @RequestParam(defaultValue = "add_time", required = false) String sort,
-            @RequestParam(defaultValue = "desc", required = false) String order);
+            @RequestParam(name = "sort", defaultValue = "add_time", required = false) String sort,
+            @RequestParam(name = "order", defaultValue = "desc", required = false) String order);
 
     /**
      * 商品详情页面“大家都在看”推荐商品
@@ -84,7 +84,7 @@ public interface GoodsFeign {
      * @return 商品详情页面推荐商品
      */
     @GetMapping("related")
-    R related(@RequestParam("id") Integer id);
+    R related(@RequestParam(name = "id") Integer id);
 
     /**
      * 在售的商品总数
