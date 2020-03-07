@@ -1,6 +1,6 @@
 package com.mouse.api.client;
 
-import com.mouse.api.base.BaseClient;
+import com.mouse.api.base.GlobalExceptionHandler;
 import com.mouse.api.feign.SearchFeign;
 import com.mouse.api.service.KeywordService;
 import com.mouse.api.service.SearchHistoryService;
@@ -28,7 +28,7 @@ import java.util.*;
 @Validated
 @RestController
 @RequestMapping("search")
-public class SearchClient extends BaseClient implements SearchFeign {
+public class SearchClient extends GlobalExceptionHandler implements SearchFeign {
 
 
     @Autowired

@@ -1,6 +1,6 @@
 package com.mouse.api.client;
 
-import com.mouse.api.base.BaseClient;
+import com.mouse.api.base.GlobalExceptionHandler;
 import com.mouse.api.commons.enums.CategoryLevelEnum;
 import com.mouse.api.feign.CatalogFeign;
 import com.mouse.api.service.CategoryService;
@@ -23,7 +23,7 @@ import java.util.*;
 @Validated
 @RestController
 @RequestMapping("catalog")
-public class CatalogClient extends BaseClient implements CatalogFeign {
+public class CatalogClient extends GlobalExceptionHandler implements CatalogFeign {
 
     @Autowired
     CategoryService categoryService;

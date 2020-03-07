@@ -1,6 +1,6 @@
 package com.mouse.api.client;
 
-import com.mouse.api.base.BaseClient;
+import com.mouse.api.base.GlobalExceptionHandler;
 import com.mouse.api.commons.GrouponRulesComm;
 import com.mouse.api.commons.rsp.CouponRsp;
 import com.mouse.api.commons.rsp.CouponUserRsp;
@@ -45,7 +45,7 @@ import static com.mouse.core.enums.CouponConstant.STATUS_OUT;
 @Validated
 @RestController
 @RequestMapping("coupon")
-public class CouponClient extends BaseClient implements CouponFeign {
+public class CouponClient extends GlobalExceptionHandler implements CouponFeign {
 
     @Autowired
     GrouponRulesComm grouponRulesComm;

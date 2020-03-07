@@ -1,6 +1,6 @@
 package com.mouse.api.client;
 
-import com.mouse.api.base.BaseClient;
+import com.mouse.api.base.GlobalExceptionHandler;
 import com.mouse.api.feign.BrandFeign;
 import com.mouse.api.service.BrandService;
 import com.mouse.core.base.R;
@@ -24,7 +24,7 @@ import java.util.Optional;
 @Validated
 @RestController
 @RequestMapping("brand")
-public class BrandClient extends BaseClient implements BrandFeign {
+public class BrandClient extends GlobalExceptionHandler implements BrandFeign {
 
     @Autowired
     BrandService brandService;

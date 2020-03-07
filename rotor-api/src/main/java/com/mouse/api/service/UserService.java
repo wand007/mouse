@@ -14,4 +14,7 @@ public interface UserService {
     Optional<UserEntity> findById(String userId);
 
     Optional<List<UserEntity>> findByIdIn(List<String> userIds);
+
+    Optional<UserEntity> findTopByUserName(String username);
+
 }

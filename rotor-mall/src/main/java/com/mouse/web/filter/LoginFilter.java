@@ -2,10 +2,10 @@ package com.mouse.web.filter;
 
 import com.mouse.core.base.BodyReaderHttpServletRequestWrapper;
 import com.mouse.core.base.MediaType;
-import com.mouse.core.enums.RequestMethodEunm;
 import com.mouse.core.utils.WebKit;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.HttpMethod;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
@@ -26,7 +26,7 @@ import java.util.Set;
 @WebFilter(filterName = "LoginFilter", urlPatterns = "/*")
 public class LoginFilter implements Filter {
 
-    private CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+//    private CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
 
     @Override
     public void init(FilterConfig filterConfig) {
@@ -50,12 +50,12 @@ public class LoginFilter implements Filter {
 
         //设置跨域
         if (StringUtils.isNotBlank(request.getHeader("Origin"))) {
-            if (request.getHeader("Origin").contains("rotor.com")
+            if (request.getHeader("Origin").contains("hvyosv.com") || request.getHeader("Origin").contains("hvyogo.com")
                     || request.getHeader("Origin").contains("localhost") || request.getHeader("Origin").contains("127.0.0.1")) {
                 WebKit.setCORS(response, request.getHeader("Origin"));
             }
         }
-        if (RequestMethodEunm.OPTIONS.getMethod().equals(request.getMethod())) {
+        if (HttpMethod.OPTIONS.name().equals(request.getMethod())) {
             //浏览器对复杂跨域请求的预请求，试探服务器响应是否正确，跳过
             filterChain.doFilter(request, response);
             return;
@@ -67,13 +67,13 @@ public class LoginFilter implements Filter {
             filterChain.doFilter(servletRequest, servletResponse);
             return;
         }
-        String contentType = request.getContentType();
-        if (StringUtils.isNotBlank(contentType) && contentType.contains(MediaType.MULTIPART_FORM_DATA_VALUE)) {
-            //multipart/form-data格式一般用于文件类型
-            MultipartHttpServletRequest multiReq = multipartResolver.resolveMultipart(request);
-            filterChain.doFilter(multiReq, response);
-            return;
-        }
+//        String contentType = request.getContentType();
+//        if (StringUtils.isNotBlank(contentType) && contentType.contains(MediaType.MULTIPART_FORM_DATA_VALUE)) {
+//            //multipart/form-data格式一般用于文件类型
+//            MultipartHttpServletRequest multiReq = multipartResolver.resolveMultipart(request);
+//            filterChain.doFilter(multiReq, response);
+//            return;
+//        }
 
         BodyReaderHttpServletRequestWrapper requestWrapper = null;
         if (servletRequest instanceof HttpServletRequest) {

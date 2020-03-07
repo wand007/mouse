@@ -1,6 +1,6 @@
 package com.mouse.api.client;
 
-import com.mouse.api.base.BaseClient;
+import com.mouse.api.base.GlobalExceptionHandler;
 import com.mouse.api.feign.TopicFeign;
 import com.mouse.api.service.GoodsService;
 import com.mouse.api.service.TopicService;
@@ -31,7 +31,7 @@ import java.util.*;
 @Validated
 @RestController
 @RequestMapping("topic")
-public class TopicClient extends BaseClient implements TopicFeign {
+public class TopicClient extends GlobalExceptionHandler implements TopicFeign {
 
     @Autowired
     TopicService topicService;

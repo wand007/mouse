@@ -1,6 +1,6 @@
 package com.mouse.api.client;
 
-import com.mouse.api.base.BaseClient;
+import com.mouse.api.base.GlobalExceptionHandler;
 import com.mouse.api.commons.FootprintComm;
 import com.mouse.api.commons.GoodsComm;
 import com.mouse.api.commons.enums.CategoryLevelEnum;
@@ -44,7 +44,7 @@ import java.util.stream.Collectors;
 @Validated
 @RestController
 @RequestMapping("goods")
-public class GoodClient extends BaseClient implements GoodsFeign {
+public class GoodClient extends GlobalExceptionHandler implements GoodsFeign {
 
 
     @Autowired

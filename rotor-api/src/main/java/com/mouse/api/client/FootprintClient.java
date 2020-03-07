@@ -1,6 +1,6 @@
 package com.mouse.api.client;
 
-import com.mouse.api.base.BaseClient;
+import com.mouse.api.base.GlobalExceptionHandler;
 import com.mouse.api.feign.FootprintFeign;
 import com.mouse.api.service.FootprintService;
 import com.mouse.api.service.GoodsService;
@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
 @Validated
 @RestController
 @RequestMapping("footprint")
-public class FootprintClient extends BaseClient implements FootprintFeign {
+public class FootprintClient extends GlobalExceptionHandler implements FootprintFeign {
 
     @Autowired
     GoodsService goodsService;

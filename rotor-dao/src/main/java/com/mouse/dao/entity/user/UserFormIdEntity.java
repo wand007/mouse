@@ -4,7 +4,10 @@ import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -19,8 +22,8 @@ import java.time.LocalDateTime;
 public class UserFormIdEntity implements Serializable {
     private static final long serialVersionUID = -1772996238684924859L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @Column(name = "id", columnDefinition = "varchar(32) COMMENT '用户表的用户ID'", nullable = false)
+    private String id;
 
     @Column(name = "formId", columnDefinition = "varchar(32) COMMENT '缓存的FormId'", nullable = false)
     private String formId;
@@ -37,6 +40,9 @@ public class UserFormIdEntity implements Serializable {
     @Column(name = "openId", columnDefinition = "varchar(32) COMMENT '微信登录openid'", nullable = false)
     private String openId;
 
+    @Column(name = "unionId", columnDefinition = "varchar(32) COMMENT '微信登录unionId'")
+    private String unionId;
+
     @CreationTimestamp
     @Column(name = "add_time", columnDefinition = "datetime  COMMENT '创建时间'", nullable = false)
     private LocalDateTime addTime;
@@ -45,6 +51,6 @@ public class UserFormIdEntity implements Serializable {
     @Column(name = "update_time", columnDefinition = "datetime COMMENT '更新时间'", nullable = false)
     private LocalDateTime updateTime;
 
-   @Column(name = "deleted", columnDefinition = "tinyint unsigned DEFAULT '0' COMMENT '逻辑删除 0 未删除，1 删除'", nullable = false)
+    @Column(name = "deleted", columnDefinition = "tinyint unsigned DEFAULT '0' COMMENT '逻辑删除 0 未删除，1 删除'", nullable = false)
     private Boolean deleted;
 }

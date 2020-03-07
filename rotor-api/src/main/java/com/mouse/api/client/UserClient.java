@@ -1,6 +1,6 @@
 package com.mouse.api.client;
 
-import com.mouse.api.base.BaseClient;
+import com.mouse.api.base.GlobalExceptionHandler;
 import com.mouse.api.feign.UserFeign;
 import com.mouse.api.service.*;
 import com.mouse.core.base.R;
@@ -26,7 +26,7 @@ import java.util.Map;
 @Validated
 @RestController
 @RequestMapping("user")
-public class UserClient extends BaseClient implements UserFeign {
+public class UserClient extends GlobalExceptionHandler implements UserFeign {
 
     @Autowired
     OrderService orderService;

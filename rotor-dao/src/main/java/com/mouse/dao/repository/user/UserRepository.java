@@ -23,4 +23,12 @@ public interface UserRepository extends JpaRepository<UserEntity, String>, JpaSp
      * @return
      */
     Optional<List<UserEntity>> findByIdIn(List<String> userIds);
+
+    /**
+     * 根据用户名称查询用户记录
+     *
+     * @param username 用户名称
+     * @return
+     */
+    Optional<UserEntity> findTopByUserNameOrderByIdDesc(String username);
 }

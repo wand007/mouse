@@ -1,6 +1,6 @@
 package com.mouse.api.client;
 
-import com.mouse.api.base.BaseClient;
+import com.mouse.api.base.GlobalExceptionHandler;
 import com.mouse.api.commons.req.SaveCommentReq;
 import com.mouse.api.feign.CommentFeign;
 import com.mouse.api.service.CommentService;
@@ -37,7 +37,7 @@ import java.util.stream.Collectors;
 @Validated
 @RestController
 @RequestMapping("comment")
-public class CommentClient extends BaseClient implements CommentFeign {
+public class CommentClient extends GlobalExceptionHandler implements CommentFeign {
 
     @Autowired
     UserService userService;

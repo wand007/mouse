@@ -11,5 +11,5 @@ import org.springframework.stereotype.Repository;
  * @Date 2019-11-26
  */
 @Repository
-public interface UserFormIdRepository extends JpaRepository<UserFormIdEntity, Integer>, JpaSpecificationExecutor<UserFormIdEntity> {
+public interface UserFormIdRepository extends JpaRepository<UserFormIdEntity, String>, JpaSpecificationExecutor<UserFormIdEntity> {
 }

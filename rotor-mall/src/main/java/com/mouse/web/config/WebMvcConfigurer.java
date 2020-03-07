@@ -32,13 +32,8 @@ public class WebMvcConfigurer extends WebMvcConfigurationSupport {
     public static final List<String> WHITE_URL_03 = Arrays.asList(
             "/MP_verify_H0CfESnNrbjG7kkx.txt",
             "/MP_verify_pm29nsQheolO8Q4e.txt",
-            "/login/sendLoginSmsCode",
-            "/login/phoneLogin",
-            "/common/refererToken/05DHR3KbORlfAzkI/6hFx661ZnChvyyjy",
-            "/common/wx/sign",
-            "/common/wxAuthCall",
-            "/order/wxpay/notify",
-            "/common/area/findList"
+            "/auth/login",
+            "/*"
     );
 
 

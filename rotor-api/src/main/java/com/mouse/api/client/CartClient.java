@@ -1,6 +1,6 @@
 package com.mouse.api.client;
 
-import com.mouse.api.base.BaseClient;
+import com.mouse.api.base.GlobalExceptionHandler;
 import com.mouse.api.commons.GoodsComm;
 import com.mouse.api.commons.req.SaveCartReq;
 import com.mouse.api.commons.req.UpdateCartReq;
@@ -31,7 +31,7 @@ import java.util.*;
 @Validated
 @RestController
 @RequestMapping("cart")
-public class CartClient extends BaseClient implements CartFeign {
+public class CartClient extends GlobalExceptionHandler implements CartFeign {
 
 
     @Autowired

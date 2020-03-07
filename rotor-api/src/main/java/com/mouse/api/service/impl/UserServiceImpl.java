@@ -30,4 +30,9 @@ public class UserServiceImpl implements UserService {
     public Optional<List<UserEntity>> findByIdIn(List<String> userIds) {
         return userRepository.findByIdIn(userIds);
     }
+
+    @Override
+    public Optional<UserEntity> findTopByUserName(String username) {
+        return userRepository.findTopByUserNameOrderByIdDesc(username);
+    }
 }

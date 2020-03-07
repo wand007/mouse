@@ -1,6 +1,6 @@
 package com.mouse.api.client;
 
-import com.mouse.api.base.BaseClient;
+import com.mouse.api.base.GlobalExceptionHandler;
 import com.mouse.api.commons.FootprintComm;
 import com.mouse.api.commons.GoodsComm;
 import com.mouse.api.commons.TaskComm;
@@ -58,7 +58,7 @@ import java.util.*;
 @Validated
 @RestController
 @RequestMapping("order")
-public class OrderClient extends BaseClient implements OrderFeign {
+public class OrderClient extends GlobalExceptionHandler implements OrderFeign {
 
 
     @Autowired

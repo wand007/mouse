@@ -1,6 +1,6 @@
 package com.mouse.api.client;
 
-import com.mouse.api.base.BaseClient;
+import com.mouse.api.base.GlobalExceptionHandler;
 import com.mouse.api.commons.GoodsComm;
 import com.mouse.api.commons.GrouponRulesComm;
 import com.mouse.api.commons.enums.CategoryLevelEnum;
@@ -37,7 +37,7 @@ import java.util.Map;
 @Validated
 @RestController
 @RequestMapping("home")
-public class HomeClient extends BaseClient implements HomeFeign {
+public class HomeClient extends GlobalExceptionHandler implements HomeFeign {
 
     @Autowired
     GoodsComm goodsComm;

@@ -1,6 +1,6 @@
 package com.mouse.api.client;
 
-import com.mouse.api.base.BaseClient;
+import com.mouse.api.base.GlobalExceptionHandler;
 import com.mouse.api.feign.CollectFeign;
 import com.mouse.api.service.CollectService;
 import com.mouse.api.service.GoodsService;
@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 @Validated
 @RestController
 @RequestMapping("collect")
-public class CollectClient extends BaseClient implements CollectFeign {
+public class CollectClient extends GlobalExceptionHandler implements CollectFeign {
 
     @Autowired
     CollectService collectService;

@@ -1,9 +1,8 @@
 package com.mouse.api.client;
 
-import com.mouse.api.base.BaseClient;
+import com.mouse.api.base.GlobalExceptionHandler;
 import com.mouse.api.feign.IssueFeign;
 import com.mouse.api.service.IssueService;
-import com.mouse.api.service.OrderService;
 import com.mouse.core.base.R;
 import com.mouse.dao.entity.sys.IssueEntity;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +25,7 @@ import javax.validation.constraints.Min;
 @Validated
 @RestController
 @RequestMapping("issue")
-public class IssueClient extends BaseClient implements IssueFeign {
+public class IssueClient extends GlobalExceptionHandler implements IssueFeign {
 
     @Autowired
     IssueService issueService;

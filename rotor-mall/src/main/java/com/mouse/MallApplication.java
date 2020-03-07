@@ -3,7 +3,9 @@ package com.mouse;
 import com.mouse.core.config.RedisTemplateConfig;
 import com.mouse.core.config.ThreadPoolConfig;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
@@ -12,6 +14,10 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
+
+
+
+
 
 /**
  * @author ; lidongdong
@@ -23,6 +29,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 @EnableDiscoveryClient
 @EnableFeignClients
+@ServletComponentScan(basePackages = {"com.mouse.web.filter"})
 @SpringBootApplication
 public class MallApplication {
     public static void main(String[] args) {

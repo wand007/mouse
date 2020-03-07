@@ -1,6 +1,6 @@
 package com.mouse.api.client;
 
-import com.mouse.api.base.BaseClient;
+import com.mouse.api.base.GlobalExceptionHandler;
 import com.mouse.api.commons.GrouponRulesComm;
 import com.mouse.api.feign.GrouponFeign;
 import com.mouse.api.service.*;
@@ -35,7 +35,7 @@ import java.util.*;
 @Validated
 @RestController
 @RequestMapping("groupon")
-public class GrouponClient extends BaseClient implements GrouponFeign {
+public class GrouponClient extends GlobalExceptionHandler implements GrouponFeign {
 
     @Autowired
     GrouponRulesComm grouponRulesComm;

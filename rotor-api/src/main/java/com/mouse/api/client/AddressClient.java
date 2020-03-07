@@ -1,6 +1,6 @@
 package com.mouse.api.client;
 
-import com.mouse.api.base.BaseClient;
+import com.mouse.api.base.GlobalExceptionHandler;
 import com.mouse.api.commons.req.SaveAddressReq;
 import com.mouse.api.commons.rsp.AddressRsp;
 import com.mouse.api.feign.AddressFeign;
@@ -30,7 +30,7 @@ import java.util.Optional;
 @Validated
 @RestController
 @RequestMapping("address")
-public class AddressClient extends BaseClient implements AddressFeign {
+public class AddressClient extends GlobalExceptionHandler implements AddressFeign {
 
     @Autowired
     AddressService addressService;

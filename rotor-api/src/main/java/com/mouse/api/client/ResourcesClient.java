@@ -1,6 +1,6 @@
 package com.mouse.api.client;
 
-import com.mouse.api.base.BaseClient;
+import com.mouse.api.base.GlobalExceptionHandler;
 import com.mouse.api.commons.FootprintComm;
 import com.mouse.api.commons.GoodsComm;
 import com.mouse.api.commons.enums.RefererEnum;
@@ -38,7 +38,7 @@ import java.util.stream.Collectors;
 @Validated
 @RestController
 @RequestMapping("resources")
-public class ResourcesClient extends BaseClient implements ResourcesFeign {
+public class ResourcesClient extends GlobalExceptionHandler implements ResourcesFeign {
 
     @Autowired
     GoodsComm goodsComm;

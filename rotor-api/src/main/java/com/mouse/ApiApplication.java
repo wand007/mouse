@@ -1,13 +1,14 @@
 package com.mouse;
 
-import com.mouse.api.config.RedisTemplateConfig;
-import com.mouse.api.config.ThreadPoolConfig;
+import com.mouse.core.config.RedisTemplateConfig;
+import com.mouse.core.config.ThreadPoolConfig;
 import com.mouse.core.config.WxPrefixConfig;
 import com.mouse.core.utils.SecurityProperties;
 import com.mouse.core.wx.WXJSPayConfig;
 import com.mouse.core.wx.WxJsPayCommon;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.DependsOn;
@@ -24,6 +25,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 
 @EnableAsync
 @EnableDiscoveryClient
+@ServletComponentScan
 @SpringBootApplication
 public class ApiApplication {
     public static void main(String[] args) {
@@ -61,7 +63,6 @@ public class ApiApplication {
     public SecurityProperties securityProperties() {
         return new SecurityProperties("/hvyogo/data/secret/api-service.properties");
     }
-
 
 
     /**
