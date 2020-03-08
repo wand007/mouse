@@ -75,20 +75,20 @@ public class LoginFilter implements Filter {
 //            return;
 //        }
 
-        BodyReaderHttpServletRequestWrapper requestWrapper = null;
-        if (servletRequest instanceof HttpServletRequest) {
-            requestWrapper = new BodyReaderHttpServletRequestWrapper(request);
-        }
+//        BodyReaderHttpServletRequestWrapper requestWrapper = null;
+//        if (servletRequest instanceof HttpServletRequest) {
+//            requestWrapper = new BodyReaderHttpServletRequestWrapper(request);
+//        }
+//
+//        if (notPrintParamUrls.contains(servletPath)) {
+//            //不需要打印参数
+//            WebKit.loggerDefault(requestWrapper, log);
+//        } else {
+//            //需要打印参数
+//            WebKit.loggerSheer(requestWrapper, log);
+//        }
 
-        if (notPrintParamUrls.contains(servletPath)) {
-            //不需要打印参数
-            WebKit.loggerDefault(requestWrapper, log);
-        } else {
-            //需要打印参数
-            WebKit.loggerSheer(requestWrapper, log);
-        }
-
-        filterChain.doFilter(requestWrapper, response);
+        filterChain.doFilter(request, response);
         return;
     }
 

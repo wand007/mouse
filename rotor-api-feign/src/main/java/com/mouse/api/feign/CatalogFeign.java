@@ -4,8 +4,7 @@ import com.mouse.api.hystrix.HystrixCatalogFeign;
 import com.mouse.core.base.R;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import javax.validation.constraints.NotNull;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @author ; lidongdong
@@ -21,7 +20,7 @@ public interface CatalogFeign {
     R findFirstCategory();
 
     @GetMapping("/findSecondCategory")
-    R findSecondCategory(@NotNull Integer id);
+    R findSecondCategory(@RequestParam(value = "id") Integer id);
 
     /**
      * 分类详情
@@ -32,7 +31,7 @@ public interface CatalogFeign {
      * @return 分类详情
      */
     @GetMapping("index")
-    R index(Integer id);
+    R index(@RequestParam(value = "id", required = false) Integer id);
 
     /**
      * 所有分类数据
@@ -49,5 +48,5 @@ public interface CatalogFeign {
      * @return 当前分类栏目
      */
     @GetMapping("current")
-    R current(@NotNull Integer id);
+    R current(@RequestParam(value = "id") Integer id);
 }

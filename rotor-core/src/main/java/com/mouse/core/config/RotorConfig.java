@@ -26,6 +26,10 @@ public class RotorConfig {
          * 运营邮箱
          */
         public static final String[] RUNNING_MAIL = PropertiesUtils.getProperty("config", "running.mail", null).split(",");
+
+
+        public static final String SNOWFLAKE_DATE_CENTER_ID = "SNOWFLAKE_DATE_CENTER_ID";
+
     }
 
     public static final class UserPrefix {

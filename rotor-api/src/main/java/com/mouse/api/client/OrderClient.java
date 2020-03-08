@@ -4,6 +4,7 @@ import com.mouse.api.base.GlobalExceptionHandler;
 import com.mouse.api.commons.FootprintComm;
 import com.mouse.api.commons.GoodsComm;
 import com.mouse.api.commons.TaskComm;
+import com.mouse.api.commons.enums.RefererEnum;
 import com.mouse.api.commons.req.SaveCommentReq;
 import com.mouse.api.commons.req.SaveOrderReq;
 import com.mouse.api.feign.OrderFeign;
@@ -126,7 +127,7 @@ public class OrderClient extends GlobalExceptionHandler implements OrderFeign {
     @Override
     public R findPage(@RequestParam("userId") String userId,
                       @RequestParam(defaultValue = "0") Integer showType,
-                      @RequestParam(name = "referer") Integer referer,
+                      @RequestParam(name = "referer") RefererEnum referer,
                       @Min(value = 0, message = "必须从0页开始")
                       @RequestParam(name = "pageNum", defaultValue = "0", required = false) Integer pageNum,
                       @Min(value = 1, message = "每页必须大于1")

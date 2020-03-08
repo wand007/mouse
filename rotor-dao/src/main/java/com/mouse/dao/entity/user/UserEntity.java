@@ -30,7 +30,7 @@ public class UserEntity implements Serializable {
     @Column(name = "user_name", columnDefinition = "varchar(32) COMMENT '用户名称'", nullable = false)
     private String userName;
 
-    @Column(name = "password", columnDefinition = "varchar(32) COMMENT '用户密码'", nullable = false)
+    @Column(name = "password", columnDefinition = "varchar(64) COMMENT '用户密码'", nullable = false)
     private String password;
 
     @Column(name = "gender", columnDefinition = "tinyint unsigned DEFAULT '1' COMMENT '性别：0->未知；1->男；2->女'", nullable = false)
@@ -42,7 +42,7 @@ public class UserEntity implements Serializable {
     @Column(name = "last_login_time", columnDefinition = "datetime COMMENT '最近一次登录时间'")
     private LocalDateTime lastLoginTime;
 
-    @Column(name = "last_login_ip", columnDefinition = "varchar(32) COMMENT '最近一次登录IP地址'", nullable = false)
+    @Column(name = "last_login_ip", columnDefinition = "varchar(32) COMMENT '最近一次登录IP地址'")
     private String lastLoginIp;
 
     @Column(name = "user_level", columnDefinition = "tinyint unsigned DEFAULT '0' COMMENT '0 普通用户，1 VIP用户，2 高级VIP用户'", nullable = false)
@@ -54,7 +54,7 @@ public class UserEntity implements Serializable {
     @Column(name = "mobile", columnDefinition = "varchar(32) COMMENT '用户手机号码'")
     private String mobile;
 
-    @Column(name = "avatar", columnDefinition = "varchar(32) COMMENT '用户头像图片'")
+    @Column(name = "avatar", columnDefinition = "varchar(128) COMMENT '用户头像图片'")
     private String avatar;
 
     @Column(name = "weixin_openid", columnDefinition = "varchar(32) COMMENT '微信登录openid'")

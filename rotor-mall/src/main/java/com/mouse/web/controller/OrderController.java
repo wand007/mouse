@@ -1,5 +1,6 @@
 package com.mouse.web.controller;
 
+import com.mouse.api.commons.enums.RefererEnum;
 import com.mouse.api.commons.req.SaveCommentReq;
 import com.mouse.api.commons.req.SaveOrderReq;
 import com.mouse.api.feign.OrderFeign;
@@ -45,7 +46,6 @@ public class OrderController extends GlobalExceptionHandler {
     @GetMapping("findPage")
     public R findPage(@RequestAttribute(name = "sessionUser") RotorSessionUser sessionUser,
                       @RequestParam(defaultValue = "0") Integer showType,
-                      @RequestParam(name = "referer") Integer referer,
                       @Min(value = 0, message = "必须从0页开始")
                       @RequestParam(name = "pageNum", defaultValue = "0", required = false) Integer pageNum,
                       @Min(value = 1, message = "每页必须大于1")
@@ -53,7 +53,7 @@ public class OrderController extends GlobalExceptionHandler {
                       @RequestParam(name = "pageSize", defaultValue = "20", required = false) Integer pageSize,
                       @RequestParam(name = "sort", defaultValue = "add_time", required = false) String sort,
                       @RequestParam(name = "order", defaultValue = "desc", required = false) String order) {
-        return orderFeign.findPage(sessionUser.getId(), showType, referer, pageNum, pageSize, sort, order);
+        return orderFeign.findPage(sessionUser.getId(), showType, RefererEnum.WX, pageNum, pageSize, sort, order);
     }
 
     /**

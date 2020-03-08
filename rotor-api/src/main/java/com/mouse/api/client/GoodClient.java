@@ -3,8 +3,9 @@ package com.mouse.api.client;
 import com.mouse.api.base.GlobalExceptionHandler;
 import com.mouse.api.commons.FootprintComm;
 import com.mouse.api.commons.GoodsComm;
-import com.mouse.api.commons.enums.CategoryLevelEnum;
 import com.mouse.api.commons.enums.RefererEnum;
+import com.mouse.api.commons.rsp.GoodsSpecificationRsp;
+import com.mouse.api.commons.rsp.SpecificationGroupRsp;
 import com.mouse.api.feign.GoodsFeign;
 import com.mouse.api.service.*;
 import com.mouse.api.system.SystemConfig;
@@ -21,7 +22,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.util.CollectionUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -98,9 +98,25 @@ public class GoodClient extends GlobalExceptionHandler implements GoodsFeign {
         // 商品属性
         List<GoodsAttributeEntity> goodsAttributeEntities = goodsAttributeService.findByGoodsId(id).orElseThrow(() -> new BusinessException("商品属性记录不存在"));
 
-        // 商品规格 返回的是定制的GoodsSpecificationVo
+        // 商品规格
         List<GoodsSpecificationEntity> goodsSpecificationEntities = goodsSpecificationService.findByGoodsId(id).orElseThrow(() -> new BusinessException("商品规格记录不存在"));
-
+        Map<String, List<GoodsSpecificationEntity>> collect = goodsSpecificationEntities.stream().collect(Collectors.groupingBy(GoodsSpecificationEntity::getSpecifications));
+        List<SpecificationGroupRsp> specificationList = new ArrayList<>();
+        collect.forEach((key, value) -> {
+            List<GoodsSpecificationRsp> valueList = value.stream().map(specification -> {
+                GoodsSpecificationRsp goodsSpecificationRsp = new GoodsSpecificationRsp();
+                goodsSpecificationRsp.setId(specification.getId());
+                goodsSpecificationRsp.setGoodsId(specification.getGoodsId());
+                goodsSpecificationRsp.setPicUrl(specification.getPicUrl());
+                goodsSpecificationRsp.setSpecifications(specification.getSpecifications());
+                goodsSpecificationRsp.setValue(specification.getValue());
+                return goodsSpecificationRsp;
+            }).collect(Collectors.toList());
+            SpecificationGroupRsp specificationGroupRsp = new SpecificationGroupRsp();
+            specificationGroupRsp.setName(key);
+            specificationGroupRsp.setValueList(valueList);
+            specificationList.add(specificationGroupRsp);
+        });
         // 商品规格对应的数量和价格
         List<GoodsProductEntity> goodsProductEntities = productService.findByGoodsId(id).orElseThrow(() -> new BusinessException("商品规格记录不存在"));
 
@@ -108,7 +124,7 @@ public class GoodClient extends GlobalExceptionHandler implements GoodsFeign {
         Page<IssueEntity> goodsIssuePage = goodsIssueService.findByquestionPage("", 1, 4, "", "");
 
         // 商品品牌商
-        BrandEntity brandEntity = brandService.findById(goodsEntity.getBrandId()).orElseThrow(() -> new BusinessException("商品品牌记录存不在"));
+        BrandEntity brandEntity = brandService.findById(goodsEntity.getBrandId()).orElseGet(() -> new BrandEntity());
 
         //团购信息
         List<GrouponRulesEntity> grouponRulesEntities = grouponRulesService.findByGoodsId(id).orElseGet(() -> new ArrayList<>());
@@ -146,7 +162,7 @@ public class GoodClient extends GlobalExceptionHandler implements GoodsFeign {
         data.put("userHasCollect", userHasCollect);
         data.put("issue", goodsIssuePage.getContent());
         data.put("comment", commentEntities);
-        data.put("specificationList", goodsSpecificationEntities);
+        data.put("specificationList", specificationList);
         data.put("productList", goodsProductEntities);
         data.put("attribute", goodsAttributeEntities);
         data.put("brand", brandEntity);
@@ -206,21 +222,10 @@ public class GoodClient extends GlobalExceptionHandler implements GoodsFeign {
      * @return 根据条件搜素的商品详情
      */
     @Override
-    public R findPage(
-            @RequestParam("categoryId") Integer categoryId,
-            @RequestParam("brandId") Integer brandId,
-            @RequestParam("keyword") String keyword,
-            @RequestParam("isNew") Boolean isNew,
-            @RequestParam("isHot") Boolean isHot,
-            @RequestParam("userId") String userId,
-            @RequestParam(name = "referer") Integer referer,
-            @Min(value = 0, message = "必须从0页开始")
-            @RequestParam(name = "pageNum", defaultValue = "0", required = false) Integer pageNum,
-            @Min(value = 1, message = "每页必须大于1")
-            @Max(value = 300, message = "每页必须小于300")
-            @RequestParam(name = "pageSize", defaultValue = "20", required = false) Integer pageSize,
-            @RequestParam(name = "sort", defaultValue = "add_time", required = false) String sort,
-            @RequestParam(name = "order", defaultValue = "desc", required = false) String order) {
+    public R findPage(Integer categoryId, Integer brandId, String keyword, Boolean isNew, Boolean isHot, String userId, Integer referer,
+                      @Min(value = 0, message = "必须从0页开始") Integer pageNum,
+                      @Min(value = 1, message = "每页必须大于1")
+                      @Max(value = 300, message = "每页必须小于300") Integer pageSize, String sort, String order) {
 
         //添加到搜索历史
         if (userId != null && !StringUtils.isNotBlank(keyword)) {
@@ -230,19 +235,10 @@ public class GoodClient extends GlobalExceptionHandler implements GoodsFeign {
         //查询列表数据
         Page<GoodsEntity> goodsEntityPage = goodsService.findPage(categoryId, brandId, keyword, isHot, isNew, pageNum, pageSize, sort, order);
 
-        // 查询商品所属类目列表。
-        List<GoodsEntity> goodsEntities = goodsService.findByBrandIdAndIsHotAndIsNewAndKeyword(brandId, isHot, isNew, keyword);
+//        // 查询商品所属类目列表。
+//        List<GoodsEntity> goodsEntities = goodsService.findByBrandIdAndIsHotAndIsNewAndKeyword(brandId, isHot, isNew, keyword);
 
-
-        List<CategoryEntity> categoryList = null;
-        if (!CollectionUtils.isEmpty(goodsEntities)) {
-            List<Integer> categoryIds = goodsEntities.stream().map(GoodsEntity::getCategoryId).collect(Collectors.toList());
-            categoryList = categoryService.findByLevelAndIdIn(CategoryLevelEnum.L2.getCode(), categoryIds).orElseGet(() -> new ArrayList<>());
-        } else {
-            categoryList = new ArrayList<>(0);
-        }
-
-        return R.success(PageNation.of(goodsEntityPage, categoryList));
+        return R.success(PageNation.of(goodsEntityPage, goodsEntityPage.getContent()));
     }
 
 

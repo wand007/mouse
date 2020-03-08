@@ -77,32 +77,6 @@ public class AuthController {
     /**
      * 账号注册
      *
-     * @param body    请求内容
-     *                {
-     *                username: xxx,
-     *                password: xxx,
-     *                mobile: xxx
-     *                code: xxx
-     *                }
-     *                其中code是手机验证码，目前还不支持手机短信验证码
-     * @param request 请求对象
-     * @return 登录结果
-     * 成功则
-     * {
-     * errno: 0,
-     * errmsg: '成功',
-     * data:
-     * {
-     * token: xxx,
-     * tokenExpire: xxx,
-     * userInfo: xxx
-     * }
-     * }
-     * 失败则 { errno: XXX, errmsg: XXX }
-     */
-    /**
-     * 账号注册
-     *
      * @param username 登录账号
      * @param password 登录密码
      * @param mobile   注册手机号
@@ -114,8 +88,14 @@ public class AuthController {
                       @RequestParam(name = "password") String password,
                       @RequestParam(name = "mobile")
                       @Pattern(regexp = RegexUtils.REGEXP_MOBILE, message = "手机号格式不正确") String mobile,
-                      @RequestParam(name = "code") String code) {
-        return authFeign.register(username, password, mobile, code);
+                      @RequestParam(name = "code") String code,
+                      @RequestParam(name = "wxCode", required = false) String wxCode,
+                      HttpServletRequest request) {
+        //忽略网络切换
+        String userAgent = WebKit.getDeviceInfo(request.getHeader("User-Agent"));
+        //获取ip
+        String ip = IpUtils.getRealIp(request);
+        return authFeign.register(username, password, mobile, RefererEnum.WX, userAgent, ip, code, wxCode);
     }
 
     /**

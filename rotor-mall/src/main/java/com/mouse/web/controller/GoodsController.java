@@ -72,11 +72,11 @@ public class GoodsController extends GlobalExceptionHandler {
      */
     @GetMapping("findPage")
     public R findPage(@RequestAttribute(name = "sessionUser") RotorSessionUser sessionUser,
-                      @RequestParam("categoryId") Integer categoryId,
-                      @RequestParam("brandId") Integer brandId,
-                      @RequestParam("keyword") String keyword,
-                      @RequestParam("isNew") Boolean isNew,
-                      @RequestParam("isHot") Boolean isHot,
+                      @RequestParam(name = "categoryId", required = false) Integer categoryId,
+                      @RequestParam(name = "brandId", required = false) Integer brandId,
+                      @RequestParam(name = "keyword", required = false) String keyword,
+                      @RequestParam(name = "isNew", required = false) Boolean isNew,
+                      @RequestParam(name = "isHot", required = false) Boolean isHot,
                       @Min(value = 0, message = "必须从0页开始")
                       @RequestParam(name = "pageNum", defaultValue = "0", required = false) Integer pageNum,
                       @Min(value = 1, message = "每页必须大于1")

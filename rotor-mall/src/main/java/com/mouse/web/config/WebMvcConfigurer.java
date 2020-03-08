@@ -33,6 +33,7 @@ public class WebMvcConfigurer extends WebMvcConfigurationSupport {
             "/MP_verify_H0CfESnNrbjG7kkx.txt",
             "/MP_verify_pm29nsQheolO8Q4e.txt",
             "/auth/login",
+            "/auth/register",
             "/*"
     );
 

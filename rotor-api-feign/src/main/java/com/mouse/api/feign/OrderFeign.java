@@ -1,5 +1,6 @@
 package com.mouse.api.feign;
 
+import com.mouse.api.commons.enums.RefererEnum;
 import com.mouse.api.commons.req.SaveCommentReq;
 import com.mouse.api.commons.req.SaveOrderReq;
 import com.mouse.api.hystrix.HystrixOrderFeign;
@@ -40,7 +41,7 @@ public interface OrderFeign {
     @GetMapping("findPage")
     R findPage(@RequestParam("userId") String userId,
                @RequestParam(name = "showType", defaultValue = "0") Integer showType,
-               @RequestParam(name = "referer") Integer referer,
+               @RequestParam(name = "referer") RefererEnum referer,
                @Min(value = 0, message = "必须从0页开始")
                @RequestParam(name = "pageNum", defaultValue = "0", required = false) Integer pageNum,
                @Min(value = 1, message = "每页必须大于1")

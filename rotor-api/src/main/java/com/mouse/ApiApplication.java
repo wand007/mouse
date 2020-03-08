@@ -1,9 +1,11 @@
 package com.mouse;
 
 import com.mouse.core.config.RedisTemplateConfig;
+import com.mouse.core.config.RotorConfig;
 import com.mouse.core.config.ThreadPoolConfig;
 import com.mouse.core.config.WxPrefixConfig;
 import com.mouse.core.utils.SecurityProperties;
+import com.mouse.core.utils.SnowflakeIdWorker;
 import com.mouse.core.wx.WXJSPayConfig;
 import com.mouse.core.wx.WxJsPayCommon;
 import org.springframework.boot.SpringApplication;
@@ -64,6 +66,17 @@ public class ApiApplication {
         return new SecurityProperties("/hvyogo/data/secret/api-service.properties");
     }
 
+
+    /**
+     * ID生成器
+     *
+     * @return
+     */
+    @Bean
+    @DependsOn("apiProperties")
+    public SnowflakeIdWorker snowflakeIdWorker(SecurityProperties securityProperties) {
+        return new SnowflakeIdWorker(1, Long.parseLong(securityProperties.getValueByKey(RotorConfig.SysPrefix.SNOWFLAKE_DATE_CENTER_ID)));
+    }
 
     /**
      * 微信JsPay 操作类

@@ -2,6 +2,7 @@ package com.mouse.api.service;
 
 import com.mouse.dao.entity.user.UserEntity;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,4 +18,9 @@ public interface UserService {
 
     Optional<UserEntity> findTopByUserName(String username);
 
+    Optional<UserEntity> findTopByMobile(String mobile);
+
+    UserEntity save(String username, String password, String mobile,String lastLoginIp);
+
+    Integer updateLastLogin(String id,  String landingIP);
 }

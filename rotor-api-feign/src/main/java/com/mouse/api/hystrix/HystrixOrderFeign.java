@@ -1,5 +1,6 @@
 package com.mouse.api.hystrix;
 
+import com.mouse.api.commons.enums.RefererEnum;
 import com.mouse.api.commons.req.SaveCommentReq;
 import com.mouse.api.commons.req.SaveOrderReq;
 import com.mouse.api.feign.OrderFeign;
@@ -26,7 +27,7 @@ public class HystrixOrderFeign implements FallbackFactory<OrderFeign> {
         log.error("错误信息：", throwable);
         return new OrderFeign() {
             @Override
-            public R findPage(String userId, Integer showType, Integer referer, @Min(value = 0, message = "必须从0页开始") Integer pageNum, @Min(value = 1, message = "每页必须大于1") @Max(value = 300, message = "每页必须小于300") Integer pageSize, String sort, String order) {
+            public R findPage(String userId, Integer showType, RefererEnum referer, @Min(value = 0, message = "必须从0页开始") Integer pageNum, @Min(value = 1, message = "每页必须大于1") @Max(value = 300, message = "每页必须小于300") Integer pageSize, String sort, String order) {
                 return R.fromBusinessCode(BusinessCode.ERROR_SYS_SERVICE_RESTART);
             }
 

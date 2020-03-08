@@ -26,14 +26,6 @@ import java.util.Set;
 @Component
 public class GlobalExceptionHandler extends BaseClient {
 
-
-    @ExceptionHandler(BusinessException.class)
-    @ResponseBody
-    public R exceptionHandler(BusinessException e) {
-        log.error("BusinessException[业务异常]", e.getMessage(), e);
-        return new R(e.getCode(), e.getMsg());
-    }
-
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public R exceptionHandler(Exception e) {
@@ -41,6 +33,12 @@ public class GlobalExceptionHandler extends BaseClient {
         return R.error();
     }
 
+    @ExceptionHandler(BusinessException.class)
+    @ResponseBody
+    public R exceptionHandler(BusinessException e) {
+        log.error("BusinessException[业务异常]", e.getMessage(), e);
+        return new R(e.getCode(), e.getMsg());
+    }
 
     /**
      * hibernate 参数校验出错会抛出 ConstraintViolationException 异常

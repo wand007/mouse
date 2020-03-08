@@ -15,8 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -39,9 +39,9 @@ public class AuthComm extends BaseClient {
      * @return
      */
     @Async
-    public String asyncRefreshCacheLogin(String userId, RefererEnum referer, String userAgent, String landingIP) {
+    public void asyncRefreshCacheLogin(String userId, RefererEnum referer, String userAgent, String token, String landingIP) {
         try {
-            return this.refreshCacheLogin(userId, referer, userAgent, landingIP);
+            this.refreshCacheLogin(userId, referer, userAgent, token, landingIP);
         } catch (Exception e) {
             log.error("异步更新用户登录缓存信息异常,userId:" + userId, e);
             throw new BusinessException("异步更新用户登录缓存信息异常");
@@ -56,10 +56,9 @@ public class AuthComm extends BaseClient {
      * @param userId
      * @return
      */
-    private String refreshCacheLogin(String userId, RefererEnum referer, String userAgent, String landingIP) {
+    private String refreshCacheLogin(String userId, RefererEnum referer, String userAgent, String token, String landingIP) {
         UserEntity userEntity = userService.findById(userId).orElseThrow(() -> new BusinessException("用户信息不存在"));
 
-        String token = UUID.randomUUID().toString();
         RotorSessionUser rotorSessionUser = new RotorSessionUser();
         rotorSessionUser.setId(userEntity.getId());
         rotorSessionUser.setMobile(userEntity.getMobile());
@@ -83,6 +82,7 @@ public class AuthComm extends BaseClient {
         //缓存用户登陆信息
         redisTemplate.opsForValue().set(RotorConfig.LoginPrefix.REDIS_TOKEN_USER_INFO + userEntity.getId(),
                 rotorSessionUser, RotorConfig.LoginPrefix.REDIS_TOKEN_AUTH_EXPIRED_DEFAUT, TimeUnit.DAYS);
+        userService.updateLastLogin(userEntity.getId(),  landingIP);
         return token;
     }
 

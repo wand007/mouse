@@ -61,21 +61,20 @@ public interface GoodsFeign {
      * @return 根据条件搜素的商品详情
      */
     @GetMapping("findPage")
-    R findPage(
-            @RequestParam(name = "categoryId") Integer categoryId,
-            @RequestParam(name = "brandId") Integer brandId,
-            @RequestParam(name = "keyword") String keyword,
-            @RequestParam(name = "isNew") Boolean isNew,
-            @RequestParam(name = "isHot") Boolean isHot,
-            @RequestParam(name = "userId") String userId,
-            @RequestParam(name = "referer") Integer referer,
-            @Min(value = 0, message = "必须从0页开始")
-            @RequestParam(name = "pageNum", defaultValue = "0", required = false) Integer pageNum,
-            @Min(value = 1, message = "每页必须大于1")
-            @Max(value = 300, message = "每页必须小于300")
-            @RequestParam(name = "pageSize", defaultValue = "20", required = false) Integer pageSize,
-            @RequestParam(name = "sort", defaultValue = "add_time", required = false) String sort,
-            @RequestParam(name = "order", defaultValue = "desc", required = false) String order);
+    R findPage(@RequestParam(name = "categoryId", required = false) Integer categoryId,
+               @RequestParam(name = "brandId", required = false) Integer brandId,
+               @RequestParam(name = "keyword", required = false) String keyword,
+               @RequestParam(name = "isNew", required = false) Boolean isNew,
+               @RequestParam(name = "isHot", required = false) Boolean isHot,
+               @RequestParam("userId") String userId,
+               @RequestParam(name = "referer") Integer referer,
+               @Min(value = 0, message = "必须从0页开始")
+               @RequestParam(name = "pageNum", defaultValue = "0", required = false) Integer pageNum,
+               @Min(value = 1, message = "每页必须大于1")
+               @Max(value = 300, message = "每页必须小于300")
+               @RequestParam(name = "pageSize", defaultValue = "20", required = false) Integer pageSize,
+               @RequestParam(name = "sort", defaultValue = "add_time", required = false) String sort,
+               @RequestParam(name = "order", defaultValue = "desc", required = false) String order);
 
     /**
      * 商品详情页面“大家都在看”推荐商品

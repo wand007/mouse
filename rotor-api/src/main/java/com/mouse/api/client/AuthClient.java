@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 
 /**
  * @author ; lidongdong
@@ -49,14 +51,14 @@ public class AuthClient extends GlobalExceptionHandler implements AuthFeign {
         if (!encoder.matches(password, userEntity.getPassword())) {
             return R.error("账号密码不对");
         }
-
-        String token = authComm.asyncRefreshCacheLogin(userEntity.getId(), referer, userAgent, landingIP);
+        String token = UUID.randomUUID().toString();
+        authComm.asyncRefreshCacheLogin(userEntity.getId(), referer, userAgent, token, landingIP);
 
         // userInfo
         UserInfo userInfo = new UserInfo();
         userInfo.setNickName(username);
         userInfo.setAvatarUrl(userEntity.getAvatar());
-        Map<Object, Object> result = new HashMap<Object, Object>(8);
+        Map<String, Object> result = new HashMap<>(8);
         result.put("token", token);
         result.put("userInfo", userInfo);
         return R.success(result);
@@ -79,8 +81,28 @@ public class AuthClient extends GlobalExceptionHandler implements AuthFeign {
     }
 
     @Override
-    public R register(String username, String password, String mobile, String code) {
-        return R.fromBusinessCode(BusinessCode.ERROR_SYS_SERVICE_RESTART);
+    public R register(String username, String password, String mobile, RefererEnum referer, String userAgent, String lastLoginIp, String code, String wxCode) {
+
+        Optional<UserEntity> userEntityOptional = userService.findTopByUserName(username);
+        if (userEntityOptional.isPresent()) {
+            return R.error("用户名已注册");
+        }
+        userEntityOptional = userService.findTopByMobile(mobile);
+        if (userEntityOptional.isPresent()) {
+            return R.error("手机号已注册");
+        }
+        UserEntity userEntity = userService.save(username, password, mobile, lastLoginIp);
+        String token = UUID.randomUUID().toString();
+        authComm.asyncRefreshCacheLogin(userEntity.getId(), referer, userAgent, token, lastLoginIp);
+
+        // userInfo
+        UserInfo userInfo = new UserInfo();
+        userInfo.setNickName(username);
+        userInfo.setAvatarUrl(userEntity.getAvatar());
+        Map<String, Object> result = new HashMap<>(8);
+        result.put("token", token);
+        result.put("userInfo", userInfo);
+        return R.success(result);
     }
 
     @Override

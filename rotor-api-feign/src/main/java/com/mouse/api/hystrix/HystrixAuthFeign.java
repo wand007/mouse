@@ -38,7 +38,7 @@ public class HystrixAuthFeign implements FallbackFactory<AuthFeign> {
             }
 
             @Override
-            public R register(String username, String password, String mobile, String code) {
+            public R register(String username, String password, String mobile, RefererEnum referer, String userAgent, String lastLoginIp, String code, String wxCode) {
                 return R.fromBusinessCode(BusinessCode.ERROR_SYS_SERVICE_RESTART);
             }
 

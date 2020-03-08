@@ -8,9 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.validation.constraints.NotNull;
 
 /**
  * @author ; lidongdong
@@ -33,7 +32,7 @@ public class CatalogController extends GlobalExceptionHandler {
     }
 
     @GetMapping("/findSecondCategory")
-    public R findSecondCategory(@NotNull Integer id) {
+    public R findSecondCategory(@RequestParam("id") Integer id) {
         return catalogFeign.findSecondCategory(id);
     }
 
@@ -46,7 +45,7 @@ public class CatalogController extends GlobalExceptionHandler {
      * @return 分类详情
      */
     @GetMapping("index")
-    public R index(Integer id) {
+    public R index(@RequestParam(value = "id", required = false) Integer id) {
         return catalogFeign.index(id);
     }
 
@@ -67,7 +66,7 @@ public class CatalogController extends GlobalExceptionHandler {
      * @return 当前分类栏目
      */
     @GetMapping("current")
-    public R current(@NotNull Integer id) {
+    public R current(@RequestParam("id") Integer id) {
         return catalogFeign.current(id);
     }
 }
