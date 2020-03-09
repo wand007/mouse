@@ -1,6 +1,5 @@
 <view class="container">
   <swiper class="goodsimgs" indicator-dots="true" autoplay="true" interval="3000" duration="1000">
-  <text>"{{goods.gallery}}"</text>
     <swiper-item wx:for="{{goods.gallery}}" wx:key="*this">
       <image src="{{item}}" background-size="cover"></image>
     </swiper-item>
