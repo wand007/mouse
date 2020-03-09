@@ -1,5 +1,6 @@
 <view class="container">
-   <swiper class="goodsimgs" indicator-dots="true" autoplay="true" interval="3000" duration="1000">
+  <swiper class="goodsimgs" indicator-dots="true" autoplay="true" interval="3000" duration="1000">
+  <text>"{{goods.gallery}}"</text>
     <swiper-item wx:for="{{goods.gallery}}" wx:key="*this">
       <image src="{{item}}" background-size="cover"></image>
     </swiper-item>
@@ -153,7 +154,7 @@
       <view class="spec-item" wx:for="{{specificationList}}" wx:key="name">
         <view class="name">{{item.name}}</view>
         <view class="values">
-          <view class="value {{vitem.checked ? 'selected' : ''}}" bindtap="clickSkuValue" wx:for="{{item.valueList}}" wx:for-item="vitem" wx:key="{{vitem.id}}" data-value-id="{{vitem.id}}" data-name="{{vitem.specification}}">{{vitem.value}}</view>
+          <view class="value {{vitem.checked ? 'selected' : ''}}" bindtap="clickSkuValue" wx:for="{{item.valueList}}" wx:for-item="vitem" wx:key="id" data-value-id="{{vitem.id}}" data-name="{{vitem.specification}}">{{vitem.value}}</view>
         </view>
       </view>
 
