@@ -1,5 +1,6 @@
 package com.mouse.api.feign;
 
+import com.mouse.api.commons.req.CartCheckedReq;
 import com.mouse.api.commons.req.SaveCartReq;
 import com.mouse.api.commons.req.UpdateCartReq;
 import com.mouse.api.hystrix.HystrixCartFeign;
@@ -75,15 +76,13 @@ public interface CartFeign {
      * <p>
      * 如果原来没有勾选，则设置勾选状态；如果商品已经勾选，则设置非勾选状态。
      *
-     * @param userId     用户ID
-     * @param isChecked  选中状态
-     * @param productIds 产品ID集合
+     * @param userId 用户ID
+     * @param param
      * @return
      */
     @PostMapping("checked")
     R checked(@RequestParam(name = "userId") String userId,
-              @RequestParam(name = "isChecked") Boolean isChecked,
-              @RequestBody List<Integer> productIds);
+              @RequestBody CartCheckedReq param);
 
     /**
      * 购物车商品删除

@@ -1,6 +1,6 @@
-package com.mouse.web.config;
+package com.mouse.admin.config;
 
-import com.mouse.web.interceptor.SafeInterceptor;
+import com.mouse.admin.interceptor.SafeInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;

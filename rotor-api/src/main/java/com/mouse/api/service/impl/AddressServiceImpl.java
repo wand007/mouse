@@ -100,18 +100,33 @@ public class AddressServiceImpl implements AddressService {
         AddressEntity addressEntity = addressRepository.findById(param.getId()).orElseGet(() -> {
             AddressEntity entity = new AddressEntity();
             entity.setUserId(param.getUserId());
-            entity.setAddress(param.getAddress());
-            entity.setAreaCode(param.getAreaCode());
-            entity.setPostalCode(param.getPostalCode());
-            entity.setCity(param.getCity());
-            entity.setCounty(param.getCounty());
-            entity.setIsDefault(param.getIsDefault());
-            entity.setName(param.getName());
-            entity.setProvince(param.getProvince());
-            entity.setTel(param.getTel());
             entity.setDeleted(false);
             return entity;
         });
+        if (StringUtils.isNotBlank(param.getAddress())) {
+            addressEntity.setAddress(param.getAddress());
+        }
+        if (StringUtils.isNotBlank(param.getCity())) {
+            addressEntity.setCity(param.getCity());
+        }
+        if (StringUtils.isNotBlank(param.getProvince())) {
+            addressEntity.setProvince(param.getProvince());
+        }
+        if (StringUtils.isNotBlank(param.getCounty())) {
+            addressEntity.setCounty(param.getCounty());
+        }
+        if (StringUtils.isNotBlank(param.getName())) {
+            addressEntity.setName(param.getName());
+        }
+        if (StringUtils.isNotBlank(param.getPostalCode())) {
+            addressEntity.setPostalCode(param.getPostalCode());
+        }
+        if (StringUtils.isNotBlank(param.getTel())) {
+            addressEntity.setTel(param.getTel());
+        }
+        if (param.getIsDefault() != null) {
+            addressEntity.setIsDefault(param.getIsDefault());
+        }
         if (param.getIsDefault()) {
             // 重置其他收货地址的默认选项
             addressRepository.updateIsDefaultByUserId(param.getUserId(), false);
@@ -158,7 +173,7 @@ public class AddressServiceImpl implements AddressService {
             // 重置其他收货地址的默认选项
             addressRepository.updateIsDefaultByUserId(addressEntity.getUserId(), false);
         }
-
+        addressEntity.setAddress(addressEntity.onAddressDetail());
         addressRepository.save(addressEntity);
     }
 

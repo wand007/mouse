@@ -1,5 +1,6 @@
 package com.mouse.dao.entity.order;
 
+import com.mouse.dao.handler.JsonStringArrayTypeHandler;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -9,7 +10,9 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-/**CartEntity
+/**
+ * CartEntity
+ *
  * @author ; lidongdong
  * @Description 订单商品表
  * @Date 2019-11-26
@@ -42,10 +45,11 @@ public class OrderGoodsEntity implements Serializable {
     private BigDecimal price;
 
     @Column(name = "number", columnDefinition = "smallint unsigned DEFAULT '0' COMMENT '商品货品的数量'", nullable = false)
-    private Short number;
+    private Integer number;
 
+    @Convert(converter = JsonStringArrayTypeHandler.class)
     @Column(name = "specifications", columnDefinition = "varchar(1023) DEFAULT '[]' COMMENT '商品规格值列表，采用JSON数组格式'", nullable = false)
-    private String specifications;
+    private String[] specifications;
 
     @Column(name = "checked", columnDefinition = "tinyint unsigned DEFAULT '0' COMMENT '购物车中商品是否选择状态'", nullable = false)
     private Boolean checked;
@@ -64,6 +68,6 @@ public class OrderGoodsEntity implements Serializable {
     @Column(name = "update_time", columnDefinition = "datetime COMMENT '更新时间'", nullable = false)
     private LocalDateTime updateTime;
 
-   @Column(name = "deleted", columnDefinition = "tinyint unsigned DEFAULT '0' COMMENT '逻辑删除 0 未删除，1 删除'", nullable = false)
+    @Column(name = "deleted", columnDefinition = "tinyint unsigned DEFAULT '0' COMMENT '逻辑删除 0 未删除，1 删除'", nullable = false)
     private Boolean deleted;
 }

@@ -91,15 +91,16 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public CartEntity save(String userId, Integer productId) {
+    public CartEntity save(String userId, Integer productId,Integer number) {
         GoodsProductEntity product = goodsProductRepository.findById(productId).get();
         GoodsEntity goods = goodsRepository.findById(product.getGoodsId()).get();
         CartEntity cartEntity = new CartEntity();
         cartEntity.setUserId(userId);
         cartEntity.setGoodsId(goods.getId());
         cartEntity.setGoodsSn(goods.getGoodsSn());
-        cartEntity.setGoodsName((goods.getName()));
-        cartEntity.setProductId((product.getId()));
+        cartEntity.setGoodsName(goods.getName());
+        cartEntity.setProductId(product.getId());
+        cartEntity.setNumber(number);
         if (StringUtils.isEmpty(product.getUrl())) {
             cartEntity.setPicUrl(goods.getPicUrl());
         } else {

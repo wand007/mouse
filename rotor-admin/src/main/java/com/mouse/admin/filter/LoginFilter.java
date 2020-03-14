@@ -1,4 +1,4 @@
-package com.mouse.web.filter;
+package com.mouse.admin.filter;
 
 import com.mouse.core.base.BodyReaderHttpServletRequestWrapper;
 import com.mouse.core.utils.WebKit;
@@ -20,7 +20,7 @@ import java.util.Set;
  * @Date 2019-12-18
  */
 @Slf4j
-//@WebFilter(filterName = "LoginFilter", urlPatterns = "/*")
+@WebFilter(filterName = "LoginFilter", urlPatterns = "/*")
 public class LoginFilter implements Filter {
 
     @Override

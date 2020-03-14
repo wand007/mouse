@@ -49,12 +49,12 @@ public class CartRsp implements Serializable {
     /**
      * 商品货品的数量
      */
-    private Short number;
+    private Integer number;
 
     /**
      * 商品规格值列表，采用JSON数组格式
      */
-    private String specifications;
+    private String[] specifications;
 
     /**
      * 购物车中商品是否选择状态

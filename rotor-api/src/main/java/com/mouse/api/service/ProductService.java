@@ -20,5 +20,5 @@ public interface ProductService {
 
     Optional<GoodsProductEntity> findById(Integer productId);
 
-    Integer reduceStock(Integer productId, Short number);
+    Integer reduceStock(Integer productId, Integer number);
 }

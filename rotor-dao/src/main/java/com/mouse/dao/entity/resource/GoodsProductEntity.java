@@ -1,5 +1,6 @@
 package com.mouse.dao.entity.resource;
 
+import com.mouse.dao.handler.JsonStringArrayTypeHandler;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -26,8 +27,9 @@ public class GoodsProductEntity implements Serializable {
     @Column(name = "goods_id", columnDefinition = "int unsigned DEFAULT '0' COMMENT '商品表的商品ID'", nullable = false)
     private Integer goodsId;
 
+    @Convert(converter = JsonStringArrayTypeHandler.class)
     @Column(name = "specifications", columnDefinition = "varchar(1023) DEFAULT '[]' COMMENT '商品规格值列表，采用JSON数组格式'", nullable = false)
-    private String specifications;
+    private String[] specifications;
 
     @Column(name = "price", columnDefinition = "decimal(10,2) default '0' COMMENT '商品货品价格'", nullable = false)
     private BigDecimal price;
@@ -46,6 +48,6 @@ public class GoodsProductEntity implements Serializable {
     @Column(name = "update_time", columnDefinition = "datetime COMMENT '更新时间'", nullable = false)
     private LocalDateTime updateTime;
 
-   @Column(name = "deleted", columnDefinition = "tinyint unsigned DEFAULT '0' COMMENT '逻辑删除 0 未删除，1 删除'", nullable = false)
+    @Column(name = "deleted", columnDefinition = "tinyint unsigned DEFAULT '0' COMMENT '逻辑删除 0 未删除，1 删除'", nullable = false)
     private Boolean deleted;
 }

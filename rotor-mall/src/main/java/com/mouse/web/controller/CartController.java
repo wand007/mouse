@@ -1,5 +1,6 @@
 package com.mouse.web.controller;
 
+import com.mouse.api.commons.req.CartCheckedReq;
 import com.mouse.api.commons.req.SaveCartReq;
 import com.mouse.api.commons.req.UpdateCartReq;
 import com.mouse.api.feign.CartFeign;
@@ -84,15 +85,13 @@ public class CartController extends GlobalExceptionHandler {
      * <p>
      * 如果原来没有勾选，则设置勾选状态；如果商品已经勾选，则设置非勾选状态。
      *
-     * @param isChecked  选中状态
-     * @param productIds 产品ID集合
+     * @param param 产品ID集合
      * @return
      */
     @PostMapping("checked")
     public R checked(@RequestAttribute(name = "sessionUser") RotorSessionUser sessionUser,
-                     @RequestParam(name = "isChecked") Boolean isChecked,
-                     @RequestBody List<Integer> productIds) {
-        return cartFeign.checked(sessionUser.getId(), isChecked, productIds);
+                     @RequestBody CartCheckedReq param) {
+        return cartFeign.checked(sessionUser.getId(), param);
     }
 
     /**

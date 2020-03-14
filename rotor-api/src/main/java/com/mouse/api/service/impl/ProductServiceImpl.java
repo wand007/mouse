@@ -39,7 +39,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Integer reduceStock(Integer productId, Short number) {
+    public Integer reduceStock(Integer productId, Integer number) {
         return goodsProductRepository.updateStock(productId, number);
     }
 }

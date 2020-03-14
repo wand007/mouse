@@ -37,13 +37,13 @@ public class AddressEntity implements Serializable {
     @Column(name = "county", columnDefinition = "varchar(32) COMMENT '县/区'", nullable = false)
     private String county;
 
-    @Column(name = "address", columnDefinition = "varchar(32) COMMENT '详细收货地址'", nullable = false)
+    @Column(name = "address", columnDefinition = "varchar(64) COMMENT '详细收货地址'", nullable = false)
     private String address;
 
-    @Column(name = "area_code", columnDefinition = "varchar(32) COMMENT '地区编码'", nullable = false)
+    @Column(name = "area_code", columnDefinition = "varchar(32) DEFAULT '000000' COMMENT '地区编码'")
     private String areaCode;
 
-    @Column(name = "postal_code", columnDefinition = "varchar(32) COMMENT '邮政编码'", nullable = false)
+    @Column(name = "postal_code", columnDefinition = "varchar(32) DEFAULT '000000' COMMENT '邮政编码'")
     private String postalCode;
 
     @Column(name = "tel", columnDefinition = "varchar(32) COMMENT '手机号码'", nullable = false)

@@ -1,5 +1,6 @@
 package com.mouse.dao.entity.order;
 
+import com.mouse.dao.handler.JsonStringArrayTypeHandler;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -43,15 +44,16 @@ public class CartEntity implements Serializable {
     private BigDecimal price;
 
     @Column(name = "number", columnDefinition = "smallint unsigned DEFAULT '0' COMMENT '商品货品的数量'", nullable = false)
-    private Short number;
+    private Integer number;
 
+    @Convert(converter = JsonStringArrayTypeHandler.class)
     @Column(name = "specifications", columnDefinition = "varchar(1023) DEFAULT '[]' COMMENT '商品规格值列表，采用JSON数组格式'", nullable = false)
-    private String specifications;
+    private String[] specifications;
 
     @Column(name = "is_checked", columnDefinition = "tinyint unsigned DEFAULT '0' COMMENT '购物车中商品是否选择状态'", nullable = false)
     private Boolean isChecked;
 
-    @Column(name = "pic_url", columnDefinition = "varchar(64) COMMENT '商品图片或者商品货品图片'", nullable = false)
+    @Column(name = "pic_url", columnDefinition = "varchar(255) COMMENT '商品图片或者商品货品图片'", nullable = false)
     private String picUrl;
 
     @CreationTimestamp

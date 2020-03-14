@@ -1,5 +1,6 @@
 package com.mouse.api.hystrix;
 
+import com.mouse.api.commons.req.CartCheckedReq;
 import com.mouse.api.commons.req.SaveCartReq;
 import com.mouse.api.commons.req.UpdateCartReq;
 import com.mouse.api.feign.CartFeign;
@@ -31,37 +32,37 @@ public class HystrixCartFeign implements FallbackFactory<CartFeign> {
 
             @Override
             public R add(String userId, SaveCartReq cart) {
-               return R.fromBusinessCode(BusinessCode.ERROR_SYS_SERVICE_RESTART);
+                return R.fromBusinessCode(BusinessCode.ERROR_SYS_SERVICE_RESTART);
             }
 
             @Override
             public R fastadd(String userId, SaveCartReq param) {
-               return R.fromBusinessCode(BusinessCode.ERROR_SYS_SERVICE_RESTART);
+                return R.fromBusinessCode(BusinessCode.ERROR_SYS_SERVICE_RESTART);
             }
 
             @Override
             public R update(String userId, UpdateCartReq param) {
-               return R.fromBusinessCode(BusinessCode.ERROR_SYS_SERVICE_RESTART);
+                return R.fromBusinessCode(BusinessCode.ERROR_SYS_SERVICE_RESTART);
             }
 
             @Override
-            public R checked(String userId, Boolean isChecked, List<Integer> productIds) {
-               return R.fromBusinessCode(BusinessCode.ERROR_SYS_SERVICE_RESTART);
+            public R checked(String userId, CartCheckedReq param) {
+                return R.fromBusinessCode(BusinessCode.ERROR_SYS_SERVICE_RESTART);
             }
 
             @Override
             public R delete(String userId, List<String> productIds) {
-               return R.fromBusinessCode(BusinessCode.ERROR_SYS_SERVICE_RESTART);
+                return R.fromBusinessCode(BusinessCode.ERROR_SYS_SERVICE_RESTART);
             }
 
             @Override
             public R count(String userId) {
-               return R.fromBusinessCode(BusinessCode.ERROR_SYS_SERVICE_RESTART);
+                return R.fromBusinessCode(BusinessCode.ERROR_SYS_SERVICE_RESTART);
             }
 
             @Override
             public R checkout(String userId, Integer cartId, Integer addressId, Integer couponId, Integer userCouponId, Integer grouponRulesId) {
-               return R.fromBusinessCode(BusinessCode.ERROR_SYS_SERVICE_RESTART);
+                return R.fromBusinessCode(BusinessCode.ERROR_SYS_SERVICE_RESTART);
             }
         };
     }

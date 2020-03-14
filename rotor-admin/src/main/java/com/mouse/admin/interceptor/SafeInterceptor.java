@@ -1,11 +1,11 @@
-package com.mouse.web.interceptor;
+package com.mouse.admin.interceptor;
 
+import com.mouse.admin.base.GlobalExceptionHandler;
 import com.mouse.core.base.BusinessCode;
 import com.mouse.core.base.R;
 import com.mouse.core.config.RotorConfig;
 import com.mouse.core.params.RotorSessionUser;
 import com.mouse.core.utils.WebKit;
-import com.mouse.web.base.GlobalExceptionHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;

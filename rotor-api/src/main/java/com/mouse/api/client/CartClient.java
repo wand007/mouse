@@ -2,6 +2,7 @@ package com.mouse.api.client;
 
 import com.mouse.api.base.GlobalExceptionHandler;
 import com.mouse.api.commons.GoodsComm;
+import com.mouse.api.commons.req.CartCheckedReq;
 import com.mouse.api.commons.req.SaveCartReq;
 import com.mouse.api.commons.req.UpdateCartReq;
 import com.mouse.api.commons.rsp.CartRsp;
@@ -135,7 +136,7 @@ public class CartClient extends GlobalExceptionHandler implements CartFeign {
             if (product == null || number > product.getNumber()) {
                 return R.error("库存不足");
             }
-            cartService.save(param.getUserId(), param.getProductId());
+            cartService.save(userId, param.getProductId(), number);
         } else {
             CartEntity cartEntity = cartEntityOptional.get();
             //取得规格的信息,判断规格库存
@@ -143,7 +144,7 @@ public class CartClient extends GlobalExceptionHandler implements CartFeign {
             if (num > product.getNumber()) {
                 return R.error("库存不足");
             }
-            cartEntity.setNumber((short) num);
+            cartEntity.setNumber(num);
             cartService.updateNumberById(cartEntity.getId(), num);
         }
 
@@ -184,7 +185,7 @@ public class CartClient extends GlobalExceptionHandler implements CartFeign {
             if (product == null || number > product.getNumber()) {
                 return R.error("库存不足");
             }
-            cartEntity = cartService.save(param.getUserId(), param.getProductId());
+            cartEntity = cartService.save(param.getUserId(), param.getProductId(), number);
         } else {
             cartEntity = cartEntityOptional.get();
             //取得规格的信息,判断规格库存
@@ -192,7 +193,7 @@ public class CartClient extends GlobalExceptionHandler implements CartFeign {
             if (num > product.getNumber()) {
                 return R.error("库存不足");
             }
-            cartEntity.setNumber((short) num);
+            cartEntity.setNumber(num);
             cartService.updateNumberById(cartEntity.getId(), num);
         }
 
@@ -234,16 +235,14 @@ public class CartClient extends GlobalExceptionHandler implements CartFeign {
      * <p>
      * 如果原来没有勾选，则设置勾选状态；如果商品已经勾选，则设置非勾选状态。
      *
-     * @param userId     用户ID
-     * @param isChecked  选中状态
-     * @param productIds 产品ID集合
+     * @param userId 用户ID
+     * @param param  产品ID集合
      * @return
      */
     @Override
     public R checked(@RequestParam(name = "userId") String userId,
-                     @RequestParam(name = "isChecked") Boolean isChecked,
-                     @RequestBody List<Integer> productIds) {
-        cartService.updateChecked(userId, productIds, isChecked);
+                     @RequestBody CartCheckedReq param) {
+        cartService.updateChecked(userId, param.getProductIds(), param.getIsChecked());
         return R.success();
     }
 

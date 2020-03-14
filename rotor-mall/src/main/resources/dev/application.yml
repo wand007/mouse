@@ -99,5 +99,3 @@ feign:
         readTimeout: 90000
         loggerLevel: full
 hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 90000
-
-

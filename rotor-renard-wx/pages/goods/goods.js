@@ -472,7 +472,7 @@ Page({
           productId: checkedProduct.id
         }, "POST")
         .then(function(res) {
-          if (res.errno == 0) {
+          if (res.statusCode === 10000) {
             // 如果storage中设置了cartId，则是立即购买，否则是购物车购买
             try {
               wx.setStorageSync('cartId', res.data);
@@ -544,7 +544,7 @@ Page({
         }, "POST")
         .then(function(res) {
           let _res = res;
-          if (_res.errno == 0) {
+          if (_res.statusCode === 10000) {
             wx.showToast({
               title: '添加成功'
             });

@@ -68,7 +68,7 @@ public class OrderUnpaidTask extends Task {
         List<OrderGoodsEntity> orderGoodsEntities = orderGoodsService.findByOrderId(orderId).orElseGet(() -> new ArrayList<>());
         for (OrderGoodsEntity orderGoodsEntity : orderGoodsEntities) {
             Integer productId = orderGoodsEntity.getProductId();
-            Short number = orderGoodsEntity.getNumber();
+            Integer number = orderGoodsEntity.getNumber();
             if (productService.reduceStock(productId, number) == 0) {
                 throw new BusinessException("商品货品库存增加失败");
             }

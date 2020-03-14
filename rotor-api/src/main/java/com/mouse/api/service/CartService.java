@@ -50,7 +50,7 @@ public interface CartService {
      * @param productId 产品ID
      * @return
      */
-    CartEntity save(String userId, Integer productId);
+    CartEntity save(String userId, Integer productId,Integer number);
 
     /**
      * 修改购物车商品数量

@@ -1,5 +1,6 @@
 package com.mouse.dao.entity.resource;
 
+import com.mouse.dao.handler.JsonStringArrayTypeHandler;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -35,8 +36,9 @@ public class GoodsEntity implements Serializable {
     @Column(name = "brand_id", columnDefinition = "int unsigned DEFAULT '0' COMMENT '品牌ID'", nullable = false)
     private Integer brandId;
 
+    @Convert(converter = JsonStringArrayTypeHandler.class)
     @Column(name = "gallery", columnDefinition = "varchar(1023) COMMENT '商品宣传图片列表，采用JSON数组格式'", nullable = false)
-    private String gallery;
+    private String[] gallery;
 
     @Column(name = "keywords", columnDefinition = "varchar(255) COMMENT '商品关键字，采用逗号间隔'", nullable = false)
     private String keywords;

@@ -1,7 +1,7 @@
 package com.mouse;
 
-import com.mouse.admin.config.RedisTemplateConfig;
-import com.mouse.admin.config.ThreadPoolConfig;
+import com.mouse.core.config.RedisTemplateConfig;
+import com.mouse.core.config.ThreadPoolConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;

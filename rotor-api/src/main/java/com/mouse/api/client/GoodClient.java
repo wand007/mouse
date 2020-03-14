@@ -95,14 +95,6 @@ public class GoodClient extends GlobalExceptionHandler implements GoodsFeign {
                     @RequestParam("id") Integer id) {
         // 商品信息
         GoodsEntity goodsEntity = goodsService.findById(id).orElseThrow(() -> new BusinessException("商品不存在"));
-        Map<String, Object> userMap = new HashMap<>(16);
-        userMap.put("id", goodsEntity.getId());
-        userMap.put("name", goodsEntity.getName());
-        userMap.put("picUrl", goodsEntity.getPicUrl());
-        userMap.put("brief", goodsEntity.getBrief());
-        userMap.put("counterPrice", goodsEntity.getCounterPrice());
-        userMap.put("retailPrice", goodsEntity.getRetailPrice());
-        userMap.put("gallery", JsonUtils.toObject(goodsEntity.getGallery(), List.class));
         // 商品属性
         List<GoodsAttributeEntity> goodsAttributeEntities = goodsAttributeService.findByGoodsId(id).orElseThrow(() -> new BusinessException("商品属性记录不存在"));
 
@@ -166,7 +158,7 @@ public class GoodClient extends GlobalExceptionHandler implements GoodsFeign {
 
         Map<String, Object> data = new HashMap<>(16);
 
-        data.put("info", userMap);
+        data.put("info", goodsEntity);
         data.put("userHasCollect", userHasCollect);
         data.put("issue", goodsIssuePage.getContent());
         data.put("comment", commentEntities);
