@@ -34,9 +34,9 @@ function request(url, data = {}, method = "GET") {
       },
       success: function(res) {
 
-        if (res.statusCode == 200) {
+        if (res.statusCode != 10000) {
 
-          if (res.data.errno == 501) {
+          if (res.data.statusCode == 20100 || res.data.statusCode == 20101) {
             // 清除登录相关内容
             try {
               wx.removeStorageSync('userInfo');

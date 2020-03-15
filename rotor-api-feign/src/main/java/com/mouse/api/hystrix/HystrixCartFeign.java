@@ -51,7 +51,7 @@ public class HystrixCartFeign implements FallbackFactory<CartFeign> {
             }
 
             @Override
-            public R delete(String userId, List<String> productIds) {
+            public R delete(String userId, List<Integer> productIds) {
                 return R.fromBusinessCode(BusinessCode.ERROR_SYS_SERVICE_RESTART);
             }
 

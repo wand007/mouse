@@ -32,7 +32,7 @@ Page({
         console.log(res.data);
         that.setData({
           orderList: that.data.orderList.concat(res.data.list),
-          totalPages: res.data.pages
+          totalPages: res.data.totalPageCount
         });
       }
     });

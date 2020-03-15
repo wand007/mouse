@@ -71,7 +71,7 @@ public interface CartRepository extends JpaRepository<CartEntity, Integer>, JpaS
     @Modifying
     @Transactional(rollbackFor = Exception.class, timeout = 30, isolation = Isolation.READ_COMMITTED)
     @Query(value = "delete from CartEntity r  where r.userId = ?1 and r.productId in (?2)")
-    Integer deleteByUserIdAndProductIdIn(String userId, List<String> productIds);
+    Integer deleteByUserIdAndProductIdIn(String userId, List<Integer> productIds);
 
     /**
      * 查询用户选中的购物车记录

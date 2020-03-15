@@ -100,7 +100,7 @@ public interface CartFeign {
      */
     @PostMapping("delete")
     R delete(@RequestParam(name = "userId") String userId,
-             @RequestBody List<String> productIds);
+             @RequestBody List<Integer> productIds);
 
     /**
      * 购物车商品货品数量

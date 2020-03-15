@@ -124,7 +124,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void deleteByUserIdAndProductIdIn(String userId, List<String> productIds) {
+    public void deleteByUserIdAndProductIdIn(String userId, List<Integer> productIds) {
         cartRepository.deleteByUserIdAndProductIdIn(userId, productIds);
     }
 

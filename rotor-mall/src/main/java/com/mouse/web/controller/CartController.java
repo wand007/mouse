@@ -97,7 +97,7 @@ public class CartController extends GlobalExceptionHandler {
     /**
      * 购物车商品删除
      *
-     * @param productIds 购物车商品信息， { productIds: xxx }
+     * @param param 购物车商品信息， { productIds: xxx }
      * @return 购物车信息
      * 成功则
      * {
@@ -109,8 +109,8 @@ public class CartController extends GlobalExceptionHandler {
      */
     @PostMapping("delete")
     public R delete(@RequestAttribute(name = "sessionUser") RotorSessionUser sessionUser,
-                    @RequestBody List<String> productIds) {
-        return cartFeign.delete(sessionUser.getId(), productIds);
+                    @RequestBody CartCheckedReq param) {
+        return cartFeign.delete(sessionUser.getId(), param.getProductIds());
     }
 
     /**

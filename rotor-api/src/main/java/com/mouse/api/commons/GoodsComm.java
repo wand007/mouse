@@ -64,7 +64,7 @@ public class GoodsComm {
             goods.setIsOnSale(false);
             return goods;
         });
-        if (goodsEntity.getIsOnSale()) {
+        if (!goodsEntity.getIsOnSale()) {
             cartService.deleteById(cartId);
             log.debug("系统自动删除失效购物车商品 goodsId=" + goodsId);
         }

@@ -197,7 +197,7 @@ public class CartClient extends GlobalExceptionHandler implements CartFeign {
             cartService.updateNumberById(cartEntity.getId(), num);
         }
 
-        return R.success(cartEntity.getId());
+        return index(userId);
     }
 
 
@@ -243,7 +243,7 @@ public class CartClient extends GlobalExceptionHandler implements CartFeign {
     public R checked(@RequestParam(name = "userId") String userId,
                      @RequestBody CartCheckedReq param) {
         cartService.updateChecked(userId, param.getProductIds(), param.getIsChecked());
-        return R.success();
+        return index(userId);
     }
 
 
@@ -263,7 +263,7 @@ public class CartClient extends GlobalExceptionHandler implements CartFeign {
      */
     @Override
     public R delete(@RequestParam(name = "userId") String userId,
-                    @RequestBody List<String> productIds) {
+                    @RequestBody List<Integer> productIds) {
         cartService.deleteByUserIdAndProductIdIn(userId, productIds);
         return R.success();
     }

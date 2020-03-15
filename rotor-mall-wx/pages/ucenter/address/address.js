@@ -23,7 +23,7 @@ Page({
       if (res.statusCode === 10000) {
         that.setData({
           addressList: res.data.list,
-          total: res.data.total
+          total: res.data.totalCount
         });
       }
     });

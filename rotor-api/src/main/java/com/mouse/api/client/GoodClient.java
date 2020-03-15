@@ -257,7 +257,7 @@ public class GoodClient extends GlobalExceptionHandler implements GoodsFeign {
 
         // 查找六个相关商品
         Page<GoodsEntity> goodsEntityPage = goodsService.findByCategoryIdPage(cid, 0, 6);
-        return R.success(goodsEntityPage.getContent());
+        return R.success(PageNation.of(goodsEntityPage, goodsEntityPage.getContent()));
     }
 
     /**

@@ -38,9 +38,9 @@ public enum BusinessCode {
     //用户相关
     ERROR_USER_NOT_LOGIN(20100, "登录获取更好体验~"),
 
-    ERROR_USER_NON_EXISTENT(20101, "用户不存在"),
+    ERROR_USER_LOGIN_TIME_OUT(20101, "登录超时"),
 
-    ERROR_USER_LOGIN_TIME_OUT(20102, "登录超时"),
+    ERROR_USER_NON_EXISTENT(20102, "用户不存在"),
 
     ERROR_USER_STATUS_ERROR(20103, "用户状态异常"),
     ;

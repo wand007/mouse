@@ -75,7 +75,7 @@ public interface CartService {
      * @param userId     用户ID
      * @param productIds 产品ID集合
      */
-    void deleteByUserIdAndProductIdIn(String userId, List<String> productIds);
+    void deleteByUserIdAndProductIdIn(String userId, List<Integer> productIds);
 
     Optional<List<CartEntity>> findByUserIdAndIsChecked(String userId, boolean checked);
 
