@@ -74,7 +74,7 @@ public class CartClient extends GlobalExceptionHandler implements CartFeign {
             cartRsp.setGoodsName(cartEntity.getGoodsName());
             cartRsp.setGoodsSn(cartEntity.getGoodsSn());
             cartRsp.setId(cartEntity.getId());
-            cartRsp.setIsChecked(cartEntity.getIsChecked());
+            cartRsp.setChecked(cartEntity.getChecked());
             cartRsp.setNumber(cartEntity.getNumber());
             cartRsp.setPicUrl(cartEntity.getPicUrl());
             cartRsp.setPrice(cartEntity.getPrice());
@@ -85,7 +85,7 @@ public class CartClient extends GlobalExceptionHandler implements CartFeign {
 
             goodsCount += cartEntity.getNumber();
             goodsAmount = goodsAmount.add(cartEntity.getPrice().multiply(new BigDecimal(cartEntity.getNumber())));
-            if (cartEntity.getIsChecked()) {
+            if (cartEntity.getChecked()) {
                 checkedGoodsCount += cartEntity.getNumber();
                 checkedGoodsAmount = checkedGoodsAmount.add(cartEntity.getPrice().multiply(new BigDecimal(cartEntity.getNumber())));
             }

@@ -108,7 +108,7 @@ public class CartServiceImpl implements CartService {
         }
         cartEntity.setPrice(product.getPrice());
         cartEntity.setSpecifications(product.getSpecifications());
-        cartEntity.setIsChecked(true);
+        cartEntity.setChecked(true);
         cartRepository.save(cartEntity);
         return cartEntity;
     }
@@ -131,7 +131,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public Optional<List<CartEntity>> findByUserIdAndIsChecked(String userId, boolean checked) {
-        return cartRepository.findByUserIdAndIsChecked(userId, checked);
+        return cartRepository.findByUserIdAndChecked(userId, checked);
     }
 
     @Override

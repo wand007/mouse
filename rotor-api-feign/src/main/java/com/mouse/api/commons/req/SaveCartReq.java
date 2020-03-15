@@ -32,6 +32,6 @@ public class SaveCartReq implements Serializable {
     /**
      * 购物车中商品是否选择状态
      */
-    private Boolean isChecked;
+    private Boolean checked;
 
 }

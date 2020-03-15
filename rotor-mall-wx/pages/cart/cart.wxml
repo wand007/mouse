@@ -22,7 +22,7 @@
         <view class="group-item">
           <view class="goods">
             <view class="item {{isEditCart ? 'edit' : ''}}" wx:for="{{cartGoods}}" wx:key="id">
-              <van-checkbox value="{{ item.checked }}" bind:change="checkedItem" data-item-index="{{index}}"></van-checkbox>
+              <van-checkbox value="{{item.checked}}" bind:change="checkedItem" data-item-index="{{index}}"></van-checkbox>
               <view class="cart-goods">
                 <image class="img" src="{{item.picUrl}}"></image>
                 <view class="info">

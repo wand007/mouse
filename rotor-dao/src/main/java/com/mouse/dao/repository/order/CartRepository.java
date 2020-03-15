@@ -59,7 +59,7 @@ public interface CartRepository extends JpaRepository<CartEntity, Integer>, JpaS
      */
     @Modifying
     @Transactional(rollbackFor = Exception.class, timeout = 30, isolation = Isolation.READ_COMMITTED)
-    @Query(value = "update CartEntity r set r.isChecked = ?3, r.updateTime = now() where r.userId = ?1 and r.productId in (?2)")
+    @Query(value = "update CartEntity r set r.checked = ?3, r.updateTime = now() where r.userId = ?1 and r.productId in (?2)")
     Integer updateChecked(String userId, List<Integer> productIds, Boolean isChecked);
 
     /**
@@ -80,7 +80,7 @@ public interface CartRepository extends JpaRepository<CartEntity, Integer>, JpaS
      * @param checked 选中状态
      * @return
      */
-    Optional<List<CartEntity>> findByUserIdAndIsChecked(String userId, boolean checked);
+    Optional<List<CartEntity>> findByUserIdAndChecked(String userId, boolean checked);
 
     /**
      * 根据购物车记录ID和用户ID删除购物车记录
