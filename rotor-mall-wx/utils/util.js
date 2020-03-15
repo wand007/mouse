@@ -63,6 +63,48 @@ function request(url, data = {}, method = "GET") {
   });
 }
 
+function baseSend(url, data = {}, method = "GET", contentType) {
+  return new Promise(function (resolve, reject) {
+    wx.request({
+      url: url,
+      data: data,
+      method: method,
+      header: {
+        'Content-Type': contentType,
+        'X-Litemall-Token': wx.getStorageSync('token')
+      },
+      success: function (res) {
+
+        if (res.statusCode != 10000) {
+
+          if (res.data.statusCode == 20100 || res.data.statusCode == 20101) {
+            // 清除登录相关内容
+            try {
+              wx.removeStorageSync('userInfo');
+              wx.removeStorageSync('token');
+            } catch (e) {
+              // Do something when catch error
+            }
+            // 切换到登录页面
+            wx.navigateTo({
+              url: '/pages/auth/login/login'
+            });
+          } else {
+            resolve(res.data);
+          }
+        } else {
+          reject(res.statusText);
+        }
+
+      },
+      fail: function (err) {
+        reject(err)
+      }
+    })
+  });
+}
+
+
 function redirect(url) {
 
   //判断页面是否需要登录
@@ -88,6 +130,7 @@ function showErrorToast(msg) {
 module.exports = {
   formatTime,
   request,
+  baseSend,
   redirect,
   showErrorToast
 }

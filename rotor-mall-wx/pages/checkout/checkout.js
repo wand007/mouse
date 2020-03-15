@@ -155,9 +155,9 @@ Page({
 
         const orderId = res.data.orderId;
         const grouponLinkId = res.data.grouponLinkId;
-        util.request(api.OrderPrepay, {
+        util.baseSend(api.OrderPrepay, {
           orderId: orderId
-        }, 'POST').then(function(res) {
+        }, 'POST', 'application/x-www-form-urlencoded').then(function(res) {
           if (res.statusCode === 10000) {
             const payParam = res.data;
             console.log("支付过程开始");

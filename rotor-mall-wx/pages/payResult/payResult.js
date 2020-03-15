@@ -31,9 +31,9 @@ Page({
   },
   payOrder() {
     let that = this;
-    util.request(api.OrderPrepay, {
+    util.baseSend(api.OrderPrepay, {
       orderId: that.data.orderId
-    }, 'POST').then(function(res) {
+    }, 'POST','application/x-www-form-urlencoded').then(function(res) {
       if (res.statusCode === 10000) {
         const payParam = res.data;
         console.log("支付过程开始")
