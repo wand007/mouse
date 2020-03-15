@@ -30,7 +30,7 @@ module.exports = {
   GoodsRelated: WxApiRoot + 'goods/related', //商品详情页的关联商品（大家都在看）
 
   BrandList: WxApiRoot + 'brand/findPage', //品牌列表
-  BrandDetail: WxApiRoot + 'brand/detail', //品牌详情
+  BrandDetail: WxApiRoot + 'brand/findDetail', //品牌详情
 
   CartList: WxApiRoot + 'cart/index', //获取购物车的数据
   CartAdd: WxApiRoot + 'cart/add', // 添加商品到购物车

@@ -1,5 +1,6 @@
 package com.mouse.dao.entity.operate;
 
+import com.mouse.dao.handler.JsonStringArrayTypeHandler;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -41,8 +42,9 @@ public class TopicEntity implements Serializable {
     @Column(name = "sort_order", columnDefinition = "tinyint unsigned DEFAULT '100' COMMENT '排序'", nullable = false)
     private Integer sortOrder;
 
+    @Convert(converter = JsonStringArrayTypeHandler.class)
     @Column(name = "goods", columnDefinition = "varchar(1023) DEFAULT '100' COMMENT '专题相关商品，采用JSON数组格式'", nullable = false)
-    private String goods;
+    private String[] goods;
 
 
     @Column(name = "content", columnDefinition = "text COMMENT '专题内容，富文本格式'", nullable = false)
@@ -56,6 +58,6 @@ public class TopicEntity implements Serializable {
     @Column(name = "update_time", columnDefinition = "datetime COMMENT '更新时间'", nullable = false)
     private LocalDateTime updateTime;
 
-   @Column(name = "deleted", columnDefinition = "tinyint unsigned DEFAULT '0' COMMENT '逻辑删除 0 未删除，1 删除'", nullable = false)
+    @Column(name = "deleted", columnDefinition = "tinyint unsigned DEFAULT '0' COMMENT '逻辑删除 0 未删除，1 删除'", nullable = false)
     private Boolean deleted;
 }

@@ -100,4 +100,9 @@ public class CouponUserServiceImpl implements CouponUserService {
     public void update(CouponUserEntity couponUser) {
         couponUserRepository.save(couponUser);
     }
+
+    @Override
+    public Optional<CouponUserEntity> findByCouponIdAndUserId(String userId, Integer couponId) {
+        return couponUserRepository.findByUserIdAndCouponIdAndDeleted(userId,couponId,false);
+    }
 }

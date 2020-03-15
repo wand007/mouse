@@ -35,10 +35,22 @@ public interface GoodsRepository extends JpaRepository<GoodsEntity, Integer>, Jp
     Optional<GoodsEntity> countByIdAndIsOnSaleAndDeleted(String goodsId, Boolean isOnSale, Boolean deleted);
 
     /**
+     * 统计再售商品详情
+     *
+     * @param isOnSale 再售状态
+     * @param deleted
+     * @param goodsIds 商品ID集合
+     * @return
+     */
+    Optional<List<GoodsEntity>> findByIsOnSaleAndDeletedAndIdIn(boolean isOnSale, boolean deleted, List<String> goodsIds);
+
+    /**
      * 根据商品ID集合查询商品信息
      *
      * @param goodsIds 商品ID集合
      * @return
      */
     Optional<List<GoodsEntity>> findByIdIn(List<Integer> goodsIds);
+
+
 }

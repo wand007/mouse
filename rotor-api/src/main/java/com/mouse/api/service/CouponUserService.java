@@ -49,4 +49,5 @@ public interface CouponUserService {
 
     void update(CouponUserEntity couponUser);
 
+    Optional<CouponUserEntity> findByCouponIdAndUserId(String userId, Integer couponId);
 }

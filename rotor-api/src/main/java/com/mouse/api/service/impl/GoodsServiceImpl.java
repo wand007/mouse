@@ -47,6 +47,11 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
+    public Optional<List<GoodsEntity>> findByIsOnSaleAndIdIn(List<String> goodsIds, boolean isOnSale) {
+        return goodsRepository.findByIsOnSaleAndDeletedAndIdIn(true,false,goodsIds);
+    }
+
+    @Override
     public Optional<List<GoodsEntity>> findByIds(List<Integer> goodsIds) {
         return goodsRepository.findByIdIn(goodsIds);
     }

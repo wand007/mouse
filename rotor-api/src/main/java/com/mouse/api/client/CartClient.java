@@ -2,19 +2,23 @@ package com.mouse.api.client;
 
 import com.mouse.api.base.GlobalExceptionHandler;
 import com.mouse.api.commons.GoodsComm;
+import com.mouse.api.commons.GrouponRulesComm;
 import com.mouse.api.commons.req.CartCheckedReq;
 import com.mouse.api.commons.req.SaveCartReq;
 import com.mouse.api.commons.req.UpdateCartReq;
 import com.mouse.api.commons.rsp.CartRsp;
 import com.mouse.api.feign.CartFeign;
-import com.mouse.api.service.CartService;
-import com.mouse.api.service.GoodsService;
-import com.mouse.api.service.ProductService;
+import com.mouse.api.service.*;
+import com.mouse.api.system.SystemConfig;
 import com.mouse.core.base.BusinessException;
 import com.mouse.core.base.R;
+import com.mouse.dao.entity.operate.CouponEntity;
+import com.mouse.dao.entity.operate.CouponUserEntity;
+import com.mouse.dao.entity.operate.GrouponRulesEntity;
 import com.mouse.dao.entity.order.CartEntity;
 import com.mouse.dao.entity.resource.GoodsEntity;
 import com.mouse.dao.entity.resource.GoodsProductEntity;
+import com.mouse.dao.entity.user.AddressEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -38,11 +42,19 @@ public class CartClient extends GlobalExceptionHandler implements CartFeign {
     @Autowired
     GoodsComm goodsComm;
     @Autowired
+    GrouponRulesComm grouponRulesComm;
+    @Autowired
     CartService cartService;
     @Autowired
     GoodsService goodsService;
     @Autowired
     ProductService productService;
+    @Autowired
+    AddressService addressService;
+    @Autowired
+    GrouponRulesService grouponRulesService;
+    @Autowired
+    CouponUserService couponUserService;
 
     /**
      * 用户购物车信息
@@ -185,7 +197,7 @@ public class CartClient extends GlobalExceptionHandler implements CartFeign {
             if (product == null || number > product.getNumber()) {
                 return R.error("库存不足");
             }
-            cartEntity = cartService.save(param.getUserId(), param.getProductId(), number);
+            cartEntity = cartService.save(userId, param.getProductId(), number);
         } else {
             cartEntity = cartEntityOptional.get();
             //取得规格的信息,判断规格库存
@@ -197,7 +209,7 @@ public class CartClient extends GlobalExceptionHandler implements CartFeign {
             cartService.updateNumberById(cartEntity.getId(), num);
         }
 
-        return index(userId);
+        return R.success(cartEntity.getId());
     }
 
 
@@ -306,6 +318,117 @@ public class CartClient extends GlobalExceptionHandler implements CartFeign {
                       @RequestParam(name = "couponId") Integer couponId,
                       @RequestParam(name = "userCouponId") Integer userCouponId,
                       @RequestParam(name = "grouponRulesId") Integer grouponRulesId) {
-        return R.success();
+        // 收货地址
+        AddressEntity checkedAddress = addressService.findById(addressId).orElseThrow(() -> new BusinessException("请添加收货地址"));
+        if (!userId.equals(checkedAddress.getUserId())) {
+            return R.error("请选择自己的收货地址");
+        }
+        // 团购优惠
+        GrouponRulesEntity grouponRules = null;
+        BigDecimal grouponPrice = BigDecimal.ZERO;
+        if (grouponRulesId != 0) {
+            grouponRules = grouponRulesService.findById(grouponRulesId).orElseThrow(() -> new BusinessException("团购优惠记录不存在"));
+            if (grouponRules != null) {
+                grouponPrice = grouponRules.getDiscount();
+            }
+        }
+
+        // 商品价格
+        List<CartEntity> checkedGoodsList = null;
+        if (cartId == null || cartId == 0) {
+            checkedGoodsList = cartService.findByUserIdAndIsChecked(userId, false).orElseGet(() -> new ArrayList<>());
+        } else {
+            CartEntity cart = cartService.findById(cartId).orElseGet(() -> new CartEntity());
+            if (!userId.equals(cart.getUserId())) {
+                return R.error("请选择自己购物车里的商品记录");
+            }
+            checkedGoodsList = new ArrayList<>(1);
+            checkedGoodsList.add(cart);
+        }
+        BigDecimal checkedGoodsPrice = new BigDecimal(0.00);
+        for (CartEntity cart : checkedGoodsList) {
+            //  只有当团购规格商品ID符合才进行团购优惠
+            if (grouponRules != null && grouponRules.getGoodsId().equals(cart.getGoodsId())) {
+                checkedGoodsPrice = checkedGoodsPrice.add(cart.getPrice().subtract(grouponPrice).multiply(new BigDecimal(cart.getNumber())));
+            } else {
+                checkedGoodsPrice = checkedGoodsPrice.add(cart.getPrice().multiply(new BigDecimal(cart.getNumber())));
+            }
+        }
+
+        // 计算优惠券可用情况
+        BigDecimal tmpCouponPrice = new BigDecimal(0.00);
+        Integer tmpCouponId = 0;
+        Integer tmpUserCouponId = 0;
+        int tmpCouponLength = 0;
+        List<CouponUserEntity> couponUserList = couponUserService.findByUserId(userId).orElseGet(() -> new ArrayList<>());
+        for (CouponUserEntity couponUser : couponUserList) {
+            tmpUserCouponId = couponUser.getId();
+            CouponEntity coupon = grouponRulesComm.checkCoupon(userId, couponUser.getCouponId(), tmpUserCouponId, checkedGoodsPrice);
+            if (coupon == null) {
+                continue;
+            }
+
+            tmpCouponLength++;
+            if (tmpCouponPrice.compareTo(coupon.getDiscount()) == -1) {
+                tmpCouponPrice = coupon.getDiscount();
+                tmpCouponId = coupon.getId();
+            }
+        }
+        // 获取优惠券减免金额，优惠券可用数量
+        int availableCouponLength = tmpCouponLength;
+        BigDecimal couponPrice = new BigDecimal(0);
+        // 这里存在三种情况
+        // 1. 用户不想使用优惠券，则不处理
+        // 2. 用户想自动使用优惠券，则选择合适优惠券
+        // 3. 用户已选择优惠券，则测试优惠券是否合适
+        if (couponId == null || couponId.equals(-1)) {
+            couponId = -1;
+            userCouponId = -1;
+        } else if (couponId.equals(0)) {
+            couponPrice = tmpCouponPrice;
+            couponId = tmpCouponId;
+            userCouponId = tmpUserCouponId;
+        } else {
+            CouponEntity coupon = grouponRulesComm.checkCoupon(userId, couponId, userCouponId, checkedGoodsPrice);
+            // 用户选择的优惠券有问题，则选择合适优惠券，否则使用用户选择的优惠券
+            if (coupon == null) {
+                couponPrice = tmpCouponPrice;
+                couponId = tmpCouponId;
+                userCouponId = tmpUserCouponId;
+            } else {
+                couponPrice = coupon.getDiscount();
+            }
+        }
+
+        // 根据订单商品总价计算运费，满88则免运费，否则8元；
+        BigDecimal freightPrice = new BigDecimal(0.00);
+        if (checkedGoodsPrice.compareTo(SystemConfig.getFreightLimit()) < 0) {
+            freightPrice = SystemConfig.getFreight();
+        }
+
+        // 可以使用的其他钱，例如用户积分
+        BigDecimal integralPrice = new BigDecimal(0.00);
+
+        // 订单费用
+        BigDecimal orderTotalPrice = checkedGoodsPrice.add(freightPrice).subtract(couponPrice).max(new BigDecimal(0.00));
+
+        BigDecimal actualPrice = orderTotalPrice.subtract(integralPrice);
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("addressId", addressId);
+        data.put("couponId", couponId);
+        data.put("userCouponId", userCouponId);
+        data.put("cartId", cartId);
+        data.put("grouponRulesId", grouponRulesId);
+        data.put("grouponPrice", grouponPrice);
+        data.put("checkedAddress", checkedAddress);
+        data.put("availableCouponLength", availableCouponLength);
+        data.put("goodsTotalPrice", checkedGoodsPrice);
+        data.put("freightPrice", freightPrice);
+        data.put("couponPrice", couponPrice);
+        data.put("orderTotalPrice", orderTotalPrice);
+        data.put("actualPrice", actualPrice);
+        data.put("checkedGoodsList", checkedGoodsList);
+        return R.success(data);
     }
 }

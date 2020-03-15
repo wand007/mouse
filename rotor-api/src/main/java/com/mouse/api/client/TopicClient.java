@@ -6,7 +6,6 @@ import com.mouse.api.service.GoodsService;
 import com.mouse.api.service.TopicService;
 import com.mouse.core.base.BusinessException;
 import com.mouse.core.base.R;
-import com.mouse.core.utils.JsonUtils;
 import com.mouse.dao.entity.operate.TopicEntity;
 import com.mouse.dao.entity.resource.GoodsEntity;
 import lombok.extern.slf4j.Slf4j;
@@ -60,18 +59,13 @@ public class TopicClient extends GlobalExceptionHandler implements TopicFeign {
     public R detail(@RequestParam(defaultValue = "id") Integer id) {
         TopicEntity topicEntity = topicService.findById(id).orElseThrow(() -> new BusinessException("专题记录不存在"));
 
-        List<String> goodsIds = JsonUtils.toList(topicEntity.getGoods(), String.class);
-        List<GoodsEntity> goods = new ArrayList<>(goodsIds.size());
-        for (String goodsId : goodsIds) {
-            Optional<GoodsEntity> goodsEntityOptional = goodsService.findByIdAndIsOnSale(goodsId);
-            if (goodsEntityOptional.isPresent()) {
-                goods.add(goodsEntityOptional.get());
-            }
-        }
+        List<String> goodsIds = Arrays.asList(topicEntity.getGoods());
+
+        List<GoodsEntity> goodsEntities = goodsService.findByIsOnSaleAndIdIn(goodsIds, true).orElseGet(() -> new ArrayList());
 
         Map<String, Object> entity = new HashMap<String, Object>(8);
         entity.put("topic", topicEntity);
-        entity.put("goods", goods);
+        entity.put("goods", goodsEntities);
         return R.success(entity);
     }
 

@@ -17,6 +17,7 @@ import com.mouse.core.enums.CouponUserEnum;
 import com.mouse.core.enums.GrouponConstant;
 import com.mouse.core.express.ExpressService;
 import com.mouse.core.express.dao.ExpressInfo;
+import com.mouse.core.utils.GeneratID;
 import com.mouse.core.utils.RedisLock;
 import com.mouse.core.utils.SnowflakeIdWorker;
 import com.mouse.core.wx.WxJsPayCommon;
@@ -278,14 +279,12 @@ public class OrderClient extends GlobalExceptionHandler implements OrderFeign {
             }
         }
 
-        if (cartId == null || addressId == null || couponId == null) {
-            return R.error("参数异常");
-        }
-
         // 团购优惠
         BigDecimal grouponPrice = new BigDecimal(0);
-        GrouponRulesEntity grouponRulesEntity = grouponRulesService.findById(grouponRulesId).orElseThrow(() -> new BusinessException("团购优惠"));
-        if (grouponRulesEntity != null) {
+        GrouponRulesEntity grouponRulesEntity = null;
+        Optional<GrouponRulesEntity> grouponRulesEntityOptional = grouponRulesService.findById(grouponRulesId);
+        if (grouponRulesEntityOptional.isPresent()) {
+            grouponRulesEntity = grouponRulesEntityOptional.get();
             grouponPrice = grouponRulesEntity.getDiscount();
         }
 
@@ -294,11 +293,13 @@ public class OrderClient extends GlobalExceptionHandler implements OrderFeign {
         if (cartId == null || cartId.equals(0)) {
             checkedGoodsList = cartService.findByUserId(userId).orElseGet(() -> new ArrayList<>());
         } else {
-            CartEntity cart = cartService.findById(cartId).orElseGet(() -> new CartEntity());
-            checkedGoodsList = new ArrayList<>(1);
-            checkedGoodsList.add(cart);
+            Optional<CartEntity> cartEntityOptional = cartService.findById(cartId);
+            if (cartEntityOptional.isPresent()) {
+                checkedGoodsList = new ArrayList<>();
+                checkedGoodsList.add(cartEntityOptional.get());
+            }
         }
-        if (checkedGoodsList.size() == 0) {
+        if (CollectionUtils.isEmpty(checkedGoodsList)) {
             return R.error("参数值异常");
         }
         BigDecimal checkedGoodsPrice = new BigDecimal(0);
@@ -335,9 +336,6 @@ public class OrderClient extends GlobalExceptionHandler implements OrderFeign {
         // 最终支付费用
         BigDecimal actualPrice = orderTotalPrice.subtract(integralPrice);
 
-        orderService.save(param);
-
-
         // 收货地址
         AddressEntity addressEntity = addressService.findByIdAndUserId(addressId, userId).orElseThrow(() -> new BusinessException("收货地址记录不存在"));
 
@@ -345,7 +343,8 @@ public class OrderClient extends GlobalExceptionHandler implements OrderFeign {
         // 订单
         OrderEntity order = new OrderEntity();
         order.setUserId(userId);
-        order.setOrderSn(snowflakeIdWorker.nextId());
+        order.setId(snowflakeIdWorker.nextId());
+        order.setOrderSn(GeneratID.getGeneratID());
         order.setOrderStatus(OrderUtil.STATUS_CREATE);
         order.setConsignee(addressEntity.getName());
         order.setMobile(addressEntity.getTel());
@@ -357,7 +356,8 @@ public class OrderClient extends GlobalExceptionHandler implements OrderFeign {
         order.setIntegralPrice(integralPrice);
         order.setOrderPrice(orderTotalPrice);
         order.setActualPrice(actualPrice);
-
+        order.setComments(checkedGoodsList.size());
+        order.setDeleted(false);
         // 有团购
         order.setGrouponPrice(new BigDecimal(0));    //  团购价格
         if (grouponRulesEntity != null) {
@@ -383,7 +383,9 @@ public class OrderClient extends GlobalExceptionHandler implements OrderFeign {
             orderGoods.setNumber(cartGoods.getNumber());
             orderGoods.setSpecifications(cartGoods.getSpecifications());
             orderGoods.setAddTime(LocalDateTime.now());
-
+            orderGoods.setChecked(cartGoods.getChecked());
+            orderGoods.setComment(cartGoods.getNumber());
+            orderGoods.setDeleted(false);
             orderGoodsService.add(orderGoods);
 
             cartIds.add(cartGoods.getId());

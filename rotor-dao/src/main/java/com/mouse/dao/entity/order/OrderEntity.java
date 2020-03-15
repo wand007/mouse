@@ -68,28 +68,28 @@ public class OrderEntity implements Serializable {
     @Column(name = "actual_price", columnDefinition = "decimal(10,2) default '0' COMMENT '实付费用， = order_price - integral_price'", nullable = false)
     private BigDecimal actualPrice;
 
-    @Column(name = "pay_id", columnDefinition = "char(15) COMMENT '微信付款编号'", nullable = false)
+    @Column(name = "pay_id", columnDefinition = "char(15) COMMENT '微信付款编号'")
     private String payId;
 
-    @Column(name = "pay_time", columnDefinition = "datetime COMMENT '微信付款时间'", nullable = false)
+    @Column(name = "pay_time", columnDefinition = "datetime COMMENT '微信付款时间'")
     private LocalDateTime payTime;
 
-    @Column(name = "ship_sn", columnDefinition = "char(15) COMMENT '发货编号'", nullable = false)
+    @Column(name = "ship_sn", columnDefinition = "char(15) COMMENT '发货编号'")
     private String shipSn;
 
-    @Column(name = "ship_channel", columnDefinition = "char(15) COMMENT '发货快递公司'", nullable = false)
+    @Column(name = "ship_channel", columnDefinition = "char(15) COMMENT '发货快递公司'")
     private String shipChannel;
 
-    @Column(name = "ship_time", columnDefinition = "datetime COMMENT '发货开始时间'", nullable = false)
+    @Column(name = "ship_time", columnDefinition = "datetime COMMENT '发货开始时间'")
     private LocalDateTime shipTime;
 
-    @Column(name = "confirm_time", columnDefinition = "datetime COMMENT '用户确认收货时间'", nullable = false)
+    @Column(name = "confirm_time", columnDefinition = "datetime COMMENT '用户确认收货时间'")
     private LocalDateTime confirmTime;
 
     @Column(name = "comments", columnDefinition = "smallint unsigned DEFAULT '0' COMMENT '待评价订单商品数量'", nullable = false)
     private Integer comments;
 
-    @Column(name = "end_time", columnDefinition = "datetime COMMENT '订单关闭时间'", nullable = false)
+    @Column(name = "end_time", columnDefinition = "datetime COMMENT '订单关闭时间'")
     private LocalDateTime endTime;
 
 

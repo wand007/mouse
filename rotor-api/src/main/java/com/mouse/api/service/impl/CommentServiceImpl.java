@@ -40,15 +40,12 @@ public class CommentServiceImpl implements CommentService {
             if (valueId != null) {
                 expressions.add(criteriaBuilder.equal(root.<Integer>get("valueId"), valueId));
             }
-
             if (type != null) {
                 expressions.add(criteriaBuilder.equal(root.<Integer>get("type"), type));
             }
-
-            if (showType != null) {
-                expressions.add(criteriaBuilder.equal(root.<Integer>get("showType"), showType));
+            if (1 == showType) {
+                expressions.add(criteriaBuilder.equal(root.<Boolean>get("hasPicture"), true));
             }
-
             return predicate;
         }, PageRequest.of(pageNum, pageSize, new Sort(Sort.Direction.DESC, "id")));
 

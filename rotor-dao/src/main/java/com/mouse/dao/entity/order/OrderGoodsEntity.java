@@ -54,7 +54,7 @@ public class OrderGoodsEntity implements Serializable {
     @Column(name = "checked", columnDefinition = "tinyint unsigned DEFAULT '0' COMMENT '购物车中商品是否选择状态'", nullable = false)
     private Boolean checked;
 
-    @Column(name = "pic_url", columnDefinition = "varchar(64) COMMENT '商品图片或者商品货品图片'", nullable = false)
+    @Column(name = "pic_url", columnDefinition = "varchar(512) COMMENT '商品图片或者商品货品图片'", nullable = false)
     private String picUrl;
 
     @Column(name = "comment", columnDefinition = "int unsigned DEFAULT '0' COMMENT '订单商品评论，如果是-1，则超期不能评价；如果是0，则可以评价；如果其他值，则是comment表里面的评论ID'", nullable = false)
