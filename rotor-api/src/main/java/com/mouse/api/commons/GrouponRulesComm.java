@@ -98,20 +98,27 @@ public class GrouponRulesComm {
         }
 
         // 检查是否超期
-        Short timeType = coupon.getTimeType();
-        Short days = coupon.getDays();
-        LocalDateTime now = LocalDateTime.now();
-        if (timeType.equals(CouponTimeTypeEnum.TIME_TYPE_TIME)) {
-            if (now.isBefore(coupon.getStartTime()) || now.isAfter(coupon.getEndTime())) {
+        CouponTimeTypeEnum couponTimeTypeEnum = CouponTimeTypeEnum.parse(coupon.getTimeType());
+        switch (couponTimeTypeEnum) {
+            case TIME_TYPE_TIME: {
+                LocalDateTime now = LocalDateTime.now();
+                if (now.isBefore(coupon.getStartTime()) || now.isAfter(coupon.getEndTime())) {
+                    return null;
+                }
+                break;
+            }
+            case TIME_TYPE_DAYS: {
+                Short days = coupon.getDays();
+                LocalDateTime now = LocalDateTime.now();
+                LocalDateTime expired = couponUser.getAddTime().plusDays(days);
+                if (now.isAfter(expired)) {
+                    return null;
+                }
+                break;
+            }
+            default: {
                 return null;
             }
-        } else if (timeType.equals(CouponTimeTypeEnum.TIME_TYPE_DAYS)) {
-            LocalDateTime expired = couponUser.getAddTime().plusDays(days);
-            if (now.isAfter(expired)) {
-                return null;
-            }
-        } else {
-            return null;
         }
 
         // 检测商品是否符合

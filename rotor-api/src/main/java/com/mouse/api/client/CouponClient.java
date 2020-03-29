@@ -29,6 +29,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -128,30 +129,30 @@ public class CouponClient extends GlobalExceptionHandler implements CouponFeign 
 
     private List<CouponUserRsp> toResult(List<CouponUserEntity> content) {
         List<CouponUserRsp> result = new ArrayList<>();
-        if (!CollectionUtils.isEmpty(content)) {
-            List<Integer> couponIds = content.stream().map(CouponUserEntity::getCouponId).collect(Collectors.toList());
-            List<CouponEntity> couponEntities = couponService.findByIdIn(couponIds).orElseGet(() -> new ArrayList<>());
-            Map<Integer, CouponEntity> couponMap = couponEntities.stream().collect(Collectors.toMap(CouponEntity::getId, a -> a, (k1, k2) -> k1));
-
-            content.stream().forEach(couponUserEntity -> {
-                CouponUserRsp couponRsp = new CouponUserRsp();
-                couponRsp.setId(couponUserEntity.getId());
-                couponRsp.setStartTime(couponUserEntity.getStartTime());
-                couponRsp.setEndTime(couponUserEntity.getEndTime());
-                CouponEntity couponEntity = couponMap.get(couponUserEntity.getCouponId());
-                boolean availableb = couponEntity != null;
-                couponRsp.setAvailable(availableb);
-                if (availableb) {
-                    couponRsp.setCid(couponEntity.getId());
-                    couponRsp.setName(couponEntity.getName());
-                    couponRsp.setDesc(couponEntity.getDesc());
-                    couponRsp.setTag(couponEntity.getTag());
-                    couponRsp.setMin(couponEntity.getMin());
-                    couponRsp.setDiscount(couponEntity.getDiscount());
-                }
-                result.add(couponRsp);
-            });
+        if (CollectionUtils.isEmpty(content)) {
+            return result;
         }
+        List<Integer> couponIds = content.stream().map(CouponUserEntity::getCouponId).collect(Collectors.toList());
+        List<CouponEntity> couponEntities = couponService.findByIdIn(couponIds).orElseGet(() -> new ArrayList<>());
+        Map<Integer, CouponEntity> couponMap = couponEntities.stream().collect(Collectors.toMap(CouponEntity::getId, a -> a, (k1, k2) -> k1));
+
+        content.stream().forEach(couponUserEntity -> {
+            CouponUserRsp couponRsp = new CouponUserRsp();
+            couponRsp.setId(couponUserEntity.getId());
+            couponRsp.setStartTime(couponUserEntity.getStartTime());
+            couponRsp.setEndTime(couponUserEntity.getEndTime());
+            CouponEntity couponEntity = couponMap.get(couponUserEntity.getCouponId());
+            couponRsp.setAvailable(couponEntity != null);
+            if (couponRsp.getAvailable()) {
+                couponRsp.setCid(couponEntity.getId());
+                couponRsp.setName(couponEntity.getName());
+                couponRsp.setDesc(couponEntity.getDesc());
+                couponRsp.setTag(couponEntity.getTag());
+                couponRsp.setMin(couponEntity.getMin());
+                couponRsp.setDiscount(couponEntity.getDiscount());
+            }
+            result.add(couponRsp);
+        });
         return result;
     }
 
@@ -188,16 +189,17 @@ public class CouponClient extends GlobalExceptionHandler implements CouponFeign 
         BigDecimal checkedGoodsPrice = BigDecimal.ZERO;
         for (CartEntity cartEntity : cartEntities) {
             //  只有当团购规格商品ID符合才进行团购优惠
-            if (grouponRulesEntity != null && grouponRulesEntity.getGoodsId().equals(cartEntity.getGoodsId())) {
+            if (grouponRulesEntity != null && cartEntity.getGoodsId().equals(grouponRulesEntity.getGoodsId())) {
                 checkedGoodsPrice = checkedGoodsPrice.add(cartEntity.getPrice().subtract(grouponPrice).multiply(new BigDecimal(cartEntity.getNumber())));
             } else {
                 checkedGoodsPrice = checkedGoodsPrice.add(cartEntity.getPrice().multiply(new BigDecimal(cartEntity.getNumber())));
             }
         }
-
         // 计算优惠券可用情况
         List<CouponUserEntity> couponUserEntities = couponUserService.findByUserId(userId).orElseGet(() -> new ArrayList<>());
-        return R.success(this.toResult(couponUserEntities));
+        Map<String, Object> map = new HashMap<>();
+        map.put("list", this.toResult(couponUserEntities));
+        return R.success(map);
     }
 
 

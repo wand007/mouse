@@ -40,7 +40,7 @@ public class CouponUserEntity implements Serializable {
     @Column(name = "end_time", columnDefinition = "datetime COMMENT '有效期截至时间'", nullable = false)
     private LocalDateTime endTime;
 
-    @Column(name = "order_id", columnDefinition = "int unsigned DEFAULT '0' COMMENT '订单ID'")
+    @Column(name = "order_id", columnDefinition = "varchar(32) COMMENT '订单ID'")
     private String orderId;
 
     @CreationTimestamp

@@ -57,9 +57,9 @@ Page({
     this.setData({
       orderList: [],
       showType: showType,
-      page: 1,
-      limit: 10,
-      totalPages: 1
+      pageNum: 0,
+      pageSize: 10,
+      totalPages: 0
     });
     this.getOrderList();
   },
