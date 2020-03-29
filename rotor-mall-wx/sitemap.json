@@ -12,7 +12,7 @@
     {
       "action": "disallow",
       "page": "pages/ucenter/index/index"
-    },
+    },    
     {
       "action": "allow",
       "page": "*"
