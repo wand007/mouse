@@ -41,7 +41,9 @@ public class GrouponRulesEntity implements Serializable {
 
     @Column(name = "expire_time", columnDefinition = "datetime  COMMENT '团购过期时间'", nullable = false)
     private LocalDateTime expireTime;
-
+    /**
+     * com.mouse.core.enums.GrouponRuleStatusEnum
+     */
     @Column(name = "\"status\"", columnDefinition = "tinyint unsigned DEFAULT '0' COMMENT '团购规则状态，正常上线则0，到期自动下线则1，管理手动下线则2'", nullable = false)
     private Integer status;
 

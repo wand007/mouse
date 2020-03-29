@@ -42,7 +42,7 @@ module.exports = {
   CartCheckout: WxApiRoot + 'cart/checkout', // 下单前信息确认
 
   CollectList: WxApiRoot + 'collect/findPage', //收藏列表
-  CollectAddOrDelete: WxApiRoot + 'collect/addordelete', //添加或取消收藏
+  CollectAddOrDelete: WxApiRoot + 'collect/addOrDelete', //添加或取消收藏
 
   CommentList: WxApiRoot + 'comment/findPage', //评论列表
   CommentCount: WxApiRoot + 'comment/count', //评论总数

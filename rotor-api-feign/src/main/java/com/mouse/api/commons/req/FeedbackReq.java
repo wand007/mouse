@@ -3,6 +3,7 @@ package com.mouse.api.commons.req;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author ; lidongdong
@@ -51,6 +52,6 @@ public class FeedbackReq implements Serializable {
     /**
      * 图片地址列表，采用JSON数组格式
      */
-    private String picUrls;
+    private List<String> picUrls;
 
 }

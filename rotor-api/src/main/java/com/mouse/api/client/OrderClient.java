@@ -14,7 +14,8 @@ import com.mouse.api.task.OrderUnpaidTask;
 import com.mouse.core.base.BusinessException;
 import com.mouse.core.base.R;
 import com.mouse.core.enums.CouponUserEnum;
-import com.mouse.core.enums.GrouponConstant;
+import com.mouse.core.enums.GrouponRuleStatusEnum;
+import com.mouse.core.enums.GrouponStatusEnum;
 import com.mouse.core.express.ExpressService;
 import com.mouse.core.express.dao.ExpressInfo;
 import com.mouse.core.utils.GeneratID;
@@ -251,14 +252,16 @@ public class OrderClient extends GlobalExceptionHandler implements OrderFeign {
         if (grouponRulesId != null && grouponRulesId > 0) {
             //找不到记录
             GrouponRulesEntity grouponRulesEntity = grouponRulesService.findById(grouponRulesId).orElseThrow(() -> new BusinessException("参数异常"));
-
-            //团购规则已经过期
-            if (grouponRulesEntity.getStatus().equals(GrouponConstant.RULE_STATUS_DOWN_EXPIRE)) {
-                return R.error("团购已过期!");
-            }
-            //团购规则已经下线
-            if (grouponRulesEntity.getStatus().equals(GrouponConstant.RULE_STATUS_DOWN_ADMIN)) {
-                return R.error("团购已下线!");
+            GrouponRuleStatusEnum grouponRuleStatusEnum = GrouponRuleStatusEnum.parse(grouponRulesEntity.getStatus());
+            switch (grouponRuleStatusEnum) {
+                //团购规则已经过期
+                case DOWN_EXPIRE: {
+                    return R.error("团购已过期!");
+                }
+                //团购规则已经下线
+                case DOWN_ADMIN: {
+                    return R.error("团购已下线!");
+                }
             }
 
             if (grouponLinkId != null && grouponLinkId > 0) {
@@ -423,7 +426,7 @@ public class OrderClient extends GlobalExceptionHandler implements OrderFeign {
         if (grouponRulesId != null && grouponRulesId > 0) {
             GrouponEntity groupon = new GrouponEntity();
             groupon.setOrderId(orderId);
-            groupon.setStatus(GrouponConstant.STATUS_NONE);
+            groupon.setStatus(GrouponStatusEnum.NONE.getCode());
             groupon.setUserId(userId);
             groupon.setRulesId(grouponRulesId);
 

@@ -16,9 +16,9 @@ import java.util.Optional;
 @Repository
 public interface GrouponRepository extends JpaRepository<GrouponEntity, Integer>, JpaSpecificationExecutor<GrouponEntity> {
 
-    Optional<List<GrouponEntity>> findByIdAndDeletedAndStatusIn(Integer grouponId, boolean deleted, List<Short> statuss);
+    Optional<List<GrouponEntity>> findByIdAndDeletedAndStatusIn(Integer grouponId, boolean deleted, List<Integer> statuss);
 
-    Integer countByIdAndDeletedAndStatusIn(Integer grouponId, boolean deleted, List<Short> statuss);
+    Integer countByIdAndDeletedAndStatusIn(Integer grouponId, boolean deleted, List<Integer> statuss);
 
     Optional<GrouponEntity> findByOrderId(String orderId);
 }

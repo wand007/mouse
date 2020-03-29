@@ -2,12 +2,13 @@ package com.mouse.api.service.impl;
 
 import com.mouse.api.commons.req.FeedbackReq;
 import com.mouse.api.service.FeedbackService;
+import com.mouse.core.utils.JsonUtils;
 import com.mouse.dao.entity.user.FeedbackEntity;
 import com.mouse.dao.repository.user.FeedbackRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 /**
  * @author ; lidongdong
@@ -30,8 +31,9 @@ public class FeedbackServiceImpl implements FeedbackService {
         feedbackEntity.setFeedType(param.getFeedType());
         feedbackEntity.setContent(param.getContent());
         feedbackEntity.setStatus(1);
-        feedbackEntity.setHasPicture(StringUtils.isNotBlank(param.getPicUrls()));
-        feedbackEntity.setPicUrls(param.getPicUrls());
+        feedbackEntity.setDeleted(false);
+        feedbackEntity.setHasPicture(CollectionUtils.isEmpty(param.getPicUrls()));
+        feedbackEntity.setPicUrls(JsonUtils.toJson(param.getPicUrls()));
         feedbackRepository.save(feedbackEntity);
     }
 }

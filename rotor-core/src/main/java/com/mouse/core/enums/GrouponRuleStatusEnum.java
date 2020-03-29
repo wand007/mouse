@@ -6,23 +6,23 @@ import lombok.ToString;
 
 /**
  * @author ; lidongdong
- * @Description 优惠券类型枚举类型
- * @Date 2020-02-03
+ * @Description 团购规则状态
+ * @Date 2020-03-29
  */
 @Getter
 @ToString
-public enum CouponTypeEnum {
+public enum GrouponRuleStatusEnum {
 
-    TYPE_COMMON(0, "优惠券只能领取，不能兑换"),
-    TYPE_REGISTER(1, "新用户注册优惠券自动发送"),
-    TYPE_CODE(2, "只能兑换");;
+    ON(0, "正常上线"),
+    DOWN_EXPIRE(1, "到期自动下线"),
+    DOWN_ADMIN(2, "管理手动下线");
 
     private int code;
     private String desc;
 
-    public static CouponTypeEnum parse(int val) {
-        CouponTypeEnum[] values = CouponTypeEnum.values();
-        for (CouponTypeEnum anEnum : values) {
+    public static GrouponRuleStatusEnum parse(int val) {
+        GrouponRuleStatusEnum[] values = GrouponRuleStatusEnum.values();
+        for (GrouponRuleStatusEnum anEnum : values) {
             if (anEnum.getCode() == val) {
                 return anEnum;
             }
@@ -30,7 +30,7 @@ public enum CouponTypeEnum {
         throw new BusinessException("没有找到此状态 : " + val);
     }
 
-    CouponTypeEnum(int code, String desc) {
+    GrouponRuleStatusEnum(int code, String desc) {
         this.code = code;
         this.desc = desc;
     }

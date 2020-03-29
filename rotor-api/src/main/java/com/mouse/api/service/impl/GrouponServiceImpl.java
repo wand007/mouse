@@ -1,7 +1,7 @@
 package com.mouse.api.service.impl;
 
 import com.mouse.api.service.GrouponService;
-import com.mouse.core.enums.GrouponConstant;
+import com.mouse.core.enums.GrouponStatusEnum;
 import com.mouse.dao.entity.operate.GrouponEntity;
 import com.mouse.dao.repository.operate.GrouponRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -42,12 +42,12 @@ public class GrouponServiceImpl implements GrouponService {
     @Override
     public Optional<List<GrouponEntity>> findByIdAndStatus(Integer grouponId) {
         return grouponRepository.findByIdAndDeletedAndStatusIn(grouponId, false,
-                Arrays.asList(GrouponConstant.STATUS_ON, GrouponConstant.STATUS_SUCCEED, GrouponConstant.STATUS_FAIL));
+                Arrays.asList(GrouponStatusEnum.ON.getCode(), GrouponStatusEnum.SUCCEED.getCode(), GrouponStatusEnum.FAIL.getCode()));
     }
 
     @Override
     public Integer countById(Integer grouponId) {
-        return grouponRepository.countByIdAndDeletedAndStatusIn(grouponId, false, Arrays.asList(GrouponConstant.STATUS_ON, GrouponConstant.STATUS_SUCCEED, GrouponConstant.STATUS_FAIL));
+        return grouponRepository.countByIdAndDeletedAndStatusIn(grouponId, false, Arrays.asList(GrouponStatusEnum.ON.getCode(), GrouponStatusEnum.SUCCEED.getCode(), GrouponStatusEnum.FAIL.getCode()));
     }
 
     @Override
@@ -57,7 +57,7 @@ public class GrouponServiceImpl implements GrouponService {
             Predicate predicate = criteriaBuilder.conjunction();
             List<Expression<Boolean>> expressions = predicate.getExpressions();
             expressions.add(criteriaBuilder.equal(root.<Boolean>get("deleted"), false));
-            expressions.add(criteriaBuilder.equal(root.<Integer>get("status"), GrouponConstant.STATUS_NONE));
+            expressions.add(criteriaBuilder.equal(root.<Integer>get("status"), GrouponStatusEnum.NONE.getCode()));
             expressions.add(criteriaBuilder.equal(root.<Integer>get("grouponId"), grouponId));
             return predicate;
         });
@@ -70,7 +70,7 @@ public class GrouponServiceImpl implements GrouponService {
             Predicate predicate = criteriaBuilder.conjunction();
             List<Expression<Boolean>> expressions = predicate.getExpressions();
             expressions.add(criteriaBuilder.equal(root.<Boolean>get("deleted"), false));
-            expressions.add(criteriaBuilder.equal(root.<Integer>get("status"), GrouponConstant.STATUS_NONE));
+            expressions.add(criteriaBuilder.equal(root.<Integer>get("status"), GrouponStatusEnum.NONE.getCode()));
             expressions.add(criteriaBuilder.equal(root.<Integer>get("grouponId"), grouponId));
             expressions.add(criteriaBuilder.equal(root.<Integer>get("userId"), grouponId));
             return predicate;
@@ -87,9 +87,9 @@ public class GrouponServiceImpl implements GrouponService {
             expressions.add(criteriaBuilder.equal(root.<Integer>get("userId"), userId));
             expressions.add(criteriaBuilder.equal(root.<Integer>get("creatorUserId"), userId));
             expressions.add(criteriaBuilder.equal(root.<Integer>get("grouponId"), 0));
-            CriteriaBuilder.In<Short> in = criteriaBuilder.in(root.<Short>get("status"));
-            for (Short id : Arrays.asList(GrouponConstant.STATUS_ON, GrouponConstant.STATUS_SUCCEED, GrouponConstant.STATUS_FAIL)) {
-                in.value(id);
+            CriteriaBuilder.In<Integer> in = criteriaBuilder.in(root.<Integer>get("status"));
+            for (GrouponStatusEnum anEnum : Arrays.asList(GrouponStatusEnum.ON, GrouponStatusEnum.SUCCEED, GrouponStatusEnum.FAIL)) {
+                in.value(anEnum.getCode());
             }
             expressions.add(criteriaBuilder.and(in));
             return predicate;
@@ -107,9 +107,9 @@ public class GrouponServiceImpl implements GrouponService {
             expressions.add(criteriaBuilder.equal(root.<Boolean>get("deleted"), false));
             expressions.add(criteriaBuilder.equal(root.<Integer>get("userId"), userId));
             expressions.add(criteriaBuilder.notEqual(root.<Integer>get("grouponId"), 0));
-            CriteriaBuilder.In<Short> in = criteriaBuilder.in(root.<Short>get("status"));
-            for (Short id : Arrays.asList(GrouponConstant.STATUS_ON, GrouponConstant.STATUS_SUCCEED, GrouponConstant.STATUS_FAIL)) {
-                in.value(id);
+            CriteriaBuilder.In<Integer> in = criteriaBuilder.in(root.<Integer>get("status"));
+            for (GrouponStatusEnum anEnum : Arrays.asList(GrouponStatusEnum.ON, GrouponStatusEnum.SUCCEED, GrouponStatusEnum.FAIL)) {
+                in.value(anEnum.getCode());
             }
             expressions.add(criteriaBuilder.and(in));
             return predicate;

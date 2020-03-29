@@ -4,6 +4,7 @@ import com.mouse.api.base.GlobalExceptionHandler;
 import com.mouse.api.feign.IssueFeign;
 import com.mouse.api.service.IssueService;
 import com.mouse.core.base.R;
+import com.mouse.core.utils.PageNation;
 import com.mouse.dao.entity.sys.IssueEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class IssueClient extends GlobalExceptionHandler implements IssueFeign {
     IssueService issueService;
 
     @Override
-    public R findPage(@RequestParam(defaultValue = "question", required = false) String question,
+    public R findPage(@RequestParam(name = "question", required = false) String question,
                       @Min(value = 0, message = "必须从0页开始")
                       @RequestParam(name = "pageNum", defaultValue = "0", required = false) Integer pageNum,
                       @Min(value = 1, message = "每页必须大于1")
@@ -41,6 +42,6 @@ public class IssueClient extends GlobalExceptionHandler implements IssueFeign {
                       @RequestParam(name = "order", defaultValue = "desc", required = false) String order) {
         Page<IssueEntity> page = issueService.findPage(question, pageNum, pageSize);
 
-        return R.success(page.getContent());
+        return R.success(PageNation.of(page, page.getContent()));
     }
 }

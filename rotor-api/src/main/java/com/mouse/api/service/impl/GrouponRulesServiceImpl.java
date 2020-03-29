@@ -1,8 +1,7 @@
 package com.mouse.api.service.impl;
 
 import com.mouse.api.service.GrouponRulesService;
-import com.mouse.core.enums.GrouponConstant;
-import com.mouse.dao.entity.operate.GrouponEntity;
+import com.mouse.core.enums.GrouponStatusEnum;
 import com.mouse.dao.entity.operate.GrouponRulesEntity;
 import com.mouse.dao.repository.operate.GrouponRepository;
 import com.mouse.dao.repository.operate.GrouponRulesRepository;
@@ -46,7 +45,6 @@ public class GrouponRulesServiceImpl implements GrouponRulesService {
     }
 
 
-
     @Override
     public Page<GrouponRulesEntity> findPage(Integer pageNum, Integer pageSize) {
         Page<GrouponRulesEntity> page = grouponRulesRepository.findAll((Specification<GrouponRulesEntity>) (root, criteriaQuery, criteriaBuilder) -> {
@@ -54,9 +52,9 @@ public class GrouponRulesServiceImpl implements GrouponRulesService {
             Predicate predicate = criteriaBuilder.conjunction();
             List<Expression<Boolean>> expressions = predicate.getExpressions();
             expressions.add(criteriaBuilder.equal(root.<Boolean>get("deleted"), false));
-            CriteriaBuilder.In<Short> in = criteriaBuilder.in(root.<Short>get("status"));
-            for (Short id : Arrays.asList(GrouponConstant.STATUS_ON, GrouponConstant.STATUS_SUCCEED, GrouponConstant.STATUS_FAIL)) {
-                in.value(id);
+            CriteriaBuilder.In<Integer> in = criteriaBuilder.in(root.<Integer>get("status"));
+            for (GrouponStatusEnum anEnum : Arrays.asList(GrouponStatusEnum.ON, GrouponStatusEnum.SUCCEED, GrouponStatusEnum.FAIL)) {
+                in.value(anEnum.getCode());
             }
             expressions.add(criteriaBuilder.and(in));
             return predicate;

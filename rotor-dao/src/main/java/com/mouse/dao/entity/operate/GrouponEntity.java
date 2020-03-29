@@ -42,9 +42,11 @@ public class GrouponEntity implements Serializable {
 
     @Column(name = "creator_user_time", columnDefinition = "datetime  COMMENT '开团时间'")
     private LocalDateTime creatorUserTime;
-
+    /**
+     * com.mouse.core.enums.GrouponStatusEnum
+     */
     @Column(name = "status", columnDefinition = "smallint unsigned DEFAULT '0' COMMENT '团购活动状态，开团未支付则0，开团中则1，开团失败则2'", nullable = false)
-    private Short status;
+    private Integer status;
 
     @CreationTimestamp
     @Column(name = "add_time", columnDefinition = "datetime  COMMENT '创建时间'", nullable = false)
