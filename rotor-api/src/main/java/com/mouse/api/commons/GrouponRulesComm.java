@@ -5,8 +5,10 @@ import com.mouse.api.service.CouponService;
 import com.mouse.api.service.CouponUserService;
 import com.mouse.api.service.GoodsService;
 import com.mouse.api.service.GrouponRulesService;
-import com.mouse.core.enums.CouponConstant;
+import com.mouse.core.base.BusinessException;
+import com.mouse.core.enums.CouponStatusEnum;
 import com.mouse.core.enums.CouponTimeTypeEnum;
+import com.mouse.core.enums.GoodsRestrictionTypeEnum;
 import com.mouse.core.utils.PageNation;
 import com.mouse.dao.entity.operate.CouponEntity;
 import com.mouse.dao.entity.operate.CouponUserEntity;
@@ -114,15 +116,13 @@ public class GrouponRulesComm {
 
         // 检测商品是否符合
         // TODO 目前仅支持全平台商品，所以不需要检测
-        Short goodType = coupon.getGoodsType();
-        if (!goodType.equals(CouponConstant.GOODS_TYPE_ALL)) {
+        if (GoodsRestrictionTypeEnum.GOODS_TYPE_ALL.getCode() != coupon.getGoodsType()) {
             return null;
         }
 
-        // 检测订单状态
-        Short status = coupon.getStatus();
-        if (!status.equals(CouponConstant.STATUS_NORMAL)) {
-            return null;
+        // 检测优惠券状态
+        if (CouponStatusEnum.STATUS_NORMAL.getCode() != coupon.getStatus()) {
+            throw new BusinessException("优惠券未领取");
         }
         // 检测是否满足最低消费
         if (checkedGoodsPrice.compareTo(coupon.getMin()) == -1) {

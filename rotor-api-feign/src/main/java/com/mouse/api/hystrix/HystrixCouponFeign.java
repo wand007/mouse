@@ -35,7 +35,7 @@ public class HystrixCouponFeign implements FallbackFactory<CouponFeign> {
             }
 
             @Override
-            public R availableList(String userId, Integer cartId, Integer grouponRulesId) {
+            public R selectlist(String userId, Integer cartId, Integer grouponRulesId) {
                 return R.fromBusinessCode(BusinessCode.ERROR_SYS_SERVICE_RESTART);
             }
 

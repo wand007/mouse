@@ -61,10 +61,10 @@ public interface CouponFeign {
      * @param grouponRulesId
      * @return
      */
-    @GetMapping("availableList")
-    R availableList(@RequestParam(name = "userId") String userId,
-                    @RequestParam(name = "cartId") Integer cartId,
-                    @RequestParam(name = "grouponRulesId") Integer grouponRulesId);
+    @GetMapping("selectlist")
+    R selectlist(@RequestParam(name = "userId") String userId,
+                 @RequestParam(name = "cartId") Integer cartId,
+                 @RequestParam(name = "grouponRulesId") Integer grouponRulesId);
 
     /**
      * 优惠券领取

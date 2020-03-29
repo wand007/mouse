@@ -8,7 +8,7 @@ import com.mouse.api.feign.CouponFeign;
 import com.mouse.api.service.*;
 import com.mouse.core.base.BusinessException;
 import com.mouse.core.base.R;
-import com.mouse.core.enums.CouponConstant;
+import com.mouse.core.enums.CouponStatusEnum;
 import com.mouse.core.enums.CouponTypeEnum;
 import com.mouse.core.utils.PageNation;
 import com.mouse.dao.entity.operate.CouponEntity;
@@ -32,9 +32,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-import static com.mouse.core.enums.CouponConstant.STATUS_EXPIRED;
-import static com.mouse.core.enums.CouponConstant.STATUS_OUT;
 
 /**
  * @author ; lidongdong
@@ -167,9 +164,9 @@ public class CouponClient extends GlobalExceptionHandler implements CouponFeign 
      * @return
      */
     @Override
-    public R availableList(@RequestParam(name = "userId") String userId,
-                           @RequestParam(name = "cartId") Integer cartId,
-                           @RequestParam(name = "grouponRulesId") Integer grouponRulesId) {
+    public R selectlist(@RequestParam(name = "userId") String userId,
+                        @RequestParam(name = "cartId") Integer cartId,
+                        @RequestParam(name = "grouponRulesId") Integer grouponRulesId) {
 
         GrouponRulesEntity grouponRulesEntity = grouponRulesService.findById(grouponRulesId).orElseGet(() -> {
             GrouponRulesEntity entity = new GrouponRulesEntity();
@@ -233,21 +230,25 @@ public class CouponClient extends GlobalExceptionHandler implements CouponFeign 
 
         // 优惠券分发类型
         // 例如注册赠券类型的优惠券不能领取
-        Short type = couponEntity.getType();
-        if (type.equals(CouponTypeEnum.TYPE_REGISTER.getCode())) {
+        CouponTypeEnum couponTypeEnum = CouponTypeEnum.parse(couponEntity.getType());
+        if (CouponTypeEnum.TYPE_REGISTER.equals(couponTypeEnum)) {
             return R.error("新用户优惠券自动发送");
-        } else if (type.equals(CouponTypeEnum.TYPE_CODE.getCode())) {
+        }
+        if (CouponTypeEnum.TYPE_CODE.equals(couponTypeEnum)) {
             return R.error("优惠券只能兑换");
-        } else if (!type.equals(CouponTypeEnum.TYPE_COMMON.getCode())) {
+        }
+        if (!CouponTypeEnum.TYPE_COMMON.equals(couponTypeEnum)) {
             return R.error("优惠券类型不支持");
         }
 
         // 优惠券状态，已下架或者过期不能领取
-        Short status = couponEntity.getStatus();
-        if (status.equals(STATUS_OUT)) {
-            return R.error("优惠券已领完");
-        } else if (status.equals(STATUS_EXPIRED)) {
-            return R.error("优惠券已经过期");
+        switch (CouponStatusEnum.parse(couponEntity.getStatus())) {
+            case STATUS_OUT: {
+                return R.error("优惠券已领完");
+            }
+            case STATUS_EXPIRED: {
+                return R.error("优惠券已经过期");
+            }
         }
 
         // 用户领券记录
@@ -288,21 +289,25 @@ public class CouponClient extends GlobalExceptionHandler implements CouponFeign 
 
         // 优惠券分发类型
         // 例如注册赠券类型的优惠券不能领取
-        Short type = coupon.getType();
-        if (type.equals(CouponTypeEnum.TYPE_REGISTER.getCode())) {
+        CouponTypeEnum couponTypeEnum = CouponTypeEnum.parse(coupon.getType());
+        if (CouponTypeEnum.TYPE_REGISTER.equals(couponTypeEnum)) {
             return R.error("新用户优惠券自动发送");
-        } else if (type.equals(CouponTypeEnum.TYPE_COMMON.getCode())) {
-            return R.error("优惠券只能领取，不能兑换");
-        } else if (!type.equals(CouponTypeEnum.TYPE_CODE.getCode())) {
+        }
+        if (CouponTypeEnum.TYPE_CODE.equals(couponTypeEnum)) {
             return R.error("优惠券类型不支持");
+        }
+        if (CouponTypeEnum.TYPE_COMMON.equals(couponTypeEnum)) {
+            return R.error("优惠券只能领取，不能兑换");
         }
 
         // 优惠券状态，已下架或者过期不能领取
-        Short status = coupon.getStatus();
-        if (status.equals(CouponConstant.STATUS_OUT)) {
-            return R.error("优惠券已兑换");
-        } else if (status.equals(CouponConstant.STATUS_EXPIRED)) {
-            return R.error("优惠券已经过期");
+        switch (CouponStatusEnum.parse(coupon.getStatus())) {
+            case STATUS_OUT: {
+                return R.error("优惠券已领完");
+            }
+            case STATUS_EXPIRED: {
+                return R.error("优惠券已经过期");
+            }
         }
 
         // 用户领券记录

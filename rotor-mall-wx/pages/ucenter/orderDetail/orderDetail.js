@@ -96,9 +96,9 @@ Page({
       content: '确定要取消此订单？',
       success: function(res) {
         if (res.confirm) {
-          util.request(api.OrderCancel, {
+          util.baseSend(api.OrderCancel, {
             orderId: orderInfo.id
-          }, 'POST').then(function(res) {
+          }, 'POST', 'application/x-www-form-urlencoded').then(function(res) {
             if (res.statusCode === 10000) {
               wx.showToast({
                 title: '取消订单成功'

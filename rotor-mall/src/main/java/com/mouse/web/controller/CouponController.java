@@ -69,11 +69,11 @@ public class CouponController extends GlobalExceptionHandler {
      * @param grouponRulesId
      * @return
      */
-    @GetMapping("availableList")
-    public R availableList(@RequestAttribute(name = "sessionUser") RotorSessionUser sessionUser,
-                           @RequestParam(name = "cartId") Integer cartId,
-                           @RequestParam(name = "grouponRulesId") Integer grouponRulesId) {
-        return couponFeign.availableList(sessionUser.getId(), cartId, grouponRulesId);
+    @GetMapping("selectlist")
+    public R selectlist(@RequestAttribute(name = "sessionUser") RotorSessionUser sessionUser,
+                        @RequestParam(name = "cartId") Integer cartId,
+                        @RequestParam(name = "grouponRulesId") Integer grouponRulesId) {
+        return couponFeign.selectlist(sessionUser.getId(), cartId, grouponRulesId);
     }
 
     /**

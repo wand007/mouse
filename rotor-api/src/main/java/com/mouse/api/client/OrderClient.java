@@ -18,6 +18,7 @@ import com.mouse.core.enums.GrouponConstant;
 import com.mouse.core.express.ExpressService;
 import com.mouse.core.express.dao.ExpressInfo;
 import com.mouse.core.utils.GeneratID;
+import com.mouse.core.utils.PageNation;
 import com.mouse.core.utils.RedisLock;
 import com.mouse.core.utils.SnowflakeIdWorker;
 import com.mouse.core.wx.WxJsPayCommon;
@@ -126,8 +127,8 @@ public class OrderClient extends GlobalExceptionHandler implements OrderFeign {
      * @return
      */
     @Override
-    public R findPage(@RequestParam("userId") String userId,
-                      @RequestParam(defaultValue = "0") Integer showType,
+    public R findPage(@RequestParam(name = "userId") String userId,
+                      @RequestParam(name = "showType", defaultValue = "0") Integer showType,
                       @RequestParam(name = "referer") RefererEnum referer,
                       @Min(value = 0, message = "必须从0页开始")
                       @RequestParam(name = "pageNum", defaultValue = "0", required = false) Integer pageNum,
@@ -139,37 +140,38 @@ public class OrderClient extends GlobalExceptionHandler implements OrderFeign {
         List<Short> orderStatus = OrderUtil.orderStatus(showType);
         Page<OrderEntity> page = orderService.findByUserIdPage(userId, orderStatus, pageNum, pageSize);
         List<OrderEntity> content = page.getContent();
-        if (!CollectionUtils.isEmpty(content)) {
-            List<Map<String, Object>> orderVoList = new ArrayList<>(content.size());
-            for (OrderEntity o : content) {
-                Map<String, Object> orderVo = new HashMap<>();
-                orderVo.put("id", o.getId());
-                orderVo.put("orderSn", o.getOrderSn());
-                orderVo.put("actualPrice", o.getActualPrice());
-                orderVo.put("orderStatusText", OrderUtil.orderStatusText(o));
-                orderVo.put("handleOption", OrderUtil.build(o));
-
-                Optional<GrouponEntity> grouponEntityOptional = grouponService.findByOrderId(o.getId());
-                orderVo.put("isGroupin", grouponEntityOptional.isPresent());
-
-                List<OrderGoodsEntity> orderGoodsEntities = orderGoodsService.findByOrderId(o.getId()).orElseGet(() -> new ArrayList<>());
-                List<Map<String, Object>> orderGoodsVoList = new ArrayList<>(orderGoodsEntities.size());
-                for (OrderGoodsEntity orderGoods : orderGoodsEntities) {
-                    Map<String, Object> orderGoodsVo = new HashMap<>();
-                    orderGoodsVo.put("id", orderGoods.getId());
-                    orderGoodsVo.put("goodsName", orderGoods.getGoodsName());
-                    orderGoodsVo.put("number", orderGoods.getNumber());
-                    orderGoodsVo.put("picUrl", orderGoods.getPicUrl());
-                    orderGoodsVo.put("specifications", orderGoods.getSpecifications());
-                    orderGoodsVo.put("price", orderGoods.getPrice());
-                    orderGoodsVoList.add(orderGoodsVo);
-                }
-                orderVo.put("goodsList", orderGoodsVoList);
-
-                orderVoList.add(orderVo);
-            }
+        List<Map<String, Object>> result = new ArrayList<>(content.size());
+        if (CollectionUtils.isEmpty(content)) {
+            return R.success(PageNation.of(page, result));
         }
-        return R.success();
+
+        for (OrderEntity orderEntity : content) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", orderEntity.getId());
+            map.put("orderSn", orderEntity.getOrderSn());
+            map.put("actualPrice", orderEntity.getActualPrice());
+            map.put("orderStatusText", OrderUtil.orderStatusText(orderEntity));
+            map.put("handleOption", OrderUtil.build(orderEntity));
+
+            Optional<GrouponEntity> grouponEntityOptional = grouponService.findByOrderId(orderEntity.getId());
+            map.put("isGroupin", grouponEntityOptional.isPresent());
+
+            List<OrderGoodsEntity> orderGoodsEntities = orderGoodsService.findByOrderId(orderEntity.getId()).orElseGet(() -> new ArrayList<>());
+            List<Map<String, Object>> orderGoodsVoList = new ArrayList<>(orderGoodsEntities.size());
+            for (OrderGoodsEntity orderGoods : orderGoodsEntities) {
+                Map<String, Object> orderGoodsVo = new HashMap<>();
+                orderGoodsVo.put("id", orderGoods.getId());
+                orderGoodsVo.put("goodsName", orderGoods.getGoodsName());
+                orderGoodsVo.put("number", orderGoods.getNumber());
+                orderGoodsVo.put("picUrl", orderGoods.getPicUrl());
+                orderGoodsVo.put("specifications", orderGoods.getSpecifications());
+                orderGoodsVo.put("price", orderGoods.getPrice());
+                orderGoodsVoList.add(orderGoodsVo);
+            }
+            map.put("goodsList", orderGoodsVoList);
+            result.add(map);
+        }
+        return R.success(PageNation.of(page, result));
     }
 
     /**
@@ -560,8 +562,6 @@ public class OrderClient extends GlobalExceptionHandler implements OrderFeign {
      * TODO
      * 注意，这里pay-notify是示例地址，建议开发者应该设立一个隐蔽的回调地址
      *
-     * @param request  请求内容
-     * @param response 响应内容
      * @return 操作结果
      */
     @Override

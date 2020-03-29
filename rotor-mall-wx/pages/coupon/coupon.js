@@ -109,9 +109,9 @@ Page({
     }
 
     let couponId = e.currentTarget.dataset.index
-    util.request(api.CouponReceive, {
+    util.baseSend(api.CouponReceive, {
       couponId: couponId
-    }, 'POST').then(res => {
+    }, 'POST','application/x-www-form-urlencoded').then(res => {
       if (res.statusCode === 10000) {
         wx.showToast({
           title: "领取成功"

@@ -31,7 +31,7 @@ public class CouponUserEntity implements Serializable {
     @Column(name = "status", columnDefinition = "smallint unsigned DEFAULT '0' COMMENT '使用状态, 如果是0则未使用；如果是1则已使用；如果是2则已过期；如果是3则已经下架'", nullable = false)
     private Integer status;
 
-    @Column(name = "used_time", columnDefinition = "datetime COMMENT '使用时间'", nullable = false)
+    @Column(name = "used_time", columnDefinition = "datetime COMMENT '使用时间'")
     private LocalDateTime usedTime;
 
     @Column(name = "start_time", columnDefinition = "datetime COMMENT '有效期开始时间'", nullable = false)

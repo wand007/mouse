@@ -2,8 +2,9 @@ package com.mouse.api.service.impl;
 
 import com.mouse.api.service.CouponService;
 import com.mouse.core.base.BusinessException;
-import com.mouse.core.enums.CouponConstant;
+import com.mouse.core.enums.CouponStatusEnum;
 import com.mouse.core.enums.CouponTimeTypeEnum;
+import com.mouse.core.enums.GoodsRestrictionTypeEnum;
 import com.mouse.dao.entity.operate.CouponEntity;
 import com.mouse.dao.entity.operate.CouponUserEntity;
 import com.mouse.dao.repository.operate.CouponRepository;
@@ -143,14 +144,12 @@ public class CouponServiceImpl implements CouponService {
 
         // 检测商品是否符合
         // TODO 目前仅支持全平台商品，所以不需要检测
-        Short goodType = couponEntity.getGoodsType();
-        if (!goodType.equals(CouponConstant.GOODS_TYPE_ALL)) {
+        if (GoodsRestrictionTypeEnum.GOODS_TYPE_ALL.getCode() != couponEntity.getGoodsType()) {
             throw new BusinessException("优惠券未领取");
         }
 
         // 检测订单状态
-        Short status = couponEntity.getStatus();
-        if (!status.equals(CouponConstant.STATUS_NORMAL)) {
+        if (CouponStatusEnum.STATUS_NORMAL.getCode() != couponEntity.getStatus()) {
             throw new BusinessException("优惠券未领取");
         }
         // 检测是否满足最低消费

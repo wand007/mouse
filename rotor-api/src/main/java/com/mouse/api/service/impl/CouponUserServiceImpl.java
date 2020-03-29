@@ -2,6 +2,7 @@ package com.mouse.api.service.impl;
 
 import com.mouse.api.service.CouponUserService;
 import com.mouse.core.enums.CouponTimeTypeEnum;
+import com.mouse.core.enums.CouponUserEnum;
 import com.mouse.dao.entity.operate.CouponEntity;
 import com.mouse.dao.entity.operate.CouponUserEntity;
 import com.mouse.dao.repository.operate.CouponRepository;
@@ -78,17 +79,15 @@ public class CouponUserServiceImpl implements CouponUserService {
 
     @Override
     public void save(String userId, Integer couponId) {
-        CouponEntity couponEntity = couponRepository.findById(couponId).get();
-
         CouponUserEntity couponUserEntity = new CouponUserEntity();
         couponUserEntity.setCouponId(couponId);
         couponUserEntity.setUserId(userId);
-        Short timeType = couponEntity.getTimeType();
-
-        if (CouponTimeTypeEnum.TIME_TYPE_TIME.getCode() == timeType) {
-            couponUserEntity.setStartTime(couponEntity.getStartTime());
-            couponUserEntity.setEndTime(couponEntity.getEndTime());
-        } else {
+        couponUserEntity.setStatus(CouponUserEnum.STATUS_USABLE.getCode());
+        couponUserEntity.setDeleted(false);
+        CouponEntity couponEntity = couponRepository.findById(couponId).get();
+        couponUserEntity.setStartTime(couponEntity.getStartTime());
+        couponUserEntity.setEndTime(couponEntity.getEndTime());
+        if (CouponTimeTypeEnum.TIME_TYPE_TIME.getCode() != couponEntity.getTimeType()) {
             LocalDateTime now = LocalDateTime.now();
             couponUserEntity.setStartTime(now);
             couponUserEntity.setEndTime(now.plusDays(couponEntity.getDays()));
@@ -103,6 +102,6 @@ public class CouponUserServiceImpl implements CouponUserService {
 
     @Override
     public Optional<CouponUserEntity> findByCouponIdAndUserId(String userId, Integer couponId) {
-        return couponUserRepository.findByUserIdAndCouponIdAndDeleted(userId,couponId,false);
+        return couponUserRepository.findByUserIdAndCouponIdAndDeleted(userId, couponId, false);
     }
 }

@@ -5,9 +5,9 @@ Page({
   data: {
     orderList: [],
     showType: 0,
-    page: 1,
-    limit: 10,
-    totalPages: 1
+    pageNum: 0,
+    pageSize: 10,
+    totalPages: 0
   },
   onLoad: function(options) {
     // 页面初始化 options为页面跳转所带来的参数
@@ -25,8 +25,8 @@ Page({
     let that = this;
     util.request(api.OrderList, {
       showType: that.data.showType,
-      page: that.data.page,
-      limit: that.data.limit
+      pageNum: that.data.pageNum,
+      pageSize: that.data.pageSize
     }).then(function(res) {
       if (res.statusCode === 10000) {
         console.log(res.data);
@@ -38,9 +38,9 @@ Page({
     });
   },
   onReachBottom() {
-    if (this.data.totalPages > this.data.page) {
+    if (this.data.totalPages - 1 > this.data.pageNum) {
       this.setData({
-        page: this.data.page + 1
+        pageNum: this.data.pageNum + 1
       });
       this.getOrderList();
     } else {
