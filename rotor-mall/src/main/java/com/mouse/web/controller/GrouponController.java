@@ -1,6 +1,6 @@
 package com.mouse.web.controller;
 
-import com.mouse.api.feign.GrouponFeign;
+import com.mouse.api.feign.mall.GrouponFeign;
 import com.mouse.core.base.R;
 import com.mouse.core.params.RotorSessionUser;
 import com.mouse.web.base.GlobalExceptionHandler;
@@ -42,7 +42,7 @@ public class GrouponController extends GlobalExceptionHandler {
                       @Max(value = 300, message = "每页必须小于300")
                       @RequestParam(name = "pageSize", defaultValue = "20", required = false) Integer pageSize,
                       @RequestParam(name = "sort", defaultValue = "add_time", required = false) String sort,
-                      @RequestParam(name = "order", defaultValue = "desc", required = false) String order){
+                      @RequestParam(name = "order", defaultValue = "desc", required = false) String order) {
         return grouponFeign.findPage(pageNum, pageSize, sort, order);
     }
 

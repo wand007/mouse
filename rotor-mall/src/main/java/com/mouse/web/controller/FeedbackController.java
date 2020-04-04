@@ -1,7 +1,7 @@
 package com.mouse.web.controller;
 
 import com.mouse.api.commons.req.FeedbackReq;
-import com.mouse.api.feign.FeedbackFeign;
+import com.mouse.api.feign.mall.FeedbackFeign;
 import com.mouse.core.base.R;
 import com.mouse.core.params.RotorSessionUser;
 import com.mouse.web.base.GlobalExceptionHandler;

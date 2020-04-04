@@ -1,7 +1,7 @@
 package com.mouse.admin.controller;
 
 import com.mouse.admin.base.GlobalExceptionHandler;
-import com.mouse.api.feign.ResourcesFeign;
+import com.mouse.api.feign.admin.AdminResourcesFeign;
 import com.mouse.core.base.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ import javax.validation.constraints.Min;
 public class ResourcesController extends GlobalExceptionHandler {
 
     @Autowired
-    private ResourcesFeign resourcesFeign;
+    private AdminResourcesFeign adminResourcesFeign;
 
     /**
      * 分页查询商品列表

@@ -1,7 +1,7 @@
 package com.mouse.web.controller;
 
 import com.mouse.api.commons.req.SaveAddressReq;
-import com.mouse.api.feign.AddressFeign;
+import com.mouse.api.feign.mall.AddressFeign;
 import com.mouse.core.base.R;
 import com.mouse.core.params.RotorSessionUser;
 import com.mouse.web.base.GlobalExceptionHandler;
@@ -40,20 +40,20 @@ public class AddressController extends GlobalExceptionHandler {
                       @Min(value = 1, message = "每页必须大于1")
                       @Max(value = 300, message = "每页必须小于300")
                       @RequestParam(name = "pageSize", defaultValue = "20", required = false) Integer pageSize) {
-        return addressFeign.findPage(sessionUser.getId(),pageNum,pageSize);
+        return addressFeign.findPage(sessionUser.getId(), pageNum, pageSize);
     }
 
 
     /**
      * 收货地址详情
      *
-     * @param id     收货地址ID
+     * @param id 收货地址ID
      * @return 收货地址详情
      */
     @GetMapping("detail")
     public R detail(@RequestAttribute(name = "sessionUser") RotorSessionUser sessionUser,
-                    @RequestParam(name = "id") Integer id){
-        return addressFeign.detail(sessionUser.getId(),id);
+                    @RequestParam(name = "id") Integer id) {
+        return addressFeign.detail(sessionUser.getId(), id);
     }
 
 
@@ -65,10 +65,11 @@ public class AddressController extends GlobalExceptionHandler {
      */
     @PostMapping("save")
     public R save(@RequestAttribute(name = "sessionUser") RotorSessionUser sessionUser,
-                  @RequestBody SaveAddressReq param){
+                  @RequestBody SaveAddressReq param) {
         param.setUserId(sessionUser.getId());
         return addressFeign.save(param);
     }
+
     /**
      * 更新收货地址
      *
@@ -77,7 +78,7 @@ public class AddressController extends GlobalExceptionHandler {
      */
     @PostMapping("update")
     public R update(@RequestAttribute(name = "sessionUser") RotorSessionUser sessionUser,
-                    @RequestBody SaveAddressReq param){
+                    @RequestBody SaveAddressReq param) {
         param.setUserId(sessionUser.getId());
         return addressFeign.save(param);
     }
@@ -85,13 +86,13 @@ public class AddressController extends GlobalExceptionHandler {
     /**
      * 删除收货地址
      *
-     * @param id     收货地址ID
+     * @param id 收货地址ID
      * @return 删除操作结果
      */
     @PostMapping("delete")
     public R delete(@RequestAttribute(name = "sessionUser") RotorSessionUser sessionUser,
-                    @RequestParam(name = "id") Integer id){
-        return addressFeign.delete(sessionUser.getId(),id);
+                    @RequestParam(name = "id") Integer id) {
+        return addressFeign.delete(sessionUser.getId(), id);
     }
 }
 

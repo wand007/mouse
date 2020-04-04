@@ -1,11 +1,17 @@
 package com.mouse.core.wx;
 
 
+import lombok.extern.slf4j.Slf4j;
 import sun.net.www.http.HttpClient;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedReader;
+import java.io.IOException;
 
 /**
  * 常量
  */
+@Slf4j
 public class WXPayConstants {
 
     public enum SignType {
@@ -81,5 +87,33 @@ public class WXPayConstants {
             "<xml><return_code><![CDATA[FAIL]]></return_code><return_msg><![CDATA[server error]]></return_msg></xml>";
 
 
+    /**
+     * 解析回调参数 支付结果通知的xml格式数据
+     *
+     * @param request
+     * @return
+     */
+    public static String readData(HttpServletRequest request) {
+        BufferedReader br = null;
+        try {
+            StringBuilder result = new StringBuilder();
+            br = request.getReader();
+            for (String line = null; (line = br.readLine()) != null; ) {
+                result.append(line).append("\n");
+            }
+
+            return result.toString();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    log.error(e.getMessage(), e);
+                }
+            }
+        }
+    }
 }
 

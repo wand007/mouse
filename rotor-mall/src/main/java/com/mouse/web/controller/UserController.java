@@ -1,6 +1,6 @@
 package com.mouse.web.controller;
 
-import com.mouse.api.feign.UserFeign;
+import com.mouse.api.feign.mall.UserFeign;
 import com.mouse.core.base.R;
 import com.mouse.core.params.RotorSessionUser;
 import com.mouse.web.base.GlobalExceptionHandler;

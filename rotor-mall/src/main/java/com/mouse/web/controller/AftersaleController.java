@@ -1,7 +1,7 @@
 package com.mouse.web.controller;
 
 import com.mouse.api.commons.req.SaveAftersaleReq;
-import com.mouse.api.feign.AftersaleFeign;
+import com.mouse.api.feign.mall.AftersaleFeign;
 import com.mouse.core.base.R;
 import com.mouse.core.params.RotorSessionUser;
 import com.mouse.web.base.GlobalExceptionHandler;

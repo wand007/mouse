@@ -16,9 +16,7 @@ public class RedisLock {
     @Autowired
     private RedissonClient redissonClient;
 
-    public RLock lock(String key) {
-        RLock lock = redissonClient.getLock("anyLock" + key);
-        lock.lock();
-        return lock;
+    public RLock getLock(String key) {
+        return redissonClient.getLock("anyLock" + key);
     }
 }

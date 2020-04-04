@@ -2,11 +2,12 @@ package com.mouse.web.controller;
 
 import com.mouse.api.commons.enums.RefererEnum;
 import com.mouse.api.commons.req.wx.WxLoginInfo;
-import com.mouse.api.feign.AuthFeign;
+import com.mouse.api.feign.mall.AuthFeign;
 import com.mouse.core.base.R;
 import com.mouse.core.utils.IpUtils;
 import com.mouse.core.utils.RegexUtils;
 import com.mouse.core.utils.WebKit;
+import com.mouse.web.base.GlobalExceptionHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -22,7 +23,7 @@ import javax.validation.constraints.Pattern;
 @Validated
 @RestController
 @RequestMapping("/auth")
-public class AuthController {
+public class AuthController extends GlobalExceptionHandler {
 
     @Autowired
     private AuthFeign authFeign;

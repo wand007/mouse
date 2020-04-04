@@ -1,6 +1,6 @@
 package com.mouse.web.controller;
 
-import com.mouse.api.feign.CatalogFeign;
+import com.mouse.api.feign.mall.CatalogFeign;
 import com.mouse.core.base.R;
 import com.mouse.web.base.GlobalExceptionHandler;
 import lombok.extern.slf4j.Slf4j;

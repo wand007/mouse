@@ -3,7 +3,7 @@ package com.mouse.web.controller;
 import com.mouse.api.commons.enums.RefererEnum;
 import com.mouse.api.commons.req.SaveCommentReq;
 import com.mouse.api.commons.req.SaveOrderReq;
-import com.mouse.api.feign.OrderFeign;
+import com.mouse.api.feign.mall.OrderFeign;
 import com.mouse.core.base.R;
 import com.mouse.core.params.RotorSessionUser;
 import com.mouse.web.base.GlobalExceptionHandler;
@@ -12,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
@@ -34,9 +32,7 @@ public class OrderController extends GlobalExceptionHandler {
     /**
      * 订单列表
      *
-     * @param userId   用户ID
      * @param showType 订单信息
-     * @param referer
      * @param pageNum
      * @param pageSize
      * @param sort
@@ -59,7 +55,6 @@ public class OrderController extends GlobalExceptionHandler {
     /**
      * 订单详情
      *
-     * @param userId  用户ID
      * @param orderId 订单ID
      * @return 订单详情
      */
@@ -72,8 +67,7 @@ public class OrderController extends GlobalExceptionHandler {
     /**
      * 提交订单
      *
-     * @param userId 用户ID
-     * @param param  订单信息，{ cartId：xxx, addressId: xxx, couponId: xxx, message: xxx, grouponRulesId: xxx,  grouponLinkId: xxx}
+     * @param param 订单信息，{ cartId：xxx, addressId: xxx, couponId: xxx, message: xxx, grouponRulesId: xxx,  grouponLinkId: xxx}
      * @return 提交订单操作结果
      */
     @PostMapping("submit")
@@ -85,7 +79,6 @@ public class OrderController extends GlobalExceptionHandler {
     /**
      * 取消订单
      *
-     * @param userId  用户ID
      * @param orderId 订单信息，{ orderId：xxx }
      * @return 取消订单操作结果
      */
@@ -96,64 +89,8 @@ public class OrderController extends GlobalExceptionHandler {
     }
 
     /**
-     * 付款订单的预支付会话标识
-     *
-     * @param userId  用户ID
-     * @param orderId 订单信息，{ orderId：xxx }
-     * @return 支付订单ID
-     */
-    @PostMapping("prepay")
-    public R prepay(@RequestAttribute(name = "sessionUser") RotorSessionUser sessionUser,
-                    @RequestParam("orderId") String orderId) {
-        return orderFeign.prepay(sessionUser.getId(), orderId);
-    }
-
-    /**
-     * 微信H5支付
-     *
-     * @param userId
-     * @param orderId
-     * @param request
-     * @return
-     */
-    @PostMapping("h5pay")
-    public R h5pay(@RequestAttribute(name = "sessionUser") RotorSessionUser sessionUser,
-                   @RequestParam("orderId") String orderId) {
-        return orderFeign.h5pay(sessionUser.getId(), orderId);
-    }
-
-    /**
-     * 微信付款成功或失败回调接口
-     * <p>
-     * TODO
-     * 注意，这里pay-notify是示例地址，建议开发者应该设立一个隐蔽的回调地址
-     *
-     * @param request  请求内容
-     * @param response 响应内容
-     * @return 操作结果
-     */
-    @PostMapping("pay-notify")
-    public R payNotify(HttpServletRequest request, HttpServletResponse response) {
-        return R.success();
-    }
-
-    /**
-     * 订单申请退款
-     *
-     * @param userId  用户ID
-     * @param orderId 订单信息，{ orderId：xxx }
-     * @return 订单退款操作结果
-     */
-    @PostMapping("refund")
-    public R refund(@RequestAttribute(name = "sessionUser") RotorSessionUser sessionUser,
-                    @RequestParam("orderId") String orderId) {
-        return orderFeign.refund(sessionUser.getId(), orderId);
-    }
-
-    /**
      * 确认收货
      *
-     * @param userId  用户ID
      * @param orderId 订单信息，{ orderId：xxx }
      * @return 订单操作结果
      */
@@ -166,7 +103,6 @@ public class OrderController extends GlobalExceptionHandler {
     /**
      * 删除订单
      *
-     * @param userId  用户ID
      * @param orderId 订单信息，{ orderId：xxx }
      * @return 订单操作结果
      */
@@ -179,7 +115,6 @@ public class OrderController extends GlobalExceptionHandler {
     /**
      * 待评价订单商品信息
      *
-     * @param userId  用户ID
      * @param orderId 订单ID
      * @param goodsId 商品ID
      * @return 待评价订单商品信息
@@ -194,8 +129,7 @@ public class OrderController extends GlobalExceptionHandler {
     /**
      * 评价订单商品
      *
-     * @param userId 用户ID
-     * @param param  订单信息，{ orderId：xxx }
+     * @param param 订单信息，{ orderId：xxx }
      * @return 订单操作结果
      */
     @PostMapping("comment")
