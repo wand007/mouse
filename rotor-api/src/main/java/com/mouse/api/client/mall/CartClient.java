@@ -1,6 +1,7 @@
 package com.mouse.api.client.mall;
 
 import com.mouse.api.base.GlobalExceptionHandler;
+import com.mouse.api.commons.CartComm;
 import com.mouse.api.commons.GoodsComm;
 import com.mouse.api.commons.GrouponRulesComm;
 import com.mouse.api.commons.req.CartCheckedReq;
@@ -38,7 +39,8 @@ import java.util.*;
 @RequestMapping("cart")
 public class CartClient extends GlobalExceptionHandler implements CartFeign {
 
-
+    @Autowired
+    CartComm cartComm;
     @Autowired
     GoodsComm goodsComm;
     @Autowired
@@ -58,13 +60,15 @@ public class CartClient extends GlobalExceptionHandler implements CartFeign {
 
     /**
      * 用户购物车信息
+     * <p>
+     * 如果系统检查商品已删除或已下架，则系统自动删除。
+     * 更好的效果应该是告知用户商品失效，允许用户点击按钮来清除失效商品。
      *
      * @param userId 用户ID
      * @return 用户购物车信息
      */
     @Override
     public R index(@RequestParam(name = "userId") String userId) {
-        List<CartEntity> cartEntities = cartService.findByUserId(userId).orElseGet(() -> Arrays.asList());
         //商品总数量
         int goodsCount = 0;
         //已选中商品数量
@@ -75,8 +79,7 @@ public class CartClient extends GlobalExceptionHandler implements CartFeign {
         BigDecimal checkedGoodsAmount = BigDecimal.ZERO;
         List<CartRsp> cartList = new ArrayList<>();
 
-        // 如果系统检查商品已删除或已下架，则系统自动删除。
-        // 更好的效果应该是告知用户商品失效，允许用户点击按钮来清除失效商品。
+        List<CartEntity> cartEntities = cartService.findByUserId(userId).orElseGet(() -> Arrays.asList());
         for (CartEntity cartEntity : cartEntities) {
             //验证购物车商品是否再售 -- 异步
             goodsComm.asyncCheckIsOnSale(cartEntity.getGoodsId(), cartEntity.getId());
@@ -129,36 +132,7 @@ public class CartClient extends GlobalExceptionHandler implements CartFeign {
     @Override
     public R add(@RequestParam(name = "userId") String userId,
                  @RequestBody SaveCartReq param) {
-        Integer productId = param.getProductId();
-        Integer number = param.getNumber().intValue();
-
-        GoodsProductEntity product = productService.findById(productId).orElseThrow(() -> new BusinessException("此规格商品不存在"));
-        Integer goodsId = product.getGoodsId();
-        //判断商品是否可以购买
-        GoodsEntity goodsEntity = goodsService.findById(goodsId).orElseThrow(() -> new BusinessException("商品不存在"));
-        if (!goodsEntity.getIsOnSale()) {
-            return R.error("商品已下架");
-        }
-
-        //判断购物车中是否存在此规格商品
-        Optional<CartEntity> cartEntityOptional = cartService.findByUserIdAndProductId(userId, productId);
-
-        if (!cartEntityOptional.isPresent()) {
-            //取得规格的信息,判断规格库存
-            if (product == null || number > product.getNumber()) {
-                return R.error("库存不足");
-            }
-            cartService.save(userId, param.getProductId(), number);
-        } else {
-            CartEntity cartEntity = cartEntityOptional.get();
-            //取得规格的信息,判断规格库存
-            int num = cartEntity.getNumber() + number;
-            if (num > product.getNumber()) {
-                return R.error("库存不足");
-            }
-            cartEntity.setNumber(num);
-            cartService.updateNumberById(cartEntity.getId(), num);
-        }
+        cartComm.saveOrUpdate(userId, param);
 
         return R.success(cartService.count(userId));
     }
@@ -178,38 +152,8 @@ public class CartClient extends GlobalExceptionHandler implements CartFeign {
     @Override
     public R fastadd(@RequestParam(name = "userId") String userId,
                      @RequestBody SaveCartReq param) {
-        Integer productId = param.getProductId();
-        Integer number = param.getNumber().intValue();
 
-        GoodsProductEntity product = productService.findById(productId).orElseThrow(() -> new BusinessException("此规格商品不存在"));
-        Integer goodsId = product.getGoodsId();
-        //判断商品是否可以购买
-        GoodsEntity goodsEntity = goodsService.findById(goodsId).orElseThrow(() -> new BusinessException("商品不存在"));
-        if (!goodsEntity.getIsOnSale()) {
-            return R.error("商品已下架");
-        }
-
-        //根据商品ID和产品ID判断购物车中是否存在此规格商品
-        Optional<CartEntity> cartEntityOptional = cartService.findByUserIdAndProductId(userId, productId);
-        CartEntity cartEntity;
-        if (!cartEntityOptional.isPresent()) {
-            //取得规格的信息,判断规格库存
-            if (product == null || number > product.getNumber()) {
-                return R.error("库存不足");
-            }
-            cartEntity = cartService.save(userId, param.getProductId(), number);
-        } else {
-            cartEntity = cartEntityOptional.get();
-            //取得规格的信息,判断规格库存
-            int num = cartEntity.getNumber() + number;
-            if (num > product.getNumber()) {
-                return R.error("库存不足");
-            }
-            cartEntity.setNumber(num);
-            cartService.updateNumberById(cartEntity.getId(), num);
-        }
-
-        return R.success(cartEntity.getId());
+        return R.success(cartComm.saveOrUpdate(userId, param));
     }
 
 
@@ -265,13 +209,6 @@ public class CartClient extends GlobalExceptionHandler implements CartFeign {
      * @param userId     用户ID
      * @param productIds 购物车商品信息， { productIds: xxx }
      * @return 购物车信息
-     * 成功则
-     * {
-     * errno: 0,
-     * errmsg: '成功',
-     * data: xxx
-     * }
-     * 失败则 { errno: XXX, errmsg: XXX }
      */
     @Override
     public R delete(@RequestParam(name = "userId") String userId,
@@ -408,7 +345,6 @@ public class CartClient extends GlobalExceptionHandler implements CartFeign {
 
         // 可以使用的其他钱，例如用户积分
         BigDecimal integralPrice = new BigDecimal(0.00);
-
         // 订单费用
         BigDecimal orderTotalPrice = checkedGoodsPrice.add(freightPrice).subtract(couponPrice).max(new BigDecimal(0.00));
 
