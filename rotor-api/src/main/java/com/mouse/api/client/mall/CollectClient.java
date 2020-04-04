@@ -56,31 +56,30 @@ public class CollectClient extends GlobalExceptionHandler implements CollectFeig
                       @Max(value = 300, message = "每页必须小于300")
                       @RequestParam(name = "pageSize", defaultValue = "20", required = false) Integer pageSize) {
 
-
         Page<CollectEntity> page = collectService.findPage(userId, type, pageNum, pageSize);
         List<CollectEntity> content = page.getContent();
 
         List<Map<String, Object>> result = new ArrayList<>();
-        if (!CollectionUtils.isEmpty(content)) {
-            List<Integer> valueIds = content.stream().map(CollectEntity::getValueId).collect(Collectors.toList());
-            List<GoodsEntity> goodsEntities = goodsService.findByIds(valueIds).orElseGet(() -> new ArrayList());
-            Map<Integer, GoodsEntity> goodsMap = goodsEntities.stream().collect(Collectors.toMap(GoodsEntity::getId, a -> a, (k1, k2) -> k1));
-
-            for (CollectEntity collect : content) {
-                Map<String, Object> map = new HashMap<String, Object>();
-                map.put("id", collect.getId());
-                map.put("type", collect.getType());
-                map.put("valueId", collect.getValueId());
-
-                GoodsEntity goodsEntity = goodsMap.get(collect.getValueId());
-                map.put("name", goodsEntity.getName());
-                map.put("brief", goodsEntity.getBrief());
-                map.put("picUrl", goodsEntity.getPicUrl());
-                map.put("retailPrice", goodsEntity.getRetailPrice());
-                result.add(map);
-            }
+        if (CollectionUtils.isEmpty(content)) {
+            return R.success(PageNation.of(page, result));
         }
+        List<Integer> valueIds = content.stream().map(CollectEntity::getValueId).collect(Collectors.toList());
+        List<GoodsEntity> goodsEntities = goodsService.findByIds(valueIds).orElseGet(() -> new ArrayList());
+        Map<Integer, GoodsEntity> goodsMap = goodsEntities.stream().collect(Collectors.toMap(GoodsEntity::getId, a -> a, (k1, k2) -> k1));
 
+        for (CollectEntity collect : content) {
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("id", collect.getId());
+            map.put("type", collect.getType());
+            map.put("valueId", collect.getValueId());
+
+            GoodsEntity goodsEntity = goodsMap.get(collect.getValueId());
+            map.put("name", goodsEntity.getName());
+            map.put("brief", goodsEntity.getBrief());
+            map.put("picUrl", goodsEntity.getPicUrl());
+            map.put("retailPrice", goodsEntity.getRetailPrice());
+            result.add(map);
+        }
         return R.success(PageNation.of(page, result));
     }
 

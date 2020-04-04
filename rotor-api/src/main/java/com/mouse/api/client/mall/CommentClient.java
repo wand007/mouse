@@ -78,24 +78,25 @@ public class CommentClient extends GlobalExceptionHandler implements CommentFeig
         List<Map<String, Object>> result = new ArrayList<>(pageSize);
         List<CommentEntity> content = page.getContent();
 
-        if (!CollectionUtils.isEmpty(content)) {
-            List<String> userIds = content.stream().map(CommentEntity::getUserId).collect(Collectors.toList());
-            List<UserEntity> userEntities = userService.findByIdIn(userIds).orElseGet(() -> new ArrayList<>());
-            Map<String, UserEntity> userMap = userEntities.stream().collect(Collectors.toMap(UserEntity::getId, a -> a, (k1, k2) -> k1));
-            for (CommentEntity comment : content) {
-                Map<String, Object> commentVo = new HashMap<>(16);
-                commentVo.put("addTime", comment.getAddTime());
-                commentVo.put("content", comment.getContent());
-                commentVo.put("picList", comment.getPicUrls());
-                commentVo.put("userInfo", userMap.get(comment.getUserId()));
-                commentVo.put("reply", null);
-                List<CommentEntity> commentEntities = commentService.findByValueIdAndType(comment.getId(), CommentTypeEnum.GOODS_TYPE).orElseGet(() -> new ArrayList<>());
-                // 目前业务只支持回复一次
-                if (commentEntities.size() == 1) {
-                    commentVo.put("reply", commentEntities.get(0).getContent());
-                }
-                result.add(commentVo);
+        if (CollectionUtils.isEmpty(content)) {
+            return R.success(PageNation.of(page, result));
+        }
+        List<String> userIds = content.stream().map(CommentEntity::getUserId).collect(Collectors.toList());
+        List<UserEntity> userEntities = userService.findByIdIn(userIds).orElseGet(() -> new ArrayList<>());
+        Map<String, UserEntity> userMap = userEntities.stream().collect(Collectors.toMap(UserEntity::getId, a -> a, (k1, k2) -> k1));
+        for (CommentEntity comment : content) {
+            Map<String, Object> commentVo = new HashMap<>(16);
+            commentVo.put("addTime", comment.getAddTime());
+            commentVo.put("content", comment.getContent());
+            commentVo.put("picList", comment.getPicUrls());
+            commentVo.put("userInfo", userMap.get(comment.getUserId()));
+            commentVo.put("reply", null);
+            List<CommentEntity> commentEntities = commentService.findByValueIdAndType(comment.getId(), CommentTypeEnum.GOODS_TYPE).orElseGet(() -> new ArrayList<>());
+            // 目前业务只支持回复一次
+            if (commentEntities.size() == 1) {
+                commentVo.put("reply", commentEntities.get(0).getContent());
             }
+            result.add(commentVo);
         }
         return R.success(PageNation.of(page, result));
     }

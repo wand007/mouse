@@ -46,18 +46,18 @@ public class CatalogClient extends GlobalExceptionHandler implements CatalogFeig
     @Override
     public R findAll() {
         // 所有一级分类目录
-        List<CategoryEntity> l1CatList = categoryService.findByLevel(CategoryLevelEnum.L1).orElseGet(() -> Arrays.asList());
+        List<CategoryEntity> categoryTop1s = categoryService.findByLevel(CategoryLevelEnum.L1).orElseGet(() -> Arrays.asList());
 
         //所有子分类列表
-        Map<Integer, List<CategoryEntity>> allList = new HashMap<>();
-        List<CategoryEntity> sub;
-        for (CategoryEntity category : l1CatList) {
-            sub = categoryService.findByPid(category.getId()).orElseGet(() -> Arrays.asList());
-            allList.put(category.getId(), sub);
+        Map<Integer, List<CategoryEntity>> allMap = new HashMap<>(categoryTop1s.size());
+        List<CategoryEntity> categoryEntities;
+        for (CategoryEntity category : categoryTop1s) {
+            categoryEntities = categoryService.findByPid(category.getId()).orElseGet(() -> Arrays.asList());
+            allMap.put(category.getId(), categoryEntities);
         }
 
         // 当前一级分类目录
-        CategoryEntity currentCategory = l1CatList.get(0);
+        CategoryEntity currentCategory = categoryTop1s.get(0);
 
         // 当前一级分类目录对应的二级分类目录
         List<CategoryEntity> currentSubCategory = null;
@@ -66,8 +66,8 @@ public class CatalogClient extends GlobalExceptionHandler implements CatalogFeig
         }
 
         Map<String, Object> data = new HashMap<String, Object>(8);
-        data.put("categoryList", l1CatList);
-        data.put("allList", allList);
+        data.put("categoryList", categoryTop1s);
+        data.put("allList", allMap);
         data.put("currentCategory", currentCategory);
         data.put("currentSubCategory", currentSubCategory);
 

@@ -77,30 +77,31 @@ public class CouponClient extends GlobalExceptionHandler implements CouponFeign 
         Page<CouponEntity> page = couponService.findPage(pageNum, pageSize);
         List<CouponEntity> content = page.getContent();
         List<CouponRsp> result = new ArrayList<>();
-        if (!CollectionUtils.isEmpty(content)) {
-            content.stream().forEach(couponEntity -> {
-                CouponRsp couponRsp = new CouponRsp();
-                couponRsp.setId(couponEntity.getId());
-                couponRsp.setName(couponEntity.getName());
-                couponRsp.setCode(couponEntity.getCode());
-                couponRsp.setType(couponEntity.getType());
-                couponRsp.setDays(couponEntity.getDays());
-                couponRsp.setDesc(couponEntity.getDesc());
-                couponRsp.setDiscount(couponEntity.getDiscount());
-                couponRsp.setGoodsType(couponEntity.getGoodsType());
-                couponRsp.setGoodsValue(couponEntity.getGoodsValue());
-                couponRsp.setLimit(couponEntity.getLimit());
-                couponRsp.setMin(couponEntity.getMin());
-                couponRsp.setStartTime(couponEntity.getStartTime());
-                couponRsp.setEndTime(couponEntity.getEndTime());
-                couponRsp.setAddTime(couponEntity.getAddTime());
-                couponRsp.setStatus(couponEntity.getStatus());
-                couponRsp.setTimeType(couponEntity.getTimeType());
-                couponRsp.setTag(couponEntity.getTag());
-                couponRsp.setTotal(couponEntity.getTotal());
-                result.add(couponRsp);
-            });
+        if (CollectionUtils.isEmpty(content)) {
+            return R.success(PageNation.of(page, result));
         }
+        content.stream().forEach(couponEntity -> {
+            CouponRsp couponRsp = new CouponRsp();
+            couponRsp.setId(couponEntity.getId());
+            couponRsp.setName(couponEntity.getName());
+            couponRsp.setCode(couponEntity.getCode());
+            couponRsp.setType(couponEntity.getType());
+            couponRsp.setDays(couponEntity.getDays());
+            couponRsp.setDesc(couponEntity.getDesc());
+            couponRsp.setDiscount(couponEntity.getDiscount());
+            couponRsp.setGoodsType(couponEntity.getGoodsType());
+            couponRsp.setGoodsValue(couponEntity.getGoodsValue());
+            couponRsp.setLimit(couponEntity.getLimit());
+            couponRsp.setMin(couponEntity.getMin());
+            couponRsp.setStartTime(couponEntity.getStartTime());
+            couponRsp.setEndTime(couponEntity.getEndTime());
+            couponRsp.setAddTime(couponEntity.getAddTime());
+            couponRsp.setStatus(couponEntity.getStatus());
+            couponRsp.setTimeType(couponEntity.getTimeType());
+            couponRsp.setTag(couponEntity.getTag());
+            couponRsp.setTotal(couponEntity.getTotal());
+            result.add(couponRsp);
+        });
         return R.success(PageNation.of(page, result));
     }
 
