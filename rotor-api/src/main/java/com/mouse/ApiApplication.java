@@ -64,7 +64,7 @@ public class ApiApplication {
      */
     @Bean("apiProperties")
     public SecurityProperties securityProperties() {
-        return new SecurityProperties("/hvyogo/data/secret/api-service.properties");
+        return new SecurityProperties("/mouse/data/secret/rotor-api.properties");
     }
 
 
