@@ -4,9 +4,9 @@ var app = getApp()
 Page({
   data: {
     topicList: [],
-    page: 1,
-    limit: 10,
-    count: 0,
+    pageNum: 1,
+    pageSize: 10,
+    totalCount: 0,
     scrollTop: 0,
     showPage: false
   },
@@ -28,13 +28,13 @@ Page({
   },
   nextPage: function(event) {
     var that = this;
-    if (this.data.page > that.data.count / that.data.limit) {
+    if (this.data.pageNum > that.data.totalCount / that.data.pageSize) {
       return true;
     }
 
 
     that.setData({
-      page: that.data.page + 1
+      pageNum: that.data.pageNum + 1
     });
 
     this.getTopic();
@@ -56,8 +56,8 @@ Page({
     });
 
     util.request(api.TopicList, {
-      page: that.data.page,
-      limit: that.data.limit
+      pageNum: that.data.pageNum,
+      pageSize: that.data.pageSize
     }).then(function(res) {
       if (res.statusCode === 10000) {
 
@@ -65,7 +65,7 @@ Page({
           scrollTop: 0,
           topicList: res.data.list,
           showPage: true,
-          count: res.data.total
+          totalCount: res.data.totalCount
         });
       }
       wx.hideToast();
@@ -73,13 +73,13 @@ Page({
 
   },
   prevPage: function(event) {
-    if (this.data.page <= 1) {
+    if (this.data.pageNum <= 1) {
       return false;
     }
 
     var that = this;
     that.setData({
-      page: that.data.page - 1
+      pageNum: that.data.pageNum - 1
     });
     this.getTopic();
   }

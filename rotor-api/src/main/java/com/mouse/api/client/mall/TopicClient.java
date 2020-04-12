@@ -6,6 +6,7 @@ import com.mouse.api.service.GoodsService;
 import com.mouse.api.service.TopicService;
 import com.mouse.core.base.BusinessException;
 import com.mouse.core.base.R;
+import com.mouse.core.utils.PageNation;
 import com.mouse.dao.entity.operate.TopicEntity;
 import com.mouse.dao.entity.resource.GoodsEntity;
 import lombok.extern.slf4j.Slf4j;
@@ -49,10 +50,10 @@ public class TopicClient extends GlobalExceptionHandler implements TopicFeign {
         Page<TopicEntity> page = topicService.findPage(null, pageNum, pageSize);
         List<TopicEntity> content = page.getContent();
         if (CollectionUtils.isEmpty(content)) {
-            return R.success();
+            return R.success(PageNation.of(page, content));
         }
 
-        return R.success(content);
+        return R.success(PageNation.of(page, content));
     }
 
     @Override
