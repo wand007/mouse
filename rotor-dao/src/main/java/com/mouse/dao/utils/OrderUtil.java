@@ -38,8 +38,8 @@ public class OrderUtil {
     public static final Short STATUS_TIMEOUT_GROUPON = 204;
 
 
-    public static String orderStatusText(OrderEntity order) {
-        int status = order.getOrderStatus().intValue();
+    public static String orderStatusText(OrderEntity orderEntity) {
+        int status = orderEntity.getOrderStatus().intValue();
 
         if (status == 101) {
             return "未付款";
@@ -89,8 +89,8 @@ public class OrderUtil {
     }
 
 
-    public static OrderHandleOption build(OrderEntity order) {
-        int status = order.getOrderStatus().intValue();
+    public static OrderHandleOption build(OrderEntity orderEntity) {
+        int status = orderEntity.getOrderStatus().intValue();
         OrderHandleOption handleOption = new OrderHandleOption();
 
         if (status == 101) {
@@ -154,45 +154,45 @@ public class OrderUtil {
     }
 
 
-    public static boolean isCreateStatus(OrderEntity litemallOrder) {
-        return OrderUtil.STATUS_CREATE == litemallOrder.getOrderStatus().shortValue();
+    public static boolean isCreateStatus(OrderEntity orderEntity) {
+        return OrderUtil.STATUS_CREATE == orderEntity.getOrderStatus().shortValue();
     }
 
-    public static boolean hasPayed(OrderEntity order) {
-        return OrderUtil.STATUS_CREATE != order.getOrderStatus().shortValue()
-                && OrderUtil.STATUS_CANCEL != order.getOrderStatus().shortValue()
-                && OrderUtil.STATUS_AUTO_CANCEL != order.getOrderStatus().shortValue();
+    public static boolean hasPayed(OrderEntity orderEntity) {
+        return OrderUtil.STATUS_CREATE != orderEntity.getOrderStatus().shortValue()
+                && OrderUtil.STATUS_CANCEL != orderEntity.getOrderStatus().shortValue()
+                && OrderUtil.STATUS_AUTO_CANCEL != orderEntity.getOrderStatus().shortValue();
     }
 
-    public static boolean isPayStatus(OrderEntity litemallOrder) {
-        return OrderUtil.STATUS_PAY == litemallOrder.getOrderStatus().shortValue();
+    public static boolean isPayStatus(OrderEntity orderEntity) {
+        return OrderUtil.STATUS_PAY == orderEntity.getOrderStatus().shortValue();
     }
 
-    public static boolean isShipStatus(OrderEntity litemallOrder) {
-        return OrderUtil.STATUS_SHIP == litemallOrder.getOrderStatus().shortValue();
+    public static boolean isShipStatus(OrderEntity orderEntity) {
+        return OrderUtil.STATUS_SHIP == orderEntity.getOrderStatus().shortValue();
     }
 
-    public static boolean isConfirmStatus(OrderEntity litemallOrder) {
-        return OrderUtil.STATUS_CONFIRM == litemallOrder.getOrderStatus().shortValue();
+    public static boolean isConfirmStatus(OrderEntity orderEntity) {
+        return OrderUtil.STATUS_CONFIRM == orderEntity.getOrderStatus().shortValue();
     }
 
-    public static boolean isCancelStatus(OrderEntity litemallOrder) {
-        return OrderUtil.STATUS_CANCEL == litemallOrder.getOrderStatus().shortValue();
+    public static boolean isCancelStatus(OrderEntity orderEntity) {
+        return OrderUtil.STATUS_CANCEL == orderEntity.getOrderStatus().shortValue();
     }
 
-    public static boolean isAutoCancelStatus(OrderEntity litemallOrder) {
-        return OrderUtil.STATUS_AUTO_CANCEL == litemallOrder.getOrderStatus().shortValue();
+    public static boolean isAutoCancelStatus(OrderEntity orderEntity) {
+        return OrderUtil.STATUS_AUTO_CANCEL == orderEntity.getOrderStatus().shortValue();
     }
 
-    public static boolean isRefundStatus(OrderEntity litemallOrder) {
-        return OrderUtil.STATUS_REFUND == litemallOrder.getOrderStatus().shortValue();
+    public static boolean isRefundStatus(OrderEntity orderEntity) {
+        return OrderUtil.STATUS_REFUND == orderEntity.getOrderStatus().shortValue();
     }
 
-    public static boolean isRefundConfirmStatus(OrderEntity litemallOrder) {
-        return OrderUtil.STATUS_REFUND_CONFIRM == litemallOrder.getOrderStatus().shortValue();
+    public static boolean isRefundConfirmStatus(OrderEntity orderEntity) {
+        return OrderUtil.STATUS_REFUND_CONFIRM == orderEntity.getOrderStatus().shortValue();
     }
 
-    public static boolean isAutoConfirmStatus(OrderEntity litemallOrder) {
-        return OrderUtil.STATUS_AUTO_CONFIRM == litemallOrder.getOrderStatus().shortValue();
+    public static boolean isAutoConfirmStatus(OrderEntity orderEntity) {
+        return OrderUtil.STATUS_AUTO_CONFIRM == orderEntity.getOrderStatus().shortValue();
     }
 }

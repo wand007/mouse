@@ -30,7 +30,7 @@ function request(url, data = {}, method = "GET") {
       method: method,
       header: {
         'Content-Type': 'application/json',
-        'X-Litemall-Token': wx.getStorageSync('token')
+        'Authorization': wx.getStorageSync('token')
       },
       success: function(res) {
 
@@ -71,7 +71,7 @@ function baseSend(url, data = {}, method = "GET", contentType) {
       method: method,
       header: {
         'Content-Type': contentType,
-        'X-Litemall-Token': wx.getStorageSync('token')
+        'Authorization': wx.getStorageSync('token')
       },
       success: function (res) {
 
