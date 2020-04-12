@@ -3,8 +3,6 @@ package com.mouse.api.filter;
 import com.mouse.core.base.BodyReaderHttpServletRequestWrapper;
 import com.mouse.core.utils.WebKit;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.http.HttpMethod;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -20,7 +18,7 @@ import java.util.Set;
  * @Date 2019-12-18
  */
 @Slf4j
-//@WebFilter(filterName = "LoginFilter", urlPatterns = "/*")
+@WebFilter(filterName = "LoginFilter", urlPatterns = "/*")
 public class LoginFilter implements Filter {
 
     @Override
@@ -34,7 +32,17 @@ public class LoginFilter implements Filter {
      */
     private static final Set<String> notPrintParamUrls = new HashSet<String>() {
         {
+            //登录
             add("/auth/login");
+        }
+    };
+    /**
+     * 忽略的接口
+     */
+    private static final Set<String> ignoreUrls = new HashSet<String>() {
+        {
+            //健康检查
+            add("/actuator/health");
         }
     };
 
@@ -42,29 +50,15 @@ public class LoginFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-
-        //设置跨域
-        if (StringUtils.isNotBlank(request.getHeader("Origin"))) {
-            if (request.getHeader("Origin").contains("localhost") || request.getHeader("Origin").contains("127.0.0.1")
-                    || request.getHeader("Origin").contains("rotor.com")) {
-                WebKit.setCORS(response, request.getHeader("Origin"));
-            }
-        }
-        if (HttpMethod.OPTIONS.name().equals(request.getMethod())) {
-            //浏览器对复杂跨域请求的预请求，试探服务器响应是否正确，跳过
-            filterChain.doFilter(request, response);
-            return;
-        }
         //请求路径
         String servletPath = request.getServletPath();
-        //静态资源放行
-        if (servletPath.endsWith(".txt")) {
+        //忽略的接口
+        if (ignoreUrls.contains(servletPath)) {
             filterChain.doFilter(servletRequest, servletResponse);
             return;
         }
-
         BodyReaderHttpServletRequestWrapper requestWrapper = new BodyReaderHttpServletRequestWrapper(request);
-
+        //请求路径
         if (notPrintParamUrls.contains(servletPath)) {
             //不需要打印参数
             WebKit.loggerDefault(requestWrapper, log);

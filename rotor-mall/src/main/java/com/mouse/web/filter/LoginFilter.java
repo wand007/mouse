@@ -20,7 +20,7 @@ import java.util.Set;
  * @Date 2019-12-18
  */
 @Slf4j
-//@WebFilter(filterName = "LoginFilter", urlPatterns = "/*")
+@WebFilter(filterName = "LoginFilter", urlPatterns = "/*")
 public class LoginFilter implements Filter {
 
     @Override
@@ -34,7 +34,17 @@ public class LoginFilter implements Filter {
      */
     private static final Set<String> notPrintParamUrls = new HashSet<String>() {
         {
+            //登录
             add("/auth/login");
+        }
+    };
+    /**
+     * 忽略的接口
+     */
+    private static final Set<String> ignoreUrls = new HashSet<String>() {
+        {
+            //健康检查
+            add("/actuator/health");
         }
     };
 
@@ -57,8 +67,8 @@ public class LoginFilter implements Filter {
         }
         //请求路径
         String servletPath = request.getServletPath();
-        //静态资源放行
-        if (servletPath.endsWith(".txt")) {
+        //忽略的接口
+        if (ignoreUrls.contains(servletPath)) {
             filterChain.doFilter(servletRequest, servletResponse);
             return;
         }

@@ -34,14 +34,12 @@ public class WebMvcConfigurer extends WebMvcConfigurationSupport {
             "/MP_verify_pm29nsQheolO8Q4e.txt",
             "/auth/login",
             "/auth/register",
-            "/auth/login_by_weixin",
-            "/*"
+            "/auth/login_by_weixin"
     );
 
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        log.info("interceptor-begin: " + LocalDateTime.now().toInstant(ZoneOffset.of("+8")).toEpochMilli());
         registry.addInterceptor(safeInterceptor)
                 //指定路径，只拦截此路径
                 .addPathPatterns("/**")
@@ -50,8 +48,6 @@ public class WebMvcConfigurer extends WebMvcConfigurationSupport {
         //如果两个同时存在，排除生效，指定的路径会拦截两次
         //添加拦截器
         super.addInterceptors(registry);
-
-        log.info("interceptor-end: " + LocalDateTime.now().toInstant(ZoneOffset.of("+8")).toEpochMilli());
     }
 
     /**
