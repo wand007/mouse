@@ -63,13 +63,11 @@ public interface OrderFeign {
     /**
      * 提交订单
      *
-     * @param userId 用户ID
      * @param param  订单信息，{ cartId：xxx, addressId: xxx, couponId: xxx, message: xxx, grouponRulesId: xxx,  grouponLinkId: xxx}
      * @return 提交订单操作结果
      */
     @PostMapping("submit")
-    R submit(@RequestParam(name = "userId") String userId,
-             @RequestBody SaveOrderReq param);
+    R submit(@RequestBody SaveOrderReq param);
 
     /**
      * 取消订单

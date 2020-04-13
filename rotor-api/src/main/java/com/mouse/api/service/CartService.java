@@ -2,6 +2,7 @@ package com.mouse.api.service;
 
 import com.mouse.dao.entity.order.CartEntity;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -87,5 +88,11 @@ public interface CartService {
      */
     Optional<CartEntity> findById(Integer cartId);
 
-    void clearGoods(String userId, List<Integer> cartIds);
+    /**
+     * 查询购物车集合
+     *
+     * @param cartIds 购物车记录ID集合
+     * @return
+     */
+    Optional<List<CartEntity>> findByIdIn(List<Integer> cartIds);
 }

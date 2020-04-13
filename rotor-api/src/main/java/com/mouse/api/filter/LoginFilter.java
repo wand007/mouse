@@ -67,7 +67,7 @@ public class LoginFilter implements Filter {
             WebKit.loggerSheer(requestWrapper, log);
         }
 
-        filterChain.doFilter(request, response);
+        filterChain.doFilter(requestWrapper, servletResponse);
         return;
     }
 

@@ -36,7 +36,7 @@ public interface GoodsProductRepository extends JpaRepository<GoodsProductEntity
      */
     @Modifying
     @Transactional(rollbackFor = Exception.class, timeout = 30, isolation = Isolation.READ_COMMITTED)
-    @Query(nativeQuery = true, value = "update tbl_goods_product  set number = number - ?2, update_time = now()  where id = ?1 and number >= ?2 ")
+    @Query(nativeQuery = true, value = "update tbl_goods_product  set number = number + ?2, update_time = now()  where id = ?1 and number >= ?2 ")
     Integer updateStock(Integer productId, Integer number);
 
 

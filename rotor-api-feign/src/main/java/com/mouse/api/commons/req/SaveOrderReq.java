@@ -4,6 +4,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * @author ; lidongdong
@@ -86,4 +87,9 @@ public class SaveOrderReq implements Serializable {
      * 实付费用， = order_price - integral_price
      */
     private BigDecimal actualPrice;
+
+    /**
+     * 购物车记录ID
+     */
+    private List<Integer> cartIds;
 }

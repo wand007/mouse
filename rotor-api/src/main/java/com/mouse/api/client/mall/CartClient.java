@@ -255,11 +255,15 @@ public class CartClient extends GlobalExceptionHandler implements CartFeign {
                       @RequestParam(name = "couponId") Integer couponId,
                       @RequestParam(name = "userCouponId") Integer userCouponId,
                       @RequestParam(name = "grouponRulesId") Integer grouponRulesId) {
-        // 收货地址
-        AddressEntity checkedAddress = addressService.findById(addressId).orElseThrow(() -> new BusinessException("请添加收货地址"));
-        if (!userId.equals(checkedAddress.getUserId())) {
-            return R.error("请选择自己的收货地址");
+        AddressEntity checkedAddress = null;
+        if (0 != addressId) {
+            // 收货地址
+            checkedAddress = addressService.findById(addressId).orElseThrow(() -> new BusinessException("请添加收货地址"));
+            if (!userId.equals(checkedAddress.getUserId())) {
+                return R.error("请选择自己的收货地址");
+            }
         }
+
         // 团购优惠
         GrouponRulesEntity grouponRules = null;
         BigDecimal grouponPrice = BigDecimal.ZERO;
@@ -273,16 +277,15 @@ public class CartClient extends GlobalExceptionHandler implements CartFeign {
         // 商品价格
         List<CartEntity> checkedGoodsList = null;
         if (cartId == null || cartId == 0) {
-            checkedGoodsList = cartService.findByUserIdAndIsChecked(userId, false).orElseGet(() -> new ArrayList<>());
+            checkedGoodsList = cartService.findByUserIdAndIsChecked(userId, true).orElseGet(() -> new ArrayList<>());
         } else {
             CartEntity cart = cartService.findById(cartId).orElseGet(() -> new CartEntity());
             if (!userId.equals(cart.getUserId())) {
                 return R.error("请选择自己购物车里的商品记录");
             }
-            checkedGoodsList = new ArrayList<>(1);
-            checkedGoodsList.add(cart);
+            checkedGoodsList = Arrays.asList(cart);
         }
-        BigDecimal checkedGoodsPrice = new BigDecimal(0.00);
+        BigDecimal checkedGoodsPrice = BigDecimal.ZERO;
         for (CartEntity cart : checkedGoodsList) {
             //  只有当团购规格商品ID符合才进行团购优惠
             if (grouponRules != null && grouponRules.getGoodsId().equals(cart.getGoodsId())) {

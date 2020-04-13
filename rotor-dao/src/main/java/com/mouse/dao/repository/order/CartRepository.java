@@ -92,4 +92,12 @@ public interface CartRepository extends JpaRepository<CartEntity, Integer>, JpaS
     @Modifying
     @Transactional(rollbackFor = Exception.class, timeout = 30, isolation = Isolation.READ_COMMITTED)
     Integer deleteByUserIdAndIdIn(String userId, List<Integer> cartIds);
+
+    /**
+     * 查询用户选中的购物车记录
+     *
+     * @param cartIds
+     * @return
+     */
+    Optional<List<CartEntity>> findByIdIn(List<Integer> cartIds);
 }

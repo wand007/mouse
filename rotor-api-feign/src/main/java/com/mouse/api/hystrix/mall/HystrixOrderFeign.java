@@ -37,7 +37,7 @@ public class HystrixOrderFeign implements FallbackFactory<OrderFeign> {
             }
 
             @Override
-            public R submit(String userId, SaveOrderReq param) {
+            public R submit(SaveOrderReq param) {
                 return R.fromBusinessCode(BusinessCode.ERROR_SYS_SERVICE_RESTART);
             }
 

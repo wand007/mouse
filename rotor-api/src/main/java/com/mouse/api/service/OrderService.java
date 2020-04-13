@@ -1,6 +1,7 @@
 package com.mouse.api.service;
 
 import com.mouse.api.commons.req.SaveOrderReq;
+import com.mouse.core.params.dto.OrderPriceDTO;
 import com.mouse.dao.entity.order.OrderEntity;
 import org.springframework.data.domain.Page;
 
@@ -20,7 +21,7 @@ public interface OrderService {
 
     Page<OrderEntity> findByUserIdPage(String userId, List<Short> orderStatus, Integer pageNum, Integer pageSize);
 
-    Integer save(SaveOrderReq param);
+    String save(OrderPriceDTO orderPriceDTO, SaveOrderReq param);
 
     void add(OrderEntity order);
 
@@ -29,4 +30,6 @@ public interface OrderService {
     Integer updateStatusAndConfirmTime(String id, Short orderStatus, LocalDateTime confirmTime);
 
     Integer updateDeleteByOrderId(String orderId, Boolean deleted);
+
+
 }

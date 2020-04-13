@@ -73,7 +73,8 @@ public class OrderController extends GlobalExceptionHandler {
     @PostMapping("submit")
     public R submit(@RequestAttribute(name = "sessionUser") RotorSessionUser sessionUser,
                     @RequestBody SaveOrderReq param) {
-        return orderFeign.submit(sessionUser.getId(), param);
+        param.setUserId(sessionUser.getId());
+        return orderFeign.submit(param);
     }
 
     /**

@@ -91,7 +91,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public CartEntity save(String userId, Integer productId,Integer number) {
+    public CartEntity save(String userId, Integer productId, Integer number) {
         GoodsProductEntity product = goodsProductRepository.findById(productId).get();
         GoodsEntity goods = goodsRepository.findById(product.getGoodsId()).get();
         CartEntity cartEntity = new CartEntity();
@@ -135,7 +135,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void clearGoods(String userId, List<Integer> cartIds) {
-        cartRepository.deleteByUserIdAndIdIn(userId,cartIds);
+    public Optional<List<CartEntity>> findByIdIn(List<Integer> cartIds) {
+        return cartRepository.findByIdIn(cartIds);
     }
 }

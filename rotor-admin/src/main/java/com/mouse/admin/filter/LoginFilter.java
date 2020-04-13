@@ -57,11 +57,6 @@ public class LoginFilter implements Filter {
         }
         //请求路径
         String servletPath = request.getServletPath();
-        //静态资源放行
-        if (servletPath.endsWith(".txt")) {
-            filterChain.doFilter(servletRequest, servletResponse);
-            return;
-        }
 
         BodyReaderHttpServletRequestWrapper requestWrapper = new BodyReaderHttpServletRequestWrapper(request);
 
@@ -73,7 +68,7 @@ public class LoginFilter implements Filter {
             WebKit.loggerSheer(requestWrapper, log);
         }
 
-        filterChain.doFilter(request, response);
+        filterChain.doFilter(requestWrapper, servletResponse);
         return;
     }
 
