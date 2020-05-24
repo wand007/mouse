@@ -1,7 +1,11 @@
 package com.mouse.core.config;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
+import org.springframework.scheduling.annotation.AsyncConfigurer;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
+import java.lang.reflect.Method;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicLong;
@@ -9,10 +13,11 @@ import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * @author ; lidongdong
- * @Description 线程池配置类
+ * @Description 自定义线程池，以及异常处理
  * @Date 2019-09-19
  */
-public class ThreadPoolConfig {
+@Slf4j
+public class ThreadPoolConfig implements AsyncConfigurer {
 
     private Integer corePoolSize;
 
@@ -53,5 +58,21 @@ public class ThreadPoolConfig {
 
         asyncTaskThreadPool.initialize();
         return asyncTaskThreadPool;
+    }
+
+    /**
+     *
+     * @return
+     */
+    @Override
+    public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
+        return new ThreadPoolConfig.SpringAsyncExceptionHandler();
+    }
+
+    class SpringAsyncExceptionHandler implements AsyncUncaughtExceptionHandler {
+        @Override
+        public void handleUncaughtException(Throwable throwable, Method method, Object... obj) {
+            log.error("Exception occurs in async method", throwable.getMessage());
+        }
     }
 }
