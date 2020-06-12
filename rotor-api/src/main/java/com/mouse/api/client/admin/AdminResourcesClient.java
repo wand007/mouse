@@ -1,5 +1,6 @@
 package com.mouse.api.client.admin;
 
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.mouse.api.base.GlobalExceptionHandler;
 import com.mouse.api.commons.FootprintComm;
 import com.mouse.api.commons.GoodsComm;
@@ -20,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,6 +29,10 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.util.*;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -247,5 +253,49 @@ public class AdminResourcesClient extends GlobalExceptionHandler implements Admi
     public R count() {
         Integer goodsCount = goodsService.countByIsOnSale();
         return R.success(goodsCount);
+    }
+
+    /**
+     * 线程池饥饿死锁
+     *
+     * @param count
+     * @return
+     */
+    @PostMapping("hungerDeadlock")
+    public R hungerDeadlock(Integer count) {
+
+        ThreadPoolExecutor pool = new ThreadPoolExecutor(15, 17, 200, TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(60000)
+                , new ThreadFactoryBuilder().setNameFormat("threadPoolExecutor-example-tools-%d").build());
+
+        for (int i = 0; i < count; i++) {
+            int finali = i;
+            pool.execute(() -> {
+                log.info("-------------------------------i:{}", finali);
+                CountDownLatch latch = new CountDownLatch(count);
+                for (int j = 0; j < count; j++) {
+                    int finalJ = j;
+                    log.info("》》》》》》》》》》》》》》》》》i:{},j:{}", finali, finalJ);
+                    pool.execute(() -> {
+                        log.info("i:{},j:{}测试打印返回参数:{}", finali, finalJ, goodsService.countByIsOnSale());
+                        try {
+                            Thread.sleep(200 * 1000);
+                        } catch (InterruptedException e) {
+                            log.error("InterruptedException:", e);
+                        } finally {
+                            latch.countDown();
+                        }
+                    });
+                }
+                try {
+                    latch.await();
+                } catch (InterruptedException e) {
+                    log.error("InterruptedException:", e);
+                }
+
+            });
+        }
+
+
+        return R.success();
     }
 }

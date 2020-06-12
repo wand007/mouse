@@ -69,4 +69,5 @@ public class GoodsComm {
             log.debug("系统自动删除失效购物车商品 goodsId=" + goodsId);
         }
     }
+
 }
