@@ -8,6 +8,7 @@ import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -26,19 +27,20 @@ import java.util.Set;
 public class GlobalExceptionHandler extends BaseController {
 
 
-    @ExceptionHandler(Exception.class)
-    @ResponseBody
-    public R exceptionHandler(Exception e) {
-        log.error("SystemException[系统异常]", e.getMessage(), e);
-        return R.fromBusinessCode(BusinessCode.ERROR);
-    }
-
     @ExceptionHandler(BusinessException.class)
     @ResponseBody
     public R exceptionHandler(BusinessException e) {
         log.error("BusinessException[业务异常]", e.getMessage(), e);
         return new R(e.getCode(), e.getMsg());
     }
+
+    @ExceptionHandler(Exception.class)
+    @ResponseBody
+    public R exceptionHandler(Exception e) {
+        log.error("SystemException[系统异常]", e.getMessage(), e);
+        return R.error();
+    }
+
 
     /**
      * hibernate 参数校验出错会抛出 ConstraintViolationException 异常
@@ -49,7 +51,8 @@ public class GlobalExceptionHandler extends BaseController {
      */
     @ExceptionHandler
     @ResponseBody
-    public R exceptionHandler(ValidationException e) {
+
+    public Object exceptionHandler(ValidationException e) {
         log.error("ValidationException,e:" + e.getMessage(), e);
         StringBuilder errorInfo = new StringBuilder("");
         if (e instanceof ConstraintViolationException) {
@@ -81,6 +84,13 @@ public class GlobalExceptionHandler extends BaseController {
     public R exceptionHandler(MethodArgumentNotValidException e) {
         log.error("MethodArgumentNotValidException[校验错误]", e);
         return new R(BusinessCode.ERROR_SYS_PARAMS.getCode(), e.getBindingResult().getAllErrors().get(0).getDefaultMessage());
+    }
+
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    @ResponseBody
+    R exceptionHandler(MissingServletRequestParameterException e) {
+        log.error("MissingServletRequestParameterException[缺少参数]", e);
+        return new R(BusinessCode.ERROR_SYS_PARAMS.getCode(), "请求参数 " + e.getParameterName() + " 不能为空");
     }
 
     /**
