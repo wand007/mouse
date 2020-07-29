@@ -88,7 +88,7 @@ public class GlobalExceptionHandler extends BaseController {
 
     @ExceptionHandler(MissingServletRequestParameterException.class)
     @ResponseBody
-    R exceptionHandler(MissingServletRequestParameterException e) {
+    public R exceptionHandler(MissingServletRequestParameterException e) {
         log.error("MissingServletRequestParameterException[缺少参数]", e);
         return new R(BusinessCode.ERROR_SYS_PARAMS.getCode(), "请求参数 " + e.getParameterName() + " 不能为空");
     }
