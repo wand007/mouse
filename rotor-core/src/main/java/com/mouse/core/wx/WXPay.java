@@ -15,7 +15,7 @@ public class WXPay {
     private boolean useSandbox;
     private String notifyUrl;
     private WXPayRequest wxPayRequest;
-
+    ThreadLocal
     public WXPay(final WXPayConfig config) {
         this(config, null, true, false);
     }
