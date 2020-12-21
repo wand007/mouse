@@ -5,6 +5,7 @@ import com.mouse.core.base.BusinessException;
 import com.mouse.core.base.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.converter.HttpMessageConversionException;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
-import java.util.Set;
+import java.util.Optional;
 
 
 /**
@@ -27,82 +28,73 @@ import java.util.Set;
 @Component
 public class GlobalExceptionHandler extends BaseClient {
 
-    @ExceptionHandler(BusinessException.class)
-    @ResponseBody
-    public R exceptionHandler(BusinessException e) {
-        log.error("BusinessException[业务异常]", e.getMessage(), e);
-        return new R(e.getCode(), e.getMsg());
-    }
-
     @ExceptionHandler(Exception.class)
     @ResponseBody
-    public R exceptionHandler(Exception e) {
-        log.error("SystemException[系统异常]", e.getMessage(), e);
-        return R.error();
+    R exceptionHandler(Exception e) {
+        log.error("SystemException[系统异常]", e);
+        return new R(BusinessCode.ERROR.getCode(), BusinessCode.ERROR.getDesc());
     }
 
-
-    /**
-     * hibernate 参数校验出错会抛出 ConstraintViolationException 异常
-     * 在此方法中处理，将错误信息输出
-     *
-     * @param e
-     * @return
-     */
-    @ExceptionHandler
+    @ExceptionHandler(BusinessException.class)
     @ResponseBody
-
-    public Object exceptionHandler(ValidationException e) {
-        log.error("ValidationException,e:" + e.getMessage(), e);
-        StringBuilder errorInfo = new StringBuilder("");
-        if (e instanceof ConstraintViolationException) {
-            ConstraintViolationException exs = (ConstraintViolationException) e;
-            Set<ConstraintViolation<?>> violations = exs.getConstraintViolations();
-
-            for (ConstraintViolation<?> item : violations) {
-                errorInfo.append(item.getMessage());
-            }
-        }
-        return new R(BusinessCode.ERROR_SYS_PARAMS.getCode(), errorInfo.toString());
+    R exceptionHandler(BusinessException e) {
+        log.error("BusinessException[业务异常] code=[{}] msg=[{}]", e.getCode(), e.getMsg(), e);
+        return new R(e.getCode(), e.getMsg());
     }
 
     @ExceptionHandler(BindException.class)
     @ResponseBody
-    public R exceptionHandler(BindException e) {
-        log.error("BindException[绑定异常],e:" + e.getMessage(), e);
+    R exceptionHandler(BindException e) {
+        log.error("BindException[绑定异常]", e);
         return new R(BusinessCode.ERROR_SYS_PARAMS.getCode(), e.getBindingResult().getAllErrors().get(0).getDefaultMessage());
     }
 
-    /**
-     * 校验错误
-     *
-     * @param e
-     * @return
-     */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseBody
-    public R exceptionHandler(MethodArgumentNotValidException e) {
+    R exceptionHandler(MethodArgumentNotValidException e) {
         log.error("MethodArgumentNotValidException[校验错误]", e);
         return new R(BusinessCode.ERROR_SYS_PARAMS.getCode(), e.getBindingResult().getAllErrors().get(0).getDefaultMessage());
     }
 
     @ExceptionHandler(MissingServletRequestParameterException.class)
     @ResponseBody
-    public R exceptionHandler(MissingServletRequestParameterException e) {
+    R exceptionHandler(MissingServletRequestParameterException e) {
         log.error("MissingServletRequestParameterException[缺少参数]", e);
         return new R(BusinessCode.ERROR_SYS_PARAMS.getCode(), "请求参数 " + e.getParameterName() + " 不能为空");
     }
 
-    /**
-     * 参数类型转换错误
-     *
-     * @param e
-     * @return
-     */
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    @ResponseBody
+    R exceptionHandler(HttpMessageNotReadableException e) {
+        log.error("HttpMessageNotReadableException[缺少请求体]", e);
+        return new R(BusinessCode.ERROR_SYS_PARAMS.getCode(), "请求参数体不能为空");
+    }
+
     @ExceptionHandler(HttpMessageConversionException.class)
     @ResponseBody
-    public R exceptionHandler(HttpMessageConversionException e) {
+    R exceptionHandler(HttpMessageConversionException e) {
         log.error("HttpMessageConversionException[参数类型转换错误]", e);
         return new R(BusinessCode.ERROR_SYS_PARAMS.getCode(), "参数格式错误");
     }
+
+    @ExceptionHandler
+    @ResponseBody
+    R exceptionHandler(ValidationException e) {
+        log.error("ValidationException[校验错误]", e);
+        String message = "校验错误";
+        if (e instanceof ConstraintViolationException) {
+            ConstraintViolationException exs = (ConstraintViolationException) e;
+            Optional<ConstraintViolation<?>> optional = exs.getConstraintViolations().stream().findAny();
+            message = optional.isPresent() ? optional.get().getMessage() : message;
+        }
+        return new R(BusinessCode.ERROR_SYS_PARAMS.getCode(), message);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseBody
+    R exceptionHandler(IllegalArgumentException e) {
+        log.error("IllegalArgumentException[校验错误]", e);
+        return new R(BusinessCode.ERROR_SYS_PARAMS.getCode(), e.getMessage());
+    }
+
 }
